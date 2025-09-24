@@ -1,0 +1,453 @@
+2024-12-31 17:52:59 - Received Data: {"voltage": 305.81, "current": 5.81, "power": 0.0, "energy": 0.0, "max_current": 5.81, "max_power": 1777.91, "timestamp": "2024-12-31 10:52:59", "run_time": 48, "total_sleep_time": 0}
+2024-12-31 17:54:07 - Received Data: {"voltage": 55.48, "current": 2.73, "power": 0.0, "energy": 0.0, "max_current": 2.73, "max_power": 151.71, "timestamp": "2024-12-31 10:54:07", "run_time": 51, "total_sleep_time": 0}
+2024-12-31 17:56:54 - Received Data: {"voltage": 281.49, "current": 4.71, "power": 0.0, "energy": 0.0, "max_current": 4.71, "max_power": 1326.69, "timestamp": "2024-12-31 10:56:53", "run_time": 2, "total_sleep_time": 0}
+2024-12-31 17:58:00 - Received Data: {"voltage": 284.28, "current": 4.79, "power": 0.0, "energy": 0.0, "max_current": 4.79, "max_power": 1362.27, "timestamp": "2024-12-31 10:58:00", "run_time": 4, "total_sleep_time": 0}
+2024-12-31 17:59:07 - Received Data: {"voltage": 290.72, "current": 5.37, "power": 0.0, "energy": 0.0, "max_current": 5.37, "max_power": 1560.16, "timestamp": "2024-12-31 10:59:06", "run_time": 6, "total_sleep_time": 0}
+2024-12-31 18:00:08 - Received Data: {"voltage": 135.9, "current": 2.85, "power": 0.0, "energy": 0.0, "max_current": 2.85, "max_power": 387.79, "timestamp": "2024-12-31 11:00:08", "run_time": 2, "total_sleep_time": 0}
+2024-12-31 18:04:36 - Received Data: {"voltage": 225.8, "current": 3.79, "power": 0.0, "energy": 0.0, "max_current": 3.79, "max_power": 855.02, "timestamp": "2024-12-31 11:04:35", "run_time": 10, "total_sleep_time": 0}
+2024-12-31 18:06:50 - Received Data: {"voltage": 131.11, "current": 2.84, "power": 0.0, "energy": 0.0, "max_current": 2.84, "max_power": 372.87, "timestamp": "2024-12-31 11:06:49", "run_time": 14, "total_sleep_time": 0}
+2024-12-31 18:07:57 - Received Data: {"voltage": 134.35, "current": 2.81, "power": 0.0, "energy": 0.0, "max_current": 2.81, "max_power": 377.41, "timestamp": "2024-12-31 11:07:57", "run_time": 16, "total_sleep_time": 0}
+2024-12-31 18:09:04 - Received Data: {"voltage": 111.53, "current": 2.93, "power": 0.0, "energy": 0.0, "max_current": 2.93, "max_power": 327.29, "timestamp": "2024-12-31 11:09:04", "run_time": 18, "total_sleep_time": 0}
+2024-12-31 18:10:11 - Received Data: {"voltage": 262.87, "current": 4.36, "power": 0.0, "energy": 0.0, "max_current": 4.36, "max_power": 1146.61, "timestamp": "2024-12-31 11:10:10", "run_time": 20, "total_sleep_time": 0}
+2024-12-31 18:11:17 - Received Data: {"voltage": 298.36, "current": 5.7, "power": 0.0, "energy": 0.0, "max_current": 5.7, "max_power": 1701.47, "timestamp": "2024-12-31 11:11:17", "run_time": 22, "total_sleep_time": 0}
+2024-12-31 18:12:24 - Received Data: {"voltage": 220.62, "current": 3.69, "power": 0.0, "energy": 0.0, "max_current": 3.69, "max_power": 815.03, "timestamp": "2024-12-31 11:12:24", "run_time": 24, "total_sleep_time": 0}
+2024-12-31 18:13:31 - Received Data: {"voltage": 299.1, "current": 5.69, "power": 0.0, "energy": 0.0, "max_current": 5.69, "max_power": 1701.25, "timestamp": "2024-12-31 11:13:31", "run_time": 26, "total_sleep_time": 0}
+2024-12-31 18:14:38 - Received Data: {"voltage": 211.31, "current": 3.39, "power": 0.0, "energy": 0.0, "max_current": 3.39, "max_power": 716.83, "timestamp": "2024-12-31 11:14:37", "run_time": 28, "total_sleep_time": 0}
+2024-12-31 18:15:45 - Received Data: {"voltage": 298.33, "current": 5.67, "power": 0.0, "energy": 0.0, "max_current": 5.67, "max_power": 1690.05, "timestamp": "2024-12-31 11:15:44", "run_time": 30, "total_sleep_time": 0}
+2024-12-31 18:16:51 - Received Data: {"voltage": 236.03, "current": 3.74, "power": 0.0, "energy": 0.0, "max_current": 3.74, "max_power": 881.58, "timestamp": "2024-12-31 11:16:51", "run_time": 32, "total_sleep_time": 0}
+2024-12-31 18:17:58 - Received Data: {"voltage": 255.78, "current": 4.51, "power": 0.0, "energy": 0.0, "max_current": 4.51, "max_power": 1152.59, "timestamp": "2024-12-31 11:17:58", "run_time": 34, "total_sleep_time": 0}
+2024-12-31 18:19:05 - Received Data: {"voltage": 255.31, "current": 4.13, "power": 0.0, "energy": 0.0, "max_current": 4.13, "max_power": 1053.64, "timestamp": "2024-12-31 11:19:04", "run_time": 36, "total_sleep_time": 0}
+2024-12-31 18:20:11 - Received Data: {"voltage": 198.41, "current": 3.31, "power": 0.0, "energy": 0.0, "max_current": 3.31, "max_power": 656.86, "timestamp": "2024-12-31 11:20:11", "run_time": 38, "total_sleep_time": 0}
+2024-12-31 18:22:25 - Received Data: {"voltage": 289.2, "current": 5.19, "power": 0.0, "energy": 0.0, "max_current": 5.19, "max_power": 1501.29, "timestamp": "2024-12-31 11:22:25", "run_time": 42, "total_sleep_time": 0}
+2024-12-31 18:23:31 - Received Data: {"voltage": 272.64, "current": 4.75, "power": 0.0, "energy": 0.0, "max_current": 4.75, "max_power": 1295.99, "timestamp": "2024-12-31 11:23:31", "run_time": 44, "total_sleep_time": 0}
+2024-12-31 18:24:38 - Received Data: {"voltage": 285.19, "current": 5.33, "power": 0.0, "energy": 0.0, "max_current": 5.33, "max_power": 1520.59, "timestamp": "2024-12-31 11:24:38", "run_time": 46, "total_sleep_time": 0}
+2024-12-31 18:25:45 - Received Data: {"voltage": 297.36, "current": 5.52, "power": 0.0, "energy": 0.0, "max_current": 5.52, "max_power": 1642.69, "timestamp": "2024-12-31 11:25:44", "run_time": 48, "total_sleep_time": 0}
+2024-12-31 18:26:54 - Received Data: {"voltage": 260.47, "current": 4.32, "power": 0.0, "energy": 0.0, "max_current": 4.32, "max_power": 1125.16, "timestamp": "2024-12-31 11:26:51", "run_time": 50, "total_sleep_time": 0}
+2024-12-31 18:28:01 - Received Data: {"voltage": 289.06, "current": 5.51, "power": 0.0, "energy": 0.0, "max_current": 5.51, "max_power": 1591.59, "timestamp": "2024-12-31 11:28:01", "run_time": 52, "total_sleep_time": 0}
+2024-12-31 18:51:53 - Received Data: {"voltage": 295.86, "current": 5.61, "power": 0.0, "energy": 0.0, "max_current": 5.61, "max_power": 1660.21, "timestamp": "2024-12-31 11:51:53", "run_time": 42, "total_sleep_time": 0}
+2024-12-31 18:55:15 - Received Data: {"voltage": 288.54, "current": 4.97, "power": 0.0, "energy": 0.0, "max_current": 4.97, "max_power": 1434.82, "timestamp": "2024-12-31 11:55:15", "run_time": 50, "total_sleep_time": 0}
+2024-12-31 19:03:03 - Received Data: {"voltage": 193.16, "current": 3.1, "power": 0.0, "energy": 0.0, "max_current": 3.1, "max_power": 598.54, "timestamp": "2024-12-31 12:03:02", "run_time": 64, "total_sleep_time": 0}
+2024-12-31 19:05:47 - Received Data: {"voltage": 164.29, "current": 2.89, "power": 0.0, "energy": 0.0, "max_current": 2.89, "max_power": 475.11, "timestamp": "2024-12-31 12:05:46", "run_time": 2, "total_sleep_time": 0}
+2024-12-31 19:06:53 - Received Data: {"voltage": 137.78, "current": 2.72, "power": 0.0, "energy": 0.0, "max_current": 2.72, "max_power": 374.13, "timestamp": "2024-12-31 12:06:53", "run_time": 4, "total_sleep_time": 0}
+2024-12-31 19:13:34 - Received Data: {"voltage": 296.17, "current": 5.59, "power": 0.0, "energy": 0.0, "max_current": 5.59, "max_power": 1654.45, "timestamp": "2024-12-31 12:13:33", "run_time": 16, "total_sleep_time": 0}
+2024-12-31 19:16:54 - Received Data: {"voltage": 291.14, "current": 5.48, "power": 0.0, "energy": 0.0, "max_current": 5.48, "max_power": 1596.01, "timestamp": "2024-12-31 12:16:54", "run_time": 22, "total_sleep_time": 0}
+2024-12-31 21:09:45 - Received Data: {"voltage": 294.81, "current": 5.48, "power": 0.0, "energy": 0.0, "max_current": 5.48, "max_power": 1614.96, "timestamp": "2024-12-31 14:09:45", "run_time": 228, "total_sleep_time": 0}
+2024-12-31 21:17:35 - Received Data: {"voltage": 224.11, "current": 3.4, "power": 0.0, "energy": 0.0, "max_current": 3.4, "max_power": 762.25, "timestamp": "2024-12-31 14:17:35", "run_time": 242, "total_sleep_time": 0}
+2024-12-31 21:18:42 - Received Data: {"voltage": 229.35, "current": 3.56, "power": 0.0, "energy": 0.0, "max_current": 3.56, "max_power": 815.73, "timestamp": "2024-12-31 14:18:42", "run_time": 244, "total_sleep_time": 0}
+2024-12-31 21:19:49 - Received Data: {"voltage": 243.34, "current": 3.78, "power": 0.0, "energy": 0.0, "max_current": 3.78, "max_power": 920.9, "timestamp": "2024-12-31 14:19:49", "run_time": 246, "total_sleep_time": 0}
+2024-12-31 21:20:56 - Received Data: {"voltage": 282.1, "current": 5.11, "power": 0.0, "energy": 0.0, "max_current": 5.11, "max_power": 1442.89, "timestamp": "2024-12-31 14:20:55", "run_time": 248, "total_sleep_time": 0}
+2024-12-31 21:23:09 - Received Data: {"voltage": 302.25, "current": 5.5, "power": 0.0, "energy": 0.0, "max_current": 5.5, "max_power": 1662.54, "timestamp": "2024-12-31 14:23:09", "run_time": 252, "total_sleep_time": 0}
+2024-12-31 21:25:22 - Received Data: {"voltage": 273.81, "current": 4.7, "power": 0.0, "energy": 0.0, "max_current": 4.7, "max_power": 1285.97, "timestamp": "2024-12-31 14:25:22", "run_time": 256, "total_sleep_time": 0}
+2024-12-31 21:29:49 - Received Data: {"voltage": 259.74, "current": 4.12, "power": 0.0, "energy": 0.0, "max_current": 4.12, "max_power": 1070.37, "timestamp": "2024-12-31 14:29:49", "run_time": 264, "total_sleep_time": 0}
+2024-12-31 21:34:16 - Received Data: {"voltage": 269.17, "current": 4.69, "power": 0.0, "energy": 0.0, "max_current": 4.69, "max_power": 1261.73, "timestamp": "2024-12-31 14:34:16", "run_time": 272, "total_sleep_time": 0}
+2024-12-31 21:38:43 - Received Data: {"voltage": 265.05, "current": 4.57, "power": 0.0, "energy": 0.0, "max_current": 4.57, "max_power": 1210.99, "timestamp": "2024-12-31 14:38:43", "run_time": 280, "total_sleep_time": 0}
+2025-01-23 23:23:08 - Received Data: {"voltage": 220.0, "current": 3.79, "power": 0.0, "energy": 0.0, "max_current": 3.79, "max_power": 834.58, "timestamp": "2025-01-23 16:23:08", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:08:30 - Received Data: {"voltage": 220.0, "current": 5.34, "power": 0.0, "energy": 0.0, "max_current": 5.34, "max_power": 1174.41, "timestamp": "2025-01-23 17:08:27", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:08:53 - Received Data: {"voltage": 220.0, "current": 3.59, "power": 0.0, "energy": 0.0, "max_current": 3.59, "max_power": 789.8, "timestamp": "2025-01-23 17:08:53", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:10:33 - Received Data: {"voltage": 220.0, "current": 4.87, "power": 0.0, "energy": 0.0, "max_current": 4.87, "max_power": 1072.49, "timestamp": "2025-01-23 17:10:24", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:10:57 - Received Data: {"voltage": 220.0, "current": 5.11, "power": 0.0, "energy": 0.0, "max_current": 5.11, "max_power": 1124.93, "timestamp": "2025-01-23 17:10:56", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:11:19 - Received Data: {"voltage": 220.0, "current": 3.79, "power": 0.0, "energy": 0.0, "max_current": 3.79, "max_power": 834.21, "timestamp": "2025-01-23 17:11:19", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:12:08 - Received Data: {"voltage": 220.0, "current": 4.13, "power": 0.0, "energy": 0.0, "max_current": 4.13, "max_power": 907.64, "timestamp": "2025-01-23 17:12:08", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:12:56 - Received Data: {"voltage": 220.0, "current": 4.95, "power": 0.0, "energy": 0.0, "max_current": 4.95, "max_power": 1088.48, "timestamp": "2025-01-23 17:12:56", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:13:19 - Received Data: {"voltage": 220.0, "current": 4.04, "power": 0.0, "energy": 0.0, "max_current": 4.04, "max_power": 887.97, "timestamp": "2025-01-23 17:13:19", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:13:45 - Received Data: {"voltage": 220.0, "current": 5.76, "power": 0.0, "energy": 0.0, "max_current": 5.76, "max_power": 1267.86, "timestamp": "2025-01-23 17:13:42", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:14:08 - Received Data: {"voltage": 220.0, "current": 4.5, "power": 0.0, "energy": 0.0, "max_current": 4.5, "max_power": 990.6, "timestamp": "2025-01-23 17:14:07", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:15:04 - Received Data: {"voltage": 220.0, "current": 5.41, "power": 0.0, "energy": 0.0, "max_current": 5.41, "max_power": 1190.57, "timestamp": "2025-01-23 17:15:04", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:15:30 - Received Data: {"voltage": 220.0, "current": 5.8, "power": 0.0, "energy": 0.0, "max_current": 5.8, "max_power": 1277.07, "timestamp": "2025-01-23 17:15:27", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:16:01 - Received Data: {"voltage": 220.0, "current": 4.0, "power": 0.0, "energy": 0.0, "max_current": 4.0, "max_power": 881.03, "timestamp": "2025-01-23 17:15:58", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:19:38 - Received Data: {"voltage": 220.0, "current": 3.51, "power": 0.0, "energy": 0.0, "max_current": 3.51, "max_power": 772.58, "timestamp": "2025-01-23 17:19:37", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:20:02 - Received Data: {"voltage": 220.0, "current": 2.29, "power": 0.0, "energy": 0.0, "max_current": 2.29, "max_power": 504.53, "timestamp": "2025-01-23 17:20:02", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:20:48 - Received Data: {"voltage": 220.0, "current": 5.1, "power": 0.0, "energy": 0.0, "max_current": 5.1, "max_power": 1122.67, "timestamp": "2025-01-23 17:20:48", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:21:12 - Received Data: {"voltage": 220.0, "current": 2.23, "power": 0.0, "energy": 0.0, "max_current": 2.23, "max_power": 489.56, "timestamp": "2025-01-23 17:21:12", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:23:06 - Received Data: {"voltage": 220.0, "current": 3.69, "power": 0.0, "energy": 0.0, "max_current": 3.69, "max_power": 811.61, "timestamp": "2025-01-23 17:23:06", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:23:37 - Received Data: {"voltage": 220.0, "current": 5.52, "power": 0.0, "energy": 0.0, "max_current": 5.52, "max_power": 1213.85, "timestamp": "2025-01-23 17:23:28", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:24:00 - Received Data: {"voltage": 220.0, "current": 5.51, "power": 0.0, "energy": 0.0, "max_current": 5.51, "max_power": 1211.44, "timestamp": "2025-01-23 17:24:00", "run_time": 2, "total_sleep_time": 0}
+2025-01-24 00:25:51 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:25:50", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:27:05 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:27:05", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:27:33 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:27:30", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:28:23 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:28:22", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:29:16 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:29:12", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:30:08 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:30:08", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:30:33 - Received Data: {"voltage": 220.0, "current": 0.09, "power": 0.0, "energy": 0.0, "max_current": 0.09, "max_power": 20.02, "timestamp": "2025-01-23 17:30:32", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:31:47 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:31:47", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:32:15 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:32:12", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:32:40 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:32:39", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:33:32 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:33:29", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:33:57 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:33:56", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:35:14 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:35:13", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:35:49 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:35:49", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:36:42 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:36:41", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:37:29 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:37:28", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:37:56 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:37:53", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:38:54 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:38:54", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:39:22 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:39:19", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:39:46 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:39:46", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:41:51 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:41:51", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:44:45 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:44:45", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:45:43 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:45:43", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:46:11 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:46:08", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:47:25 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:47:25", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:47:59 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:47:50", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:48:24 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:48:23", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:48:48 - Received Data: {"voltage": 220.0, "current": 0.11, "power": 0.0, "energy": 0.0, "max_current": 0.11, "max_power": 24.69, "timestamp": "2025-01-23 17:48:48", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:49:22 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:49:13", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:49:47 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:49:46", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:50:12 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:50:11", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:51:51 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:51:50", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:52:16 - Received Data: {"voltage": 220.0, "current": 0.09, "power": 0.0, "energy": 0.0, "max_current": 0.09, "max_power": 20.21, "timestamp": "2025-01-23 17:52:15", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:52:49 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:52:40", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:53:14 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:53:14", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 00:53:41 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-23 17:53:38", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 19:25:11 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-24 12:25:11", "run_time": 3, "total_sleep_time": 0}
+2025-01-24 20:06:33 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "Time Not Available", "run_time": 4, "total_sleep_time": 0}
+2025-01-24 20:06:35 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-24 13:06:34", "run_time": 114, "total_sleep_time": 0}
+2025-01-24 20:07:07 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-24 13:06:58", "run_time": 117, "total_sleep_time": 0}
+2025-01-24 20:07:29 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-24 13:07:29", "run_time": 119, "total_sleep_time": 0}
+2025-01-24 20:08:16 - Received Data: {"voltage": 220.0, "current": 0.0, "power": 0.0, "energy": 0.0, "max_current": 0.0, "max_power": 0.0, "timestamp": "2025-01-24 13:08:16", "run_time": 124, "total_sleep_time": 0}
+2025-01-29 20:34:01 - Received Data: {"totalPower": 578.83, "energyTotal": 0.161, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:34:36 - Received Data: {"totalPower": 664.16, "energyTotal": 0.184, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:34:36 - Received Data: {"totalPower": 664.16, "energyTotal": 0.184, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:35:40 - Received Data: {"totalPower": 681.93, "energyTotal": 0.189, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:36:45 - Received Data: {"totalPower": 625.6, "energyTotal": 0.174, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:37:20 - Received Data: {"totalPower": 563.43, "energyTotal": 0.157, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:38:01 - Received Data: {"totalPower": 606.91, "energyTotal": 0.169, "timestamp": "", "run_time": 1897, "total_sleep_time": 1860}
+2025-01-29 20:39:05 - Received Data: {"totalPower": 647.83, "energyTotal": 0.18, "timestamp": "", "run_time": 928, "total_sleep_time": 911}
+2025-01-29 20:41:14 - Received Data: {"totalPower": 636.5, "energyTotal": 0.177, "timestamp": "", "run_time": 1897, "total_sleep_time": 1860}
+2025-01-29 20:41:55 - Received Data: {"totalPower": 547.75, "energyTotal": 0.152, "timestamp": "", "run_time": 1897, "total_sleep_time": 1860}
+2025-01-29 20:42:27 - Received Data: {"totalPower": 674.31, "energyTotal": 0.187, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:43:31 - Received Data: {"totalPower": 591.59, "energyTotal": 0.164, "timestamp": "", "run_time": 1897, "total_sleep_time": 1860}
+2025-01-29 20:44:04 - Received Data: {"totalPower": 596.66, "energyTotal": 0.166, "timestamp": "", "run_time": 1897, "total_sleep_time": 1860}
+2025-01-29 20:44:36 - Received Data: {"totalPower": 630.85, "energyTotal": 0.175, "timestamp": "", "run_time": 1897, "total_sleep_time": 1860}
+2025-01-29 20:45:41 - Received Data: {"totalPower": 665.83, "energyTotal": 0.185, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:46:45 - Received Data: {"totalPower": 605.54, "energyTotal": 0.168, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:48:05 - Received Data: {"totalPower": 623.57, "energyTotal": 0.173, "timestamp": "", "run_time": 928, "total_sleep_time": 910}
+2025-01-29 20:48:37 - Received Data: {"totalPower": 558.22, "energyTotal": 0.155, "timestamp": "", "run_time": 1897, "total_sleep_time": 1860}
+2025-01-29 20:50:19 - Received Data: {"totalPower": 543.71, "energyTotal": 0.151, "timestamp": "2025-01-29 13:50:18", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 20:50:51 - Received Data: {"totalPower": 658.18, "energyTotal": 0.183, "timestamp": "2025-01-29 13:50:51", "run_time": 980, "total_sleep_time": 962}
+2025-01-29 20:51:55 - Received Data: {"totalPower": 580.4, "energyTotal": 0.161, "timestamp": "2025-01-29 13:51:55", "run_time": 1948, "total_sleep_time": 1911}
+2025-01-29 20:56:23 - Received Data: {"totalPower": 653.71, "energyTotal": 0.182, "timestamp": "2025-01-29 13:56:13", "run_time": 1948, "total_sleep_time": 1911}
+2025-01-29 20:56:55 - Received Data: {"totalPower": 593.38, "energyTotal": 0.165, "timestamp": "2025-01-29 13:56:54", "run_time": 979, "total_sleep_time": 961}
+2025-01-29 20:58:03 - Received Data: {"totalPower": 540.27, "energyTotal": 0.15, "timestamp": "2025-01-29 13:58:02", "run_time": 979, "total_sleep_time": 961}
+2025-01-29 20:59:42 - Received Data: {"totalPower": 592.17, "energyTotal": 0.164, "timestamp": "2025-01-29 13:59:42", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 21:00:25 - Received Data: {"totalPower": 671.35, "energyTotal": 0.186, "timestamp": "2025-01-29 14:00:22", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 21:00:58 - Received Data: {"totalPower": 515.83, "energyTotal": 0.143, "timestamp": "2025-01-29 14:00:58", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 21:01:31 - Received Data: {"totalPower": 570.38, "energyTotal": 0.158, "timestamp": "2025-01-29 14:01:30", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:02:03 - Received Data: {"totalPower": 585.09, "energyTotal": 0.163, "timestamp": "2025-01-29 14:02:03", "run_time": 979, "total_sleep_time": 961}
+2025-01-29 21:03:08 - Received Data: {"totalPower": 620.87, "energyTotal": 0.172, "timestamp": "2025-01-29 14:03:08", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:04:32 - Received Data: {"totalPower": 577.69, "energyTotal": 0.16, "timestamp": "2025-01-29 14:04:31", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:05:04 - Received Data: {"totalPower": 642.06, "energyTotal": 0.178, "timestamp": "2025-01-29 14:05:04", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:06:08 - Received Data: {"totalPower": 679.62, "energyTotal": 0.189, "timestamp": "2025-01-29 14:06:08", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 21:06:40 - Received Data: {"totalPower": 674.08, "energyTotal": 0.187, "timestamp": "2025-01-29 14:06:40", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:07:12 - Received Data: {"totalPower": 679.74, "energyTotal": 0.189, "timestamp": "2025-01-29 14:07:12", "run_time": 2960, "total_sleep_time": 2902}
+2025-01-29 21:07:47 - Received Data: {"totalPower": 581.2, "energyTotal": 0.161, "timestamp": "2025-01-29 14:07:44", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 21:08:54 - Received Data: {"totalPower": 705.55, "energyTotal": 0.196, "timestamp": "2025-01-29 14:08:54", "run_time": 2959, "total_sleep_time": 2902}
+2025-01-29 21:09:27 - Received Data: {"totalPower": 708.25, "energyTotal": 0.197, "timestamp": "2025-01-29 14:09:26", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 21:10:37 - Received Data: {"totalPower": 713.57, "energyTotal": 0.198, "timestamp": "2025-01-29 14:10:31", "run_time": 2969, "total_sleep_time": 2911}
+2025-01-29 21:11:09 - Received Data: {"totalPower": 731.58, "energyTotal": 0.203, "timestamp": "2025-01-29 14:11:09", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 21:11:41 - Received Data: {"totalPower": 647.89, "energyTotal": 0.18, "timestamp": "2025-01-29 14:11:41", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 21:12:45 - Received Data: {"totalPower": 695.54, "energyTotal": 0.193, "timestamp": "2025-01-29 14:12:45", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 21:13:18 - Received Data: {"totalPower": 714.53, "energyTotal": 0.198, "timestamp": "2025-01-29 14:13:17", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:15:29 - Received Data: {"totalPower": 617.95, "energyTotal": 0.172, "timestamp": "2025-01-29 14:15:29", "run_time": 2970, "total_sleep_time": 2912}
+2025-01-29 21:16:04 - Received Data: {"totalPower": 676.98, "energyTotal": 0.188, "timestamp": "2025-01-29 14:16:01", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 21:17:08 - Received Data: {"totalPower": 631.91, "energyTotal": 0.176, "timestamp": "2025-01-29 14:17:08", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:17:40 - Received Data: {"totalPower": 641.41, "energyTotal": 0.178, "timestamp": "2025-01-29 14:17:40", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:19:17 - Received Data: {"totalPower": 683.42, "energyTotal": 0.19, "timestamp": "2025-01-29 14:19:17", "run_time": 2959, "total_sleep_time": 2901}
+2025-01-29 21:19:52 - Received Data: {"totalPower": 646.93, "energyTotal": 0.18, "timestamp": "2025-01-29 14:19:49", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 21:20:56 - Received Data: {"totalPower": 690.4, "energyTotal": 0.192, "timestamp": "2025-01-29 14:20:56", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:21:28 - Received Data: {"totalPower": 576.11, "energyTotal": 0.16, "timestamp": "2025-01-29 14:21:28", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:22:09 - Received Data: {"totalPower": 618.66, "energyTotal": 0.172, "timestamp": "2025-01-29 14:22:00", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:22:41 - Received Data: {"totalPower": 686.55, "energyTotal": 0.191, "timestamp": "2025-01-29 14:22:41", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:23:14 - Received Data: {"totalPower": 621.09, "energyTotal": 0.173, "timestamp": "2025-01-29 14:23:13", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:23:46 - Received Data: {"totalPower": 703.83, "energyTotal": 0.196, "timestamp": "2025-01-29 14:23:46", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:25:54 - Received Data: {"totalPower": 657.98, "energyTotal": 0.183, "timestamp": "2025-01-29 14:25:54", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 21:26:29 - Received Data: {"totalPower": 732.77, "energyTotal": 0.204, "timestamp": "2025-01-29 14:26:26", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:27:36 - Received Data: {"totalPower": 674.07, "energyTotal": 0.187, "timestamp": "2025-01-29 14:27:36", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:28:09 - Received Data: {"totalPower": 696.82, "energyTotal": 0.194, "timestamp": "2025-01-29 14:28:08", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:28:41 - Received Data: {"totalPower": 609.77, "energyTotal": 0.169, "timestamp": "2025-01-29 14:28:40", "run_time": 1948, "total_sleep_time": 1911}
+2025-01-29 21:29:13 - Received Data: {"totalPower": 692.12, "energyTotal": 0.192, "timestamp": "2025-01-29 14:29:13", "run_time": 2960, "total_sleep_time": 2902}
+2025-01-29 21:29:45 - Received Data: {"totalPower": 715.93, "energyTotal": 0.199, "timestamp": "2025-01-29 14:29:45", "run_time": 2969, "total_sleep_time": 2911}
+2025-01-29 21:30:49 - Received Data: {"totalPower": 655.7, "energyTotal": 0.182, "timestamp": "2025-01-29 14:30:49", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:31:21 - Received Data: {"totalPower": 645.3, "energyTotal": 0.179, "timestamp": "2025-01-29 14:31:21", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:31:54 - Received Data: {"totalPower": 639.28, "energyTotal": 0.178, "timestamp": "2025-01-29 14:31:53", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:33:16 - Received Data: {"totalPower": 700.84, "energyTotal": 0.195, "timestamp": "2025-01-29 14:33:16", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:33:51 - Received Data: {"totalPower": 723.63, "energyTotal": 0.201, "timestamp": "2025-01-29 14:33:48", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:34:24 - Received Data: {"totalPower": 684.61, "energyTotal": 0.19, "timestamp": "2025-01-29 14:34:23", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:34:56 - Received Data: {"totalPower": 720.26, "energyTotal": 0.2, "timestamp": "2025-01-29 14:34:55", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:36:19 - Received Data: {"totalPower": 633.01, "energyTotal": 0.176, "timestamp": "2025-01-29 14:36:18", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:36:51 - Received Data: {"totalPower": 647.21, "energyTotal": 0.18, "timestamp": "2025-01-29 14:36:50", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:37:23 - Received Data: {"totalPower": 675.97, "energyTotal": 0.188, "timestamp": "2025-01-29 14:37:23", "run_time": 1948, "total_sleep_time": 1912}
+2025-01-29 21:37:55 - Received Data: {"totalPower": 621.31, "energyTotal": 0.173, "timestamp": "2025-01-29 14:37:55", "run_time": 2958, "total_sleep_time": 2900}
+2025-01-29 21:38:33 - Received Data: {"totalPower": 685.97, "energyTotal": 0.191, "timestamp": "2025-01-29 14:38:27", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 21:39:37 - Received Data: {"totalPower": 729.79, "energyTotal": 0.203, "timestamp": "2025-01-29 14:39:37", "run_time": 980, "total_sleep_time": 961}
+2025-01-29 21:40:09 - Received Data: {"totalPower": 615.98, "energyTotal": 0.171, "timestamp": "2025-01-29 14:40:09", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:41:17 - Received Data: {"totalPower": 663.93, "energyTotal": 0.184, "timestamp": "2025-01-29 14:41:16", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:41:49 - Received Data: {"totalPower": 623.49, "energyTotal": 0.173, "timestamp": "2025-01-29 14:41:48", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:43:44 - Received Data: {"totalPower": 682.64, "energyTotal": 0.19, "timestamp": "2025-01-29 14:43:43", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:44:16 - Received Data: {"totalPower": 706.81, "energyTotal": 0.196, "timestamp": "2025-01-29 14:44:16", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:44:48 - Received Data: {"totalPower": 680.33, "energyTotal": 0.189, "timestamp": "2025-01-29 14:44:48", "run_time": 1949, "total_sleep_time": 1911}
+2025-01-29 21:45:55 - Received Data: {"totalPower": 649.95, "energyTotal": 0.181, "timestamp": "2025-01-29 14:45:52", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:46:27 - Received Data: {"totalPower": 649.8, "energyTotal": 0.181, "timestamp": "2025-01-29 14:46:27", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:46:59 - Received Data: {"totalPower": 605.39, "energyTotal": 0.168, "timestamp": "2025-01-29 14:46:59", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:47:32 - Received Data: {"totalPower": 634.26, "energyTotal": 0.176, "timestamp": "2025-01-29 14:47:31", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:48:07 - Received Data: {"totalPower": 696.07, "energyTotal": 0.193, "timestamp": "2025-01-29 14:48:04", "run_time": 969, "total_sleep_time": 950}
+2025-01-29 21:49:11 - Received Data: {"totalPower": 691.19, "energyTotal": 0.192, "timestamp": "2025-01-29 14:49:11", "run_time": 1949, "total_sleep_time": 1911}
+2025-01-29 21:50:15 - Received Data: {"totalPower": 588.29, "energyTotal": 0.163, "timestamp": "2025-01-29 14:50:15", "run_time": 970, "total_sleep_time": 951}
+2025-01-29 21:50:48 - Received Data: {"totalPower": 652.86, "energyTotal": 0.181, "timestamp": "2025-01-29 14:50:47", "run_time": 980, "total_sleep_time": 961}
+2025-01-29 21:51:23 - Received Data: {"totalPower": 649.71, "energyTotal": 0.18, "timestamp": "2025-01-29 14:51:20", "run_time": 980, "total_sleep_time": 961}
+2025-01-29 21:52:43 - Received Data: {"totalPower": 682.05, "energyTotal": 0.189, "timestamp": "2025-01-29 14:52:42", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:53:19 - Received Data: {"totalPower": 565.18, "energyTotal": 0.157, "timestamp": "2025-01-29 14:53:19", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 21:54:23 - Received Data: {"totalPower": 549.54, "energyTotal": 0.153, "timestamp": "2025-01-29 14:54:23", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:54:57 - Received Data: {"totalPower": 681.62, "energyTotal": 0.189, "timestamp": "2025-01-29 14:54:56", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 21:56:05 - Received Data: {"totalPower": 727.75, "energyTotal": 0.202, "timestamp": "2025-01-29 14:56:01", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 21:57:09 - Received Data: {"totalPower": 698.96, "energyTotal": 0.194, "timestamp": "2025-01-29 14:57:09", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 21:58:14 - Received Data: {"totalPower": 622.6, "energyTotal": 0.173, "timestamp": "2025-01-29 14:58:13", "run_time": 979, "total_sleep_time": 961}
+2025-01-29 21:59:18 - Received Data: {"totalPower": 632.93, "energyTotal": 0.176, "timestamp": "2025-01-29 14:59:18", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 21:59:50 - Received Data: {"totalPower": 651.57, "energyTotal": 0.181, "timestamp": "2025-01-29 14:59:50", "run_time": 1938, "total_sleep_time": 1900}
+2025-01-29 22:00:54 - Received Data: {"totalPower": 708.97, "energyTotal": 0.197, "timestamp": "2025-01-29 15:00:54", "run_time": 1949, "total_sleep_time": 1912}
+2025-01-29 22:02:02 - Received Data: {"totalPower": 683.31, "energyTotal": 0.19, "timestamp": "2025-01-29 15:02:02", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:02:37 - Received Data: {"totalPower": 673.72, "energyTotal": 0.187, "timestamp": "2025-01-29 15:02:34", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:03:09 - Received Data: {"totalPower": 653.88, "energyTotal": 0.182, "timestamp": "2025-01-29 15:03:09", "run_time": 2959, "total_sleep_time": 2901}
+2025-01-29 22:03:41 - Received Data: {"totalPower": 663.08, "energyTotal": 0.184, "timestamp": "2025-01-29 15:03:41", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:04:14 - Received Data: {"totalPower": 668.01, "energyTotal": 0.186, "timestamp": "2025-01-29 15:04:13", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:05:37 - Received Data: {"totalPower": 553.19, "energyTotal": 0.154, "timestamp": "2025-01-29 15:05:36", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 22:06:09 - Received Data: {"totalPower": 535.1, "energyTotal": 0.149, "timestamp": "2025-01-29 15:06:08", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 22:06:41 - Received Data: {"totalPower": 649.82, "energyTotal": 0.181, "timestamp": "2025-01-29 15:06:41", "run_time": 1948, "total_sleep_time": 1911}
+2025-01-29 22:07:13 - Received Data: {"totalPower": 653.3, "energyTotal": 0.181, "timestamp": "2025-01-29 15:07:13", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 22:08:29 - Received Data: {"totalPower": 638.87, "energyTotal": 0.177, "timestamp": "2025-01-29 15:08:20", "run_time": 970, "total_sleep_time": 952}
+2025-01-29 22:09:01 - Received Data: {"totalPower": 657.15, "energyTotal": 0.183, "timestamp": "2025-01-29 15:09:00", "run_time": 1949, "total_sleep_time": 1911}
+2025-01-29 22:09:33 - Received Data: {"totalPower": 612.43, "energyTotal": 0.17, "timestamp": "2025-01-29 15:09:33", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:10:37 - Received Data: {"totalPower": 696.84, "energyTotal": 0.194, "timestamp": "2025-01-29 15:10:37", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:11:09 - Received Data: {"totalPower": 562.76, "energyTotal": 0.156, "timestamp": "2025-01-29 15:11:09", "run_time": 2969, "total_sleep_time": 2911}
+2025-01-29 22:12:56 - Received Data: {"totalPower": 639.85, "energyTotal": 0.178, "timestamp": "2025-01-29 15:12:56", "run_time": 980, "total_sleep_time": 962}
+2025-01-29 22:14:03 - Received Data: {"totalPower": 657.23, "energyTotal": 0.183, "timestamp": "2025-01-29 15:14:03", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:14:41 - Received Data: {"totalPower": 703.76, "energyTotal": 0.195, "timestamp": "2025-01-29 15:14:38", "run_time": 1, "total_sleep_time": 1}
+2025-01-29 22:15:14 - Received Data: {"totalPower": 668.73, "energyTotal": 0.186, "timestamp": "2025-01-29 15:15:13", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:15:46 - Received Data: {"totalPower": 601.8, "energyTotal": 0.167, "timestamp": "2025-01-29 15:15:46", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:17:07 - Received Data: {"totalPower": 720.79, "energyTotal": 0.2, "timestamp": "2025-01-29 15:17:06", "run_time": 1939, "total_sleep_time": 1902}
+2025-01-29 22:17:42 - Received Data: {"totalPower": 619.9, "energyTotal": 0.172, "timestamp": "2025-01-29 15:17:38", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:18:14 - Received Data: {"totalPower": 618.65, "energyTotal": 0.172, "timestamp": "2025-01-29 15:18:14", "run_time": 970, "total_sleep_time": 951}
+2025-01-29 22:19:19 - Received Data: {"totalPower": 712.9, "energyTotal": 0.198, "timestamp": "2025-01-29 15:19:18", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:19:53 - Received Data: {"totalPower": 647.38, "energyTotal": 0.18, "timestamp": "2025-01-29 15:19:50", "run_time": 1948, "total_sleep_time": 1911}
+2025-01-29 22:20:58 - Received Data: {"totalPower": 716.01, "energyTotal": 0.199, "timestamp": "2025-01-29 15:20:58", "run_time": 980, "total_sleep_time": 961}
+2025-01-29 22:21:30 - Received Data: {"totalPower": 682.01, "energyTotal": 0.189, "timestamp": "2025-01-29 15:21:30", "run_time": 970, "total_sleep_time": 951}
+2025-01-29 22:22:53 - Received Data: {"totalPower": 709.62, "energyTotal": 0.197, "timestamp": "2025-01-29 15:22:53", "run_time": 1939, "total_sleep_time": 1902}
+2025-01-29 22:23:57 - Received Data: {"totalPower": 591.79, "energyTotal": 0.164, "timestamp": "2025-01-29 15:23:57", "run_time": 979, "total_sleep_time": 961}
+2025-01-29 22:24:30 - Received Data: {"totalPower": 576.15, "energyTotal": 0.16, "timestamp": "2025-01-29 15:24:29", "run_time": 969, "total_sleep_time": 950}
+2025-01-29 22:25:03 - Received Data: {"totalPower": 566.31, "energyTotal": 0.157, "timestamp": "2025-01-29 15:25:03", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 22:26:14 - Received Data: {"totalPower": 574.53, "energyTotal": 0.16, "timestamp": "2025-01-29 15:26:14", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:26:46 - Received Data: {"totalPower": 601.48, "energyTotal": 0.167, "timestamp": "2025-01-29 15:26:46", "run_time": 1948, "total_sleep_time": 1911}
+2025-01-29 22:27:21 - Received Data: {"totalPower": 688.73, "energyTotal": 0.191, "timestamp": "2025-01-29 15:27:18", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:27:54 - Received Data: {"totalPower": 641.93, "energyTotal": 0.178, "timestamp": "2025-01-29 15:27:53", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:28:26 - Received Data: {"totalPower": 682.32, "energyTotal": 0.19, "timestamp": "2025-01-29 15:28:26", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:28:58 - Received Data: {"totalPower": 552.17, "energyTotal": 0.153, "timestamp": "2025-01-29 15:28:58", "run_time": 1949, "total_sleep_time": 1911}
+2025-01-29 22:29:39 - Received Data: {"totalPower": 630.38, "energyTotal": 0.175, "timestamp": "2025-01-29 15:29:30", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 22:30:12 - Received Data: {"totalPower": 675.21, "energyTotal": 0.188, "timestamp": "2025-01-29 15:30:11", "run_time": 970, "total_sleep_time": 951}
+2025-01-29 22:30:44 - Received Data: {"totalPower": 678.46, "energyTotal": 0.188, "timestamp": "2025-01-29 15:30:43", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:32:56 - Received Data: {"totalPower": 700.37, "energyTotal": 0.195, "timestamp": "2025-01-29 15:32:55", "run_time": 969, "total_sleep_time": 950}
+2025-01-29 22:33:28 - Received Data: {"totalPower": 620.25, "energyTotal": 0.172, "timestamp": "2025-01-29 15:33:27", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:34:03 - Received Data: {"totalPower": 692.29, "energyTotal": 0.192, "timestamp": "2025-01-29 15:34:00", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:34:34 - Received Data: {"totalPower": 705.96, "energyTotal": 0.196, "timestamp": "2025-01-29 15:34:34", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:35:06 - Received Data: {"totalPower": 708.76, "energyTotal": 0.197, "timestamp": "2025-01-29 15:35:06", "run_time": 979, "total_sleep_time": 961}
+2025-01-29 22:35:38 - Received Data: {"totalPower": 652.38, "energyTotal": 0.181, "timestamp": "2025-01-29 15:35:38", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:36:19 - Received Data: {"totalPower": 646.9, "energyTotal": 0.18, "timestamp": "2025-01-29 15:36:10", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 22:36:51 - Received Data: {"totalPower": 727.98, "energyTotal": 0.202, "timestamp": "2025-01-29 15:36:51", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 22:37:24 - Received Data: {"totalPower": 626.62, "energyTotal": 0.174, "timestamp": "2025-01-29 15:37:23", "run_time": 979, "total_sleep_time": 961}
+2025-01-29 22:37:56 - Received Data: {"totalPower": 684.96, "energyTotal": 0.19, "timestamp": "2025-01-29 15:37:56", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:39:06 - Received Data: {"totalPower": 567.0, "energyTotal": 0.158, "timestamp": "2025-01-29 15:39:06", "run_time": 970, "total_sleep_time": 951}
+2025-01-29 22:39:38 - Received Data: {"totalPower": 744.66, "energyTotal": 0.207, "timestamp": "2025-01-29 15:39:38", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:41:52 - Received Data: {"totalPower": 699.24, "energyTotal": 0.194, "timestamp": "2025-01-29 15:41:52", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:43:29 - Received Data: {"totalPower": 692.82, "energyTotal": 0.192, "timestamp": "2025-01-29 15:43:29", "run_time": 1940, "total_sleep_time": 1902}
+2025-01-29 22:44:01 - Received Data: {"totalPower": 718.73, "energyTotal": 0.2, "timestamp": "2025-01-29 15:44:01", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:44:34 - Received Data: {"totalPower": 708.88, "energyTotal": 0.197, "timestamp": "2025-01-29 15:44:33", "run_time": 980, "total_sleep_time": 961}
+2025-01-29 22:45:38 - Received Data: {"totalPower": 743.25, "energyTotal": 0.206, "timestamp": "2025-01-29 15:45:38", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:46:11 - Received Data: {"totalPower": 1152.49, "energyTotal": 0.32, "timestamp": "2025-01-29 15:46:08", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:46:43 - Received Data: {"totalPower": 1520.27, "energyTotal": 0.422, "timestamp": "2025-01-29 15:46:40", "run_time": 1950, "total_sleep_time": 1912}
+2025-01-29 22:47:12 - Received Data: {"totalPower": 1244.59, "energyTotal": 0.346, "timestamp": "2025-01-29 15:47:12", "run_time": 1949, "total_sleep_time": 1911}
+2025-01-29 22:47:41 - Received Data: {"totalPower": 1236.52, "energyTotal": 0.343, "timestamp": "2025-01-29 15:47:41", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:48:12 - Received Data: {"totalPower": 1297.7, "energyTotal": 0.36, "timestamp": "2025-01-29 15:48:09", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 22:49:10 - Received Data: {"totalPower": 1232.86, "energyTotal": 0.342, "timestamp": "2025-01-29 15:49:10", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:49:38 - Received Data: {"totalPower": 1382.74, "energyTotal": 0.384, "timestamp": "2025-01-29 15:49:38", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:50:14 - Received Data: {"totalPower": 1323.76, "energyTotal": 0.368, "timestamp": "2025-01-29 15:50:07", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:51:41 - Received Data: {"totalPower": 1470.23, "energyTotal": 0.408, "timestamp": "2025-01-29 15:51:40", "run_time": 980, "total_sleep_time": 961}
+2025-01-29 22:52:09 - Received Data: {"totalPower": 1602.87, "energyTotal": 0.445, "timestamp": "2025-01-29 15:52:09", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:53:27 - Received Data: {"totalPower": 1508.42, "energyTotal": 0.419, "timestamp": "2025-01-29 15:53:26", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:53:59 - Received Data: {"totalPower": 1733.89, "energyTotal": 0.482, "timestamp": "2025-01-29 15:53:56", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:54:28 - Received Data: {"totalPower": 1457.5, "energyTotal": 0.405, "timestamp": "2025-01-29 15:54:28", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 22:54:56 - Received Data: {"totalPower": 1740.38, "energyTotal": 0.483, "timestamp": "2025-01-29 15:54:56", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 22:55:24 - Received Data: {"totalPower": 1522.51, "energyTotal": 0.423, "timestamp": "2025-01-29 15:55:24", "run_time": 2970, "total_sleep_time": 2912}
+2025-01-29 22:56:02 - Received Data: {"totalPower": 1544.81, "energyTotal": 0.429, "timestamp": "2025-01-29 15:55:53", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 22:56:31 - Received Data: {"totalPower": 1512.59, "energyTotal": 0.42, "timestamp": "2025-01-29 15:56:31", "run_time": 2968, "total_sleep_time": 2911}
+2025-01-29 22:57:01 - Received Data: {"totalPower": 1323.68, "energyTotal": 0.368, "timestamp": "2025-01-29 15:57:00", "run_time": 2958, "total_sleep_time": 2900}
+2025-01-29 22:57:58 - Received Data: {"totalPower": 1757.32, "energyTotal": 0.488, "timestamp": "2025-01-29 15:57:58", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 22:59:23 - Received Data: {"totalPower": 1508.76, "energyTotal": 0.419, "timestamp": "2025-01-29 15:59:23", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 23:00:21 - Received Data: {"totalPower": 1468.81, "energyTotal": 0.408, "timestamp": "2025-01-29 16:00:20", "run_time": 1950, "total_sleep_time": 1912}
+2025-01-29 23:01:17 - Received Data: {"totalPower": 1161.42, "energyTotal": 0.323, "timestamp": "2025-01-29 16:01:17", "run_time": 1949, "total_sleep_time": 1912}
+2025-01-29 23:01:47 - Received Data: {"totalPower": 1333.64, "energyTotal": 0.37, "timestamp": "2025-01-29 16:01:47", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 23:02:16 - Received Data: {"totalPower": 1623.38, "energyTotal": 0.451, "timestamp": "2025-01-29 16:02:16", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 23:02:48 - Received Data: {"totalPower": 1418.21, "energyTotal": 0.394, "timestamp": "2025-01-29 16:02:44", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 23:03:17 - Received Data: {"totalPower": 1495.07, "energyTotal": 0.415, "timestamp": "2025-01-29 16:03:17", "run_time": 2959, "total_sleep_time": 2901}
+2025-01-29 23:04:13 - Received Data: {"totalPower": 1619.41, "energyTotal": 0.45, "timestamp": "2025-01-29 16:04:13", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 23:05:34 - Received Data: {"totalPower": 1510.3, "energyTotal": 0.42, "timestamp": "2025-01-29 16:05:33", "run_time": 2968, "total_sleep_time": 2910}
+2025-01-29 23:06:03 - Received Data: {"totalPower": 1624.98, "energyTotal": 0.451, "timestamp": "2025-01-29 16:06:02", "run_time": 2959, "total_sleep_time": 2901}
+2025-01-29 23:06:32 - Received Data: {"totalPower": 1535.73, "energyTotal": 0.427, "timestamp": "2025-01-29 16:06:32", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 23:07:01 - Received Data: {"totalPower": 1357.33, "energyTotal": 0.377, "timestamp": "2025-01-29 16:07:01", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 23:08:40 - Received Data: {"totalPower": 1463.36, "energyTotal": 0.406, "timestamp": "2025-01-29 16:08:37", "run_time": 1887, "total_sleep_time": 0}
+2025-01-29 23:09:08 - Received Data: {"totalPower": 1356.33, "energyTotal": 0.377, "timestamp": "2025-01-29 16:09:08", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 23:09:38 - Received Data: {"totalPower": 1381.99, "energyTotal": 0.384, "timestamp": "2025-01-29 16:09:37", "run_time": 1938, "total_sleep_time": 1900}
+2025-01-29 23:11:35 - Received Data: {"totalPower": 1491.46, "energyTotal": 0.414, "timestamp": "2025-01-29 16:11:34", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 23:12:36 - Received Data: {"totalPower": 1484.51, "energyTotal": 0.412, "timestamp": "2025-01-29 16:12:36", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 23:13:05 - Received Data: {"totalPower": 1085.94, "energyTotal": 0.302, "timestamp": "2025-01-29 16:13:05", "run_time": 2969, "total_sleep_time": 2911}
+2025-01-29 23:14:04 - Received Data: {"totalPower": 874.51, "energyTotal": 0.243, "timestamp": "2025-01-29 16:14:03", "run_time": 1939, "total_sleep_time": 1901}
+2025-01-29 23:15:02 - Received Data: {"totalPower": 955.75, "energyTotal": 0.265, "timestamp": "2025-01-29 16:15:02", "run_time": 1948, "total_sleep_time": 1910}
+2025-01-29 23:16:03 - Received Data: {"totalPower": 1598.74, "energyTotal": 0.444, "timestamp": "2025-01-29 16:16:03", "run_time": 979, "total_sleep_time": 960}
+2025-01-29 23:43:39 - Received Data: {"totalPower": 503.46, "energyTotal": 0.14, "timestamp": "2025-01-29 16:43:38", "run_time": 0, "total_sleep_time": 0}
+2025-01-29 23:44:12 - Received Data: {"totalPower": 517.45, "energyTotal": 0.144, "timestamp": "2025-01-29 16:44:11", "run_time": 1948, "total_sleep_time": 1911}
+2025-01-30 00:48:33 - Received Data: {"totalPower": 601.43, "energyTotal": 0.167, "timestamp": "2025-01-29 17:48:33", "run_time": 0, "total_sleep_time": 0}
+2025-01-30 00:49:37 - Received Data: {"totalPower": 558.07, "energyTotal": 0.155, "timestamp": "2025-01-29 17:49:37", "run_time": 979, "total_sleep_time": 961}
+2025-01-30 00:50:10 - Received Data: {"totalPower": 536.36, "energyTotal": 0.149, "timestamp": "2025-01-29 17:50:09", "run_time": 969, "total_sleep_time": 951}
+2025-01-30 02:41:39 - Received Data: {"totalPower": 558.4, "energyTotal": 0.155, "timestamp": "2025-01-30 16:47:52", "run_time": 0, "total_sleep_time": 0}
+2025-01-30 02:42:15 - Received Data: {"totalPower": 611.16, "energyTotal": 0.17, "timestamp": "2025-01-30 16:48:24", "run_time": 1937, "total_sleep_time": 1933}
+2025-01-30 02:42:50 - Received Data: {"totalPower": 626.87, "energyTotal": 0.174, "timestamp": "2025-01-30 16:49:00", "run_time": 1937, "total_sleep_time": 1933}
+2025-01-30 02:43:35 - Received Data: {"totalPower": 662.07, "energyTotal": 0.184, "timestamp": "2025-01-30 16:49:36", "run_time": 1936, "total_sleep_time": 1932}
+2025-01-30 02:44:14 - Received Data: {"totalPower": 668.87, "energyTotal": 0.186, "timestamp": "2025-01-30 16:50:20", "run_time": 1936, "total_sleep_time": 1931}
+2025-01-30 02:44:48 - Received Data: {"totalPower": 702.32, "energyTotal": 0.195, "timestamp": "2025-01-30 16:51:00", "run_time": 1937, "total_sleep_time": 1933}
+2025-01-30 02:45:23 - Received Data: {"totalPower": 722.72, "energyTotal": 0.201, "timestamp": "2025-01-30 16:51:33", "run_time": 967, "total_sleep_time": 966}
+2025-01-30 02:46:28 - Received Data: {"totalPower": 755.16, "energyTotal": 0.21, "timestamp": "2025-01-30 16:52:41", "run_time": 1936, "total_sleep_time": 1932}
+2025-01-30 02:47:09 - Received Data: {"totalPower": 772.16, "energyTotal": 0.214, "timestamp": "2025-01-30 16:53:14", "run_time": 1936, "total_sleep_time": 1933}
+2025-01-30 02:47:41 - Received Data: {"totalPower": 770.36, "energyTotal": 0.214, "timestamp": "2025-01-30 16:53:55", "run_time": 2957, "total_sleep_time": 2952}
+2025-01-30 02:48:17 - Received Data: {"totalPower": 789.83, "energyTotal": 0.219, "timestamp": "2025-01-30 16:54:27", "run_time": 968, "total_sleep_time": 967}
+2025-01-30 02:49:21 - Received Data: {"totalPower": 762.02, "energyTotal": 0.212, "timestamp": "2025-01-30 16:55:34", "run_time": 1937, "total_sleep_time": 1934}
+2025-01-30 02:50:28 - Received Data: {"totalPower": 782.17, "energyTotal": 0.217, "timestamp": "2025-01-30 16:56:41", "run_time": 1937, "total_sleep_time": 1932}
+2025-01-30 02:51:33 - Received Data: {"totalPower": 804.97, "energyTotal": 0.224, "timestamp": "2025-01-30 16:57:46", "run_time": 1937, "total_sleep_time": 1933}
+2025-01-30 02:52:05 - Received Data: {"totalPower": 804.88, "energyTotal": 0.224, "timestamp": "2025-01-30 16:58:18", "run_time": 1936, "total_sleep_time": 1932}
+2025-01-30 02:52:38 - Received Data: {"totalPower": 803.02, "energyTotal": 0.223, "timestamp": "2025-01-30 16:58:51", "run_time": 2957, "total_sleep_time": 2952}
+2025-01-30 02:53:10 - Received Data: {"totalPower": 805.4, "energyTotal": 0.224, "timestamp": "2025-01-30 16:59:23", "run_time": 968, "total_sleep_time": 967}
+2025-01-30 02:53:45 - Received Data: {"totalPower": 805.11, "energyTotal": 0.224, "timestamp": "2025-01-30 16:59:56", "run_time": 1936, "total_sleep_time": 1931}
+2025-01-30 02:54:25 - Received Data: {"totalPower": 810.38, "energyTotal": 0.225, "timestamp": "2025-01-30 17:00:30", "run_time": 2957, "total_sleep_time": 2952}
+2025-01-30 02:54:57 - Received Data: {"totalPower": 816.62, "energyTotal": 0.227, "timestamp": "2025-01-30 17:01:10", "run_time": 1937, "total_sleep_time": 1934}
+2025-01-30 02:57:29 - Received Data: {"totalPower": 823.75, "energyTotal": 0.229, "timestamp": "2025-01-30 17:03:40", "run_time": 1937, "total_sleep_time": 1934}
+2025-01-30 02:59:58 - Received Data: {"totalPower": 824.07, "energyTotal": 0.229, "timestamp": "2025-01-30 17:06:12", "run_time": 1937, "total_sleep_time": 1934}
+2025-01-30 03:03:32 - Received Data: {"totalPower": 820.39, "energyTotal": 0.228, "timestamp": "2025-01-30 17:09:46", "run_time": 968, "total_sleep_time": 967}
+2025-01-30 03:04:51 - Received Data: {"totalPower": 804.71, "energyTotal": 0.224, "timestamp": "2025-01-30 17:11:00", "run_time": 1937, "total_sleep_time": 1933}
+2025-01-30 03:05:23 - Received Data: {"totalPower": 810.95, "energyTotal": 0.225, "timestamp": "2025-01-30 17:11:36", "run_time": 1937, "total_sleep_time": 1932}
+2025-01-30 03:07:00 - Received Data: {"totalPower": 805.43, "energyTotal": 0.224, "timestamp": "2025-01-30 17:13:13", "run_time": 968, "total_sleep_time": 967}
+2025-01-30 03:08:07 - Received Data: {"totalPower": 820.6, "energyTotal": 0.228, "timestamp": "2025-01-30 17:14:21", "run_time": 1937, "total_sleep_time": 1933}
+2025-01-30 03:08:40 - Received Data: {"totalPower": 810.11, "energyTotal": 0.225, "timestamp": "2025-01-30 17:14:52", "run_time": 2957, "total_sleep_time": 2951}
+2025-01-30 03:09:21 - Received Data: {"totalPower": 812.02, "energyTotal": 0.226, "timestamp": "2025-01-30 17:15:25", "run_time": 968, "total_sleep_time": 965}
+2025-01-30 03:09:53 - Received Data: {"totalPower": 811.49, "energyTotal": 0.225, "timestamp": "2025-01-30 17:16:06", "run_time": 1938, "total_sleep_time": 1934}
+2025-01-30 03:10:25 - Received Data: {"totalPower": 796.02, "energyTotal": 0.221, "timestamp": "2025-01-30 17:16:38", "run_time": 1936, "total_sleep_time": 1932}
+2025-01-30 03:11:55 - Received Data: {"totalPower": 816.48, "energyTotal": 0.227, "timestamp": "2025-01-30 17:18:01", "run_time": 968, "total_sleep_time": 966}
+2025-01-30 03:12:31 - Received Data: {"totalPower": 788.64, "energyTotal": 0.219, "timestamp": "2025-01-30 17:18:40", "run_time": 1937, "total_sleep_time": 1932}
+2025-01-30 03:14:48 - Received Data: {"totalPower": 430.03, "energyTotal": 0.119, "timestamp": "2025-01-30 17:21:01", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:15:05 - Received Data: {"totalPower": 441.41, "energyTotal": 0.242, "timestamp": "2025-01-30 17:21:18", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:15:22 - Received Data: {"totalPower": 444.02, "energyTotal": 0.365, "timestamp": "2025-01-30 17:21:35", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:15:40 - Received Data: {"totalPower": 420.07, "energyTotal": 0.482, "timestamp": "2025-01-30 17:21:52", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:15:57 - Received Data: {"totalPower": 429.02, "energyTotal": 0.601, "timestamp": "2025-01-30 17:22:10", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:16:14 - Received Data: {"totalPower": 424.99, "energyTotal": 0.719, "timestamp": "2025-01-30 17:22:27", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:16:31 - Received Data: {"totalPower": 416.87, "energyTotal": 0.835, "timestamp": "2025-01-30 17:22:44", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:16:48 - Received Data: {"totalPower": 399.79, "energyTotal": 0.946, "timestamp": "2025-01-30 17:23:01", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:17:06 - Received Data: {"totalPower": 420.27, "energyTotal": 1.063, "timestamp": "2025-01-30 17:23:18", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:17:23 - Received Data: {"totalPower": 416.51, "energyTotal": 1.179, "timestamp": "2025-01-30 17:23:36", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:17:40 - Received Data: {"totalPower": 408.2, "energyTotal": 1.292, "timestamp": "2025-01-30 17:23:53", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:17:57 - Received Data: {"totalPower": 407.76, "energyTotal": 1.405, "timestamp": "2025-01-30 17:24:10", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:18:14 - Received Data: {"totalPower": 410.99, "energyTotal": 1.519, "timestamp": "2025-01-30 17:24:27", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:18:32 - Received Data: {"totalPower": 395.42, "energyTotal": 1.629, "timestamp": "2025-01-30 17:24:44", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:18:49 - Received Data: {"totalPower": 403.99, "energyTotal": 1.741, "timestamp": "2025-01-30 17:25:02", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:19:06 - Received Data: {"totalPower": 405.9, "energyTotal": 1.854, "timestamp": "2025-01-30 17:25:19", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:19:23 - Received Data: {"totalPower": 397.69, "energyTotal": 1.965, "timestamp": "2025-01-30 17:25:36", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:19:40 - Received Data: {"totalPower": 400.45, "energyTotal": 2.076, "timestamp": "2025-01-30 17:25:53", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:19:58 - Received Data: {"totalPower": 405.55, "energyTotal": 2.189, "timestamp": "2025-01-30 17:26:10", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:20:15 - Received Data: {"totalPower": 393.75, "energyTotal": 2.298, "timestamp": "2025-01-30 17:26:28", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:20:32 - Received Data: {"totalPower": 388.95, "energyTotal": 2.406, "timestamp": "2025-01-30 17:26:45", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:20:49 - Received Data: {"totalPower": 397.55, "energyTotal": 2.516, "timestamp": "2025-01-30 17:27:02", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:21:06 - Received Data: {"totalPower": 391.45, "energyTotal": 2.625, "timestamp": "2025-01-30 17:27:19", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:21:24 - Received Data: {"totalPower": 392.13, "energyTotal": 2.734, "timestamp": "2025-01-30 17:27:36", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:21:41 - Received Data: {"totalPower": 398.79, "energyTotal": 2.845, "timestamp": "2025-01-30 17:27:54", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:21:58 - Received Data: {"totalPower": 391.57, "energyTotal": 2.954, "timestamp": "2025-01-30 17:28:11", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:22:15 - Received Data: {"totalPower": 401.14, "energyTotal": 3.065, "timestamp": "2025-01-30 17:28:28", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:22:32 - Received Data: {"totalPower": 384.23, "energyTotal": 3.172, "timestamp": "2025-01-30 17:28:45", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:22:50 - Received Data: {"totalPower": 406.29, "energyTotal": 3.285, "timestamp": "2025-01-30 17:29:02", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:23:07 - Received Data: {"totalPower": 389.46, "energyTotal": 3.393, "timestamp": "2025-01-30 17:29:20", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:23:24 - Received Data: {"totalPower": 393.26, "energyTotal": 3.502, "timestamp": "2025-01-30 17:29:37", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:23:41 - Received Data: {"totalPower": 389.19, "energyTotal": 3.61, "timestamp": "2025-01-30 17:29:54", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:23:58 - Received Data: {"totalPower": 394.26, "energyTotal": 3.72, "timestamp": "2025-01-30 17:30:11", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:24:16 - Received Data: {"totalPower": 392.42, "energyTotal": 3.829, "timestamp": "2025-01-30 17:30:28", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:24:33 - Received Data: {"totalPower": 390.35, "energyTotal": 3.937, "timestamp": "2025-01-30 17:30:46", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:24:50 - Received Data: {"totalPower": 394.11, "energyTotal": 4.047, "timestamp": "2025-01-30 17:31:03", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:25:07 - Received Data: {"totalPower": 386.08, "energyTotal": 4.154, "timestamp": "2025-01-30 17:31:20", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:25:24 - Received Data: {"totalPower": 385.44, "energyTotal": 4.261, "timestamp": "2025-01-30 17:31:37", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:25:42 - Received Data: {"totalPower": 377.35, "energyTotal": 4.366, "timestamp": "2025-01-30 17:31:54", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:25:59 - Received Data: {"totalPower": 381.93, "energyTotal": 4.472, "timestamp": "2025-01-30 17:32:12", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:26:16 - Received Data: {"totalPower": 397.24, "energyTotal": 4.582, "timestamp": "2025-01-30 17:32:29", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:26:33 - Received Data: {"totalPower": 392.65, "energyTotal": 4.691, "timestamp": "2025-01-30 17:32:46", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:26:50 - Received Data: {"totalPower": 386.65, "energyTotal": 4.799, "timestamp": "2025-01-30 17:33:03", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:27:08 - Received Data: {"totalPower": 395.31, "energyTotal": 4.908, "timestamp": "2025-01-30 17:33:20", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:27:25 - Received Data: {"totalPower": 405.37, "energyTotal": 5.021, "timestamp": "2025-01-30 17:33:38", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:27:42 - Received Data: {"totalPower": 392.19, "energyTotal": 5.13, "timestamp": "2025-01-30 17:33:55", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:27:59 - Received Data: {"totalPower": 399.62, "energyTotal": 5.241, "timestamp": "2025-01-30 17:34:12", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:28:16 - Received Data: {"totalPower": 395.63, "energyTotal": 5.351, "timestamp": "2025-01-30 17:34:29", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:28:34 - Received Data: {"totalPower": 393.66, "energyTotal": 5.46, "timestamp": "2025-01-30 17:34:47", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:28:51 - Received Data: {"totalPower": 389.6, "energyTotal": 5.568, "timestamp": "2025-01-30 17:35:04", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:29:08 - Received Data: {"totalPower": 394.6, "energyTotal": 5.678, "timestamp": "2025-01-30 17:35:21", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:29:25 - Received Data: {"totalPower": 393.53, "energyTotal": 5.787, "timestamp": "2025-01-30 17:35:38", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:29:42 - Received Data: {"totalPower": 391.12, "energyTotal": 5.896, "timestamp": "2025-01-30 17:35:55", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:30:00 - Received Data: {"totalPower": 389.85, "energyTotal": 6.004, "timestamp": "2025-01-30 17:36:13", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:30:17 - Received Data: {"totalPower": 396.61, "energyTotal": 6.115, "timestamp": "2025-01-30 17:36:30", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:30:34 - Received Data: {"totalPower": 392.32, "energyTotal": 6.223, "timestamp": "2025-01-30 17:36:47", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:30:51 - Received Data: {"totalPower": 388.17, "energyTotal": 6.331, "timestamp": "2025-01-30 17:37:04", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:31:08 - Received Data: {"totalPower": 398.57, "energyTotal": 6.442, "timestamp": "2025-01-30 17:37:21", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:31:26 - Received Data: {"totalPower": 395.28, "energyTotal": 6.552, "timestamp": "2025-01-30 17:37:39", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:31:43 - Received Data: {"totalPower": 389.82, "energyTotal": 6.66, "timestamp": "2025-01-30 17:37:56", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:32:00 - Received Data: {"totalPower": 385.94, "energyTotal": 6.767, "timestamp": "2025-01-30 17:38:13", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:32:17 - Received Data: {"totalPower": 393.1, "energyTotal": 6.877, "timestamp": "2025-01-30 17:38:30", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:32:34 - Received Data: {"totalPower": 370.29, "energyTotal": 6.979, "timestamp": "2025-01-30 17:38:47", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:32:52 - Received Data: {"totalPower": 397.66, "energyTotal": 7.09, "timestamp": "2025-01-30 17:39:05", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:33:09 - Received Data: {"totalPower": 403.71, "energyTotal": 7.202, "timestamp": "2025-01-30 17:39:22", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:33:26 - Received Data: {"totalPower": 382.72, "energyTotal": 7.308, "timestamp": "2025-01-30 17:39:39", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:33:43 - Received Data: {"totalPower": 412.2, "energyTotal": 7.423, "timestamp": "2025-01-30 17:39:56", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:34:00 - Received Data: {"totalPower": 404.36, "energyTotal": 7.535, "timestamp": "2025-01-30 17:40:13", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:34:18 - Received Data: {"totalPower": 401.58, "energyTotal": 7.647, "timestamp": "2025-01-30 17:40:31", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:34:35 - Received Data: {"totalPower": 405.25, "energyTotal": 7.759, "timestamp": "2025-01-30 17:40:48", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:34:52 - Received Data: {"totalPower": 384.85, "energyTotal": 7.866, "timestamp": "2025-01-30 17:41:05", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:35:09 - Received Data: {"totalPower": 405.46, "energyTotal": 7.979, "timestamp": "2025-01-30 17:41:22", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:35:26 - Received Data: {"totalPower": 395.38, "energyTotal": 8.089, "timestamp": "2025-01-30 17:41:39", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:35:44 - Received Data: {"totalPower": 405.74, "energyTotal": 8.201, "timestamp": "2025-01-30 17:41:57", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:36:01 - Received Data: {"totalPower": 398.8, "energyTotal": 8.312, "timestamp": "2025-01-30 17:42:14", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:36:18 - Received Data: {"totalPower": 396.45, "energyTotal": 8.422, "timestamp": "2025-01-30 17:42:31", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:36:35 - Received Data: {"totalPower": 396.31, "energyTotal": 8.532, "timestamp": "2025-01-30 17:42:48", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:36:52 - Received Data: {"totalPower": 394.55, "energyTotal": 8.642, "timestamp": "2025-01-30 17:43:05", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:37:10 - Received Data: {"totalPower": 393.93, "energyTotal": 8.751, "timestamp": "2025-01-30 17:43:23", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:37:27 - Received Data: {"totalPower": 388.16, "energyTotal": 8.859, "timestamp": "2025-01-30 17:43:40", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:37:44 - Received Data: {"totalPower": 392.47, "energyTotal": 8.968, "timestamp": "2025-01-30 17:43:57", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:38:01 - Received Data: {"totalPower": 380.66, "energyTotal": 9.074, "timestamp": "2025-01-30 17:44:14", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:38:18 - Received Data: {"totalPower": 389.59, "energyTotal": 9.182, "timestamp": "2025-01-30 17:44:31", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:38:36 - Received Data: {"totalPower": 394.07, "energyTotal": 9.292, "timestamp": "2025-01-30 17:44:49", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:38:53 - Received Data: {"totalPower": 385.67, "energyTotal": 9.399, "timestamp": "2025-01-30 17:45:06", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:39:10 - Received Data: {"totalPower": 383.35, "energyTotal": 9.505, "timestamp": "2025-01-30 17:45:23", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:39:27 - Received Data: {"totalPower": 385.87, "energyTotal": 9.612, "timestamp": "2025-01-30 17:45:40", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:39:44 - Received Data: {"totalPower": 374.64, "energyTotal": 9.716, "timestamp": "2025-01-30 17:45:57", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:40:02 - Received Data: {"totalPower": 383.4, "energyTotal": 9.823, "timestamp": "2025-01-30 17:46:15", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:40:19 - Received Data: {"totalPower": 384.11, "energyTotal": 9.93, "timestamp": "2025-01-30 17:46:32", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:40:36 - Received Data: {"totalPower": 383.42, "energyTotal": 10.036, "timestamp": "2025-01-30 17:46:49", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:40:53 - Received Data: {"totalPower": 381.3, "energyTotal": 10.142, "timestamp": "2025-01-30 17:47:06", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:41:10 - Received Data: {"totalPower": 373.93, "energyTotal": 10.246, "timestamp": "2025-01-30 17:47:23", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:41:28 - Received Data: {"totalPower": 387.61, "energyTotal": 10.354, "timestamp": "2025-01-30 17:47:41", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:41:45 - Received Data: {"totalPower": 393.05, "energyTotal": 10.463, "timestamp": "2025-01-30 17:47:58", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:42:02 - Received Data: {"totalPower": 394.87, "energyTotal": 10.572, "timestamp": "2025-01-30 17:48:15", "runTime": 0, "sleepTime": 0}
+2025-01-30 03:42:19 - Received Data: {"totalPower": 395.93, "energyTotal": 10.682, "timestamp": "2025-01-30 17:48:32", "runTime": 0, "sleepTime": 0}
+2025-02-12 18:09:15 - Received Data: {"totalPower": 75.22, "energyTotal": 0.021, "timestamp": "2025-02-12 11:09:14", "run_time": 1885, "total_sleep_time": 0}
+2025-02-18 21:00:22 - Received Data: {"totalPower": 125.81, "energyTotal": 0.035, "timestamp": "2025-02-18 14:00:22", "run_time": 1529, "total_sleep_time": 0}
+2025-02-18 21:13:02 - Received Data: {"totalPower": 106.04, "energyTotal": 0.029, "timestamp": "2025-02-18 14:13:01", "run_time": 1478, "total_sleep_time": 0}
+2025-02-18 21:20:31 - Received Data: {"totalPower": 128.76, "energyTotal": 0.036, "timestamp": "2025-02-18 14:20:30", "run_time": 4691, "total_sleep_time": 0}
+2025-02-18 21:31:14 - Received Data: {"totalPower": 125.77, "energyTotal": 0.035, "timestamp": "2025-02-18 14:31:14", "run_time": 3875, "total_sleep_time": 0}
+2025-02-18 22:39:52 - Received Data: {"totalPower": 124.97, "energyTotal": 0.035, "timestamp": "2025-02-18 15:39:51", "run_time": 3059, "total_sleep_time": 0}
+2025-02-18 22:47:11 - Received Data: {"totalPower": 150.06, "energyTotal": 0.042, "timestamp": "2025-02-18 15:47:11", "run_time": 3925, "total_sleep_time": 0}
+2025-02-18 23:11:55 - Received Data: {"totalPower": 572.02, "energyTotal": 0.159, "timestamp": "2025-02-18 16:11:55", "run_time": 1885, "total_sleep_time": 0}
+2025-02-18 23:16:24 - Received Data: {"totalPower": 584.79, "energyTotal": 0.162, "timestamp": "2025-02-18 16:16:23", "run_time": 2345, "total_sleep_time": 0}
+2025-02-18 23:50:52 - Received Data: {"totalPower": 806.13, "energyTotal": 0.224, "timestamp": "2025-02-18 16:50:51", "run_time": 3977, "total_sleep_time": 3968}
+2025-02-19 05:13:24 - Received Data: {"totalPower": 558.22, "energyTotal": 0.155, "timestamp": "2025-02-18 22:13:18", "run_time": 0, "total_sleep_time": 0}
+2025-06-26 14:50:33 - Received Data: {"deviceId": "A0:DD:6C:95:8E:00", "timestamp": "", "voltage": 230, "totalPower": 2106.367, "energyTotal": 0, "runTime": 25, "totalSleepTime": 0, "phases": [{"current": 3.132272, "power": 720.4225, "maxCurrent": 3.132272, "maxPower": 720.4225}, {"current": 3.016012, "power": 693.6829, "maxCurrent": 3.016012, "maxPower": 693.6829}, {"current": 3.009831, "power": 692.2612, "maxCurrent": 3.009831, "maxPower": 692.2612}]}
+2025-06-26 15:05:38 - Received Data: {"deviceId": "A0:DD:6C:95:8E:00", "timestamp": "", "voltage": 230, "totalPower": 2074.427, "energyTotal": 0, "runTime": 15, "totalSleepTime": 0, "phases": [{"current": 2.980127, "power": 685.4293, "maxCurrent": 2.980127, "maxPower": 685.4293}, {"current": 2.961298, "power": 681.0984, "maxCurrent": 2.961298, "maxPower": 681.0984}, {"current": 3.077824, "power": 707.8996, "maxCurrent": 3.077824, "maxPower": 707.8996}]}
+2025-06-30 17:09:06,684 [INFO] Connected to MQTT broker with code 0
+2025-06-30 17:09:58,787 [INFO] Exiting program
+2025-06-30 17:09:59,201 [INFO] Exiting program
