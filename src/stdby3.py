@@ -67,7 +67,7 @@ port = 1883
 mqtt_user = "orion_device"
 mqtt_pass = "123456789"     
 topic_energy = "energy/metrics"
-log_file = "mqtt_data_log.txt"
+log_file = "../logs/mqtt_data_log.txt"
 mqtt_client = None  
 # Global Variables
 items = ["Energy", "Device", "WiFi Setup", "Shutdown"]
@@ -423,6 +423,7 @@ def on_message(client, userdata, msg):
 
         if topic == "energy/metrics":
             energy_data = data
+            log_received_data(data)
             energy_metrics.clear()
             draw_power_chart(energy_data.get("phases", []))
 
