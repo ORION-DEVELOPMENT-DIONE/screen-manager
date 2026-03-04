@@ -11,10 +11,15 @@ class UpdateMenu(BaseRenderer):
     
     def render(self):
         """Render update screen"""
+        info = self.update_checker.get_update_info()
+        
+        # Check if update is actually available
+        if not info['available']:
+            self._render_no_updates(info)
+            return
+        
         image = self.get_background()
         draw = ImageDraw.Draw(image)
-        
-        info = self.update_checker.get_update_info()
         
         # Title
         title = "Update Available"
@@ -48,6 +53,43 @@ class UpdateMenu(BaseRenderer):
         del draw
         del image
     
+    def _render_no_updates(self, info):
+        """Render no updates available screen"""
+        image = self.get_background()
+        draw = ImageDraw.Draw(image)
+        
+        # Title
+        title = "No Updates"
+        title_font = self.get_font(20)
+        title_w = title_font.getlength(title)
+        draw.text(((SCREEN_WIDTH - title_w) // 2, 40), title, 
+                 fill=self.get_text_color(), font=title_font)
+        
+        # Current version
+        info_font = self.get_font(18)
+        version_text = f"Version: {info['current']}"
+        version_w = info_font.getlength(version_text)
+        draw.text(((SCREEN_WIDTH - version_w) // 2, 90), version_text, 
+                 fill=self.get_selected_color(), font=info_font)
+        
+        # Message
+        msg_font = self.get_font(16)
+        msg = "You're up to date!"
+        msg_w = msg_font.getlength(msg)
+        draw.text(((SCREEN_WIDTH - msg_w) // 2, 130), msg, 
+                 fill=self.get_text_color(), font=msg_font)
+        
+        # Back button
+        button_font = self.get_font(18)
+        back_text = "← Back"
+        back_w = button_font.getlength(back_text)
+        draw.text(((SCREEN_WIDTH - back_w) // 2, 180), back_text, 
+                 fill=self.get_selected_color(), font=button_font)
+        
+        self.display.show_image(image)
+        del draw
+        del image
+    
     def _draw_update_buttons(self, draw):
         """Draw Update/Cancel buttons"""
         box_w, box_h = 90, 50
@@ -76,6 +118,14 @@ class UpdateMenu(BaseRenderer):
     
     def handle_gesture(self, gesture, touch_device=None):
         """Handle update menu gestures"""
+        info = self.update_checker.get_update_info()
+        
+        # If no updates, any gesture goes back
+        if not info['available']:
+            if gesture in [GESTURE_TAP, GESTURE_LONG_PRESS, GESTURE_LEFT]:
+                return MENU_MAIN
+            return None
+        
         if gesture == GESTURE_LONG_PRESS:
             return MENU_MAIN
         

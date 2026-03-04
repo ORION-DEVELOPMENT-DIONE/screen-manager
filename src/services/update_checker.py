@@ -164,8 +164,17 @@ class UpdateChecker:
         logging.info("Starting update process...")
         
         try:
-            # For testing: just do git pull
-            # In production: use ansible-pull
+            # Get current branch name first
+            branch_result = subprocess.run(
+                ['git', '-C', self.repo_path, 'rev-parse', '--abbrev-ref', 'HEAD'],
+                capture_output=True, text=True, timeout=5
+            )
+            
+            if branch_result.returncode != 0:
+                return (False, "Could not detect branch")
+            
+            branch = branch_result.stdout.strip()
+            logging.info(f"Updating branch: {branch}")
             
             # Stash any local changes
             subprocess.run(
@@ -173,9 +182,9 @@ class UpdateChecker:
                 capture_output=True, timeout=10
             )
             
-            # Pull latest changes
+            # Pull latest changes with specific branch
             result = subprocess.run(
-                ['git', '-C', self.repo_path, 'pull', 'origin'],
+                ['git', '-C', self.repo_path, 'pull', 'origin', branch],  # ✅ Add branch
                 capture_output=True, text=True, timeout=60
             )
             
@@ -210,7 +219,7 @@ class UpdateChecker:
         except Exception as e:
             logging.error(f"Update error: {e}")
             return (False, f"Error: {str(e)[:50]}")
-    
+        
     def get_update_info(self):
         """Get update information for display"""
         return {
