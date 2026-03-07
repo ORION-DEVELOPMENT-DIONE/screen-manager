@@ -9,6 +9,7 @@ dist/
 build/
 
 # Logs
+!logs/.gitkeep
 logs/*.txt
 logs/*.log
 *.log
