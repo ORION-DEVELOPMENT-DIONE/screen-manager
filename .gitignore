@@ -9,10 +9,9 @@ dist/
 build/
 
 # Logs
-!logs/.gitkeep
 logs/*.txt
 logs/*.log
-*.log
+!logs/.gitkeep
 
 # Environment
 venv/
