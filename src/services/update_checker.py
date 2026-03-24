@@ -160,11 +160,11 @@ class UpdateChecker:
             time.sleep(self.check_interval)
     
     def perform_update(self):
-        """Perform update using git pull (testing mode - no ansible)"""
+        """Perform update using git pull"""
         logging.info("Starting update process...")
         
         try:
-            # Get current branch name first
+            # Get current branch
             branch_result = subprocess.run(
                 ['git', '-C', self.repo_path, 'rev-parse', '--abbrev-ref', 'HEAD'],
                 capture_output=True, text=True, timeout=5
@@ -182,26 +182,36 @@ class UpdateChecker:
                 capture_output=True, timeout=10
             )
             
-            # Pull latest changes with specific branch
+            # Pull latest changes
             result = subprocess.run(
-                ['git', '-C', self.repo_path, 'pull', 'origin', branch],  # ✅ Add branch
+                ['git', '-C', self.repo_path, 'pull', 'origin', branch],
                 capture_output=True, text=True, timeout=60
             )
             
             if result.returncode == 0:
                 logging.info("Update completed successfully")
-                logging.info(f"Git output: {result.stdout}")
                 
                 # Update .version file
-                new_version = subprocess.run(
+                version_result = subprocess.run(
                     ['git', '-C', self.repo_path, 'rev-parse', '--short', 'HEAD'],
                     capture_output=True, text=True, timeout=5
                 )
                 
-                if new_version.returncode == 0:
-                    version_file = os.path.join(self.repo_path, ".version")
+                if version_result.returncode == 0:
+                    version_file = os.path.join(self.repo_path, '.version')
                     with open(version_file, 'w') as f:
-                        f.write(new_version.stdout.strip())
+                        f.write(version_result.stdout.strip())
+                
+                # Fix ownership after git operations (prevent future permission issues)
+                try:
+                    logging.info("Fixing repository ownership...")
+                    subprocess.run(
+                        ['chown', '-R', 'orangepi:orangepi', self.repo_path],
+                        capture_output=True, timeout=10
+                    )
+                    logging.info("Ownership fixed")
+                except Exception as e:
+                    logging.warning(f"Could not fix ownership: {e}")
                 
                 # Refresh current version
                 self.current_version = self._get_current_version()
@@ -211,7 +221,7 @@ class UpdateChecker:
                 return (True, "Update successful!\nRestarting...")
             else:
                 logging.error(f"Git pull failed: {result.stderr}")
-                return (False, f"Update failed:\n{result.stderr[:100]}")
+                return (False, f"Update failed")
         
         except subprocess.TimeoutExpired:
             logging.error("Update timed out")
