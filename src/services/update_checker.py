@@ -16,9 +16,17 @@ class UpdateChecker:
         """
         self.state = state
         self.check_interval = check_interval
-        self.repo_path = "/home/orangepi/screen-manager"
+        
+        # Auto-detect path
+        if os.path.exists("/home/orangepi/screen-manager"):
+            self.repo_path = "/home/orangepi/screen-manager"
+        elif os.path.exists("/home/orangepi/screen-manager2"):
+            self.repo_path = "/home/orangepi/screen-manager2"
+        else:
+            self.repo_path = "/home/orangepi/screen-manager"
+        
         self.ansible_repo = "https://github.com/ORION-DEVELOPMENT-DIONE/update-manager.git"
-        self.screen_repo = "https://github.com/ORION-DEVELOPMENT-DIONE/screen-manager.git"
+        self.screen_repo = "https://github.com/ORION-DEVELOPMENT-DIONE/screen-manager"
         self.current_version = self._get_current_version()
         self.latest_version = None
         self.update_available = False
@@ -37,10 +45,14 @@ class UpdateChecker:
     def _fix_git_ownership(self):
         """Fix git ownership/permission issues"""
         try:
-            # Add to safe directory
             subprocess.run(
                 ['git', 'config', '--global', '--add', 'safe.directory', self.repo_path],
                 capture_output=True, timeout=5
+            )
+            
+            subprocess.run(
+                ['chown', '-R', 'orangepi:orangepi', self.repo_path],
+                capture_output=True, timeout=10
             )
             
             logging.info("Git ownership fixed")
@@ -48,40 +60,27 @@ class UpdateChecker:
             logging.debug(f"Could not fix git ownership (non-critical): {e}")
     
     def _get_current_version(self):
-        """Get current installed version"""
-        version_file = os.path.join(self.repo_path, ".version")
-        
+        """Get current local commit hash"""
         try:
-            # Try .version file first
-            if os.path.exists(version_file):
-                with open(version_file, 'r') as f:
-                    version = f.read().strip()
-                    if version:
-                        logging.info(f"Current version from .version: {version}")
-                        return version
-            
-            # Fallback to git
             result = subprocess.run(
                 ['git', '-C', self.repo_path, 'rev-parse', '--short', 'HEAD'],
                 capture_output=True, text=True, timeout=5
             )
+            
             if result.returncode == 0:
                 version = result.stdout.strip()
-                # Create .version file for next time
-                try:
-                    with open(version_file, 'w') as f:
-                        f.write(version)
-                    logging.info(f"Created .version file with: {version}")
-                except:
-                    pass
+                logging.info(f"Current version: {version}")
                 return version
+            else:
+                logging.error("Could not get current git commit")
+                return "unknown"
+                
         except Exception as e:
             logging.error(f"Error getting current version: {e}")
-        
-        return "unknown"
+            return "unknown"
     
     def _get_remote_version(self):
-        """Get latest version from remote repository"""
+        """Get latest commit hash from remote repository"""
         try:
             # Fetch latest from remote
             result = subprocess.run(
@@ -147,7 +146,6 @@ class UpdateChecker:
     
     def _check_loop(self):
         """Background loop to check for updates periodically"""
-        # Wait 60 seconds before first check
         time.sleep(60)
         
         while True:
@@ -191,18 +189,7 @@ class UpdateChecker:
             if result.returncode == 0:
                 logging.info("Update completed successfully")
                 
-                # Update .version file
-                version_result = subprocess.run(
-                    ['git', '-C', self.repo_path, 'rev-parse', '--short', 'HEAD'],
-                    capture_output=True, text=True, timeout=5
-                )
-                
-                if version_result.returncode == 0:
-                    version_file = os.path.join(self.repo_path, '.version')
-                    with open(version_file, 'w') as f:
-                        f.write(version_result.stdout.strip())
-                
-                # Fix ownership after git operations (prevent future permission issues)
+                # Fix ownership after git operations
                 try:
                     logging.info("Fixing repository ownership...")
                     subprocess.run(
@@ -229,7 +216,7 @@ class UpdateChecker:
         except Exception as e:
             logging.error(f"Update error: {e}")
             return (False, f"Error: {str(e)[:50]}")
-        
+    
     def get_update_info(self):
         """Get update information for display"""
         return {
