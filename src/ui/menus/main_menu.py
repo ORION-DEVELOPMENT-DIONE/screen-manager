@@ -93,6 +93,7 @@ class MainMenu(BaseRenderer):
             if emoji_y_range[0] <= y <= emoji_y_range[1] and emoji_x_range[0] <= x <= emoji_x_range[1]:
                 # Toggle theme
                 self.state.active_theme = THEMES["light"] if self.state.active_theme.name == "dark" else THEMES["dark"]
+                self.display.invalidate_background_cache()
                 self.render()
                 time.sleep(0.2)
                 return None

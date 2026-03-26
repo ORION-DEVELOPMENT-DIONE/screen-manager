@@ -1,191 +1,148 @@
-
 import time
 from . import config
 import wiringpi
+
 class LCD_1inch28(config.OrangePi):
     wiringpi.wiringPiSetup()
 
-    width = 240
-    height = 240 
+    width  = 240
+    height = 240
+
     def LCD_WriteReg(self, cmd):
         self.digital_write(self.DC_PIN, 0)
         self.spi_writebyte([cmd])
-        
+
     def LCD_WriteData_Byte(self, val):
         self.digital_write(self.DC_PIN, 1)
         self.spi_writebyte([val])
 
-    
     def LCD_Reset(self):
-        """Reset the display"""
         wiringpi.pinMode(self.RST_PIN, wiringpi.OUTPUT)
-        wiringpi.digitalWrite(self.RST_PIN,1)
-        time.sleep(0.01)
-        wiringpi.pinMode(self.RST_PIN, wiringpi.OUTPUT)
-        wiringpi.digitalWrite(self.RST_PIN, 0)
-        time.sleep(0.01)
-        wiringpi.pinMode(self.RST_PIN,wiringpi.OUTPUT)
         wiringpi.digitalWrite(self.RST_PIN, 1)
         time.sleep(0.01)
-        
+        wiringpi.digitalWrite(self.RST_PIN, 0)
+        time.sleep(0.01)
+        wiringpi.digitalWrite(self.RST_PIN, 1)
+        time.sleep(0.01)
+
     def Init(self):
-        """Initialize dispaly"""  
-        self.LCD_module_init()   
+        self.LCD_module_init()
         self.LCD_Reset()
-        
-        
+
         self.LCD_WriteReg(0xEF)
         self.LCD_WriteReg(0xEB)
         self.LCD_WriteData_Byte(0x14)
-        self.LCD_WriteReg(0xFE)			 
-        self.LCD_WriteReg(0xEF) 
-        self.LCD_WriteReg(0xEB)	
+        self.LCD_WriteReg(0xFE)
+        self.LCD_WriteReg(0xEF)
+        self.LCD_WriteReg(0xEB)
         self.LCD_WriteData_Byte(0x14)
-
-        self.LCD_WriteReg(0x84)			
-        self.LCD_WriteData_Byte(0x40) 
-
-        self.LCD_WriteReg(0x85)			
+        self.LCD_WriteReg(0x84)
+        self.LCD_WriteData_Byte(0x40)
+        self.LCD_WriteReg(0x85)
         self.LCD_WriteData_Byte(0xFF)
-
-        self.LCD_WriteReg(0x86)			
-        self.LCD_WriteData_Byte(0xFF) 
-
-        self.LCD_WriteReg(0x87)		
+        self.LCD_WriteReg(0x86)
         self.LCD_WriteData_Byte(0xFF)
-
-        self.LCD_WriteReg(0x88)			
+        self.LCD_WriteReg(0x87)
+        self.LCD_WriteData_Byte(0xFF)
+        self.LCD_WriteReg(0x88)
         self.LCD_WriteData_Byte(0x0A)
-
-        self.LCD_WriteReg(0x89)			
+        self.LCD_WriteReg(0x89)
         self.LCD_WriteData_Byte(0x21)
-
-        self.LCD_WriteReg(0x8A)		
+        self.LCD_WriteReg(0x8A)
         self.LCD_WriteData_Byte(0x00)
-
-        self.LCD_WriteReg(0x8B)			
-        self.LCD_WriteData_Byte(0x80) 
-
-        self.LCD_WriteReg(0x8C)			
-        self.LCD_WriteData_Byte(0x01) 
-
-        self.LCD_WriteReg(0x8D)			
-        self.LCD_WriteData_Byte(0x01) 
-
-        self.LCD_WriteReg(0x8E)			
-        self.LCD_WriteData_Byte(0xFF) 
-
-        self.LCD_WriteReg(0x8F)			
-        self.LCD_WriteData_Byte(0xFF) 
-
-
+        self.LCD_WriteReg(0x8B)
+        self.LCD_WriteData_Byte(0x80)
+        self.LCD_WriteReg(0x8C)
+        self.LCD_WriteData_Byte(0x01)
+        self.LCD_WriteReg(0x8D)
+        self.LCD_WriteData_Byte(0x01)
+        self.LCD_WriteReg(0x8E)
+        self.LCD_WriteData_Byte(0xFF)
+        self.LCD_WriteReg(0x8F)
+        self.LCD_WriteData_Byte(0xFF)
         self.LCD_WriteReg(0xB6)
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(0x20)
-
         self.LCD_WriteReg(0x36)
         self.LCD_WriteData_Byte(0x08)
-    
-        self.LCD_WriteReg(0x3A)			
-        self.LCD_WriteData_Byte(0x05) 
-
-
-        self.LCD_WriteReg(0x90)			
+        self.LCD_WriteReg(0x3A)
+        self.LCD_WriteData_Byte(0x05)
+        self.LCD_WriteReg(0x90)
         self.LCD_WriteData_Byte(0x08)
         self.LCD_WriteData_Byte(0x08)
         self.LCD_WriteData_Byte(0x08)
-        self.LCD_WriteData_Byte(0x08) 
-
-        self.LCD_WriteReg(0xBD)			
+        self.LCD_WriteData_Byte(0x08)
+        self.LCD_WriteReg(0xBD)
         self.LCD_WriteData_Byte(0x06)
-	
-        self.LCD_WriteReg(0xBC)			
-        self.LCD_WriteData_Byte(0x00)	
-
-        self.LCD_WriteReg(0xFF)			
+        self.LCD_WriteReg(0xBC)
+        self.LCD_WriteData_Byte(0x00)
+        self.LCD_WriteReg(0xFF)
         self.LCD_WriteData_Byte(0x60)
         self.LCD_WriteData_Byte(0x01)
         self.LCD_WriteData_Byte(0x04)
-
-        self.LCD_WriteReg(0xC3)			
+        self.LCD_WriteReg(0xC3)
         self.LCD_WriteData_Byte(0x13)
-        self.LCD_WriteReg(0xC4)			
+        self.LCD_WriteReg(0xC4)
         self.LCD_WriteData_Byte(0x13)
-
-        self.LCD_WriteReg(0xC9)		
+        self.LCD_WriteReg(0xC9)
         self.LCD_WriteData_Byte(0x22)
-
-        self.LCD_WriteReg(0xBE)			
+        self.LCD_WriteReg(0xBE)
         self.LCD_WriteData_Byte(0x11)
-
-        self.LCD_WriteReg(0xE1)		
+        self.LCD_WriteReg(0xE1)
         self.LCD_WriteData_Byte(0x10)
         self.LCD_WriteData_Byte(0x0E)
-
-        self.LCD_WriteReg(0xDF)			
+        self.LCD_WriteReg(0xDF)
         self.LCD_WriteData_Byte(0x21)
         self.LCD_WriteData_Byte(0x0c)
         self.LCD_WriteData_Byte(0x02)
-
-        self.LCD_WriteReg(0xF0)   
+        self.LCD_WriteReg(0xF0)
         self.LCD_WriteData_Byte(0x45)
         self.LCD_WriteData_Byte(0x09)
         self.LCD_WriteData_Byte(0x08)
         self.LCD_WriteData_Byte(0x08)
         self.LCD_WriteData_Byte(0x26)
         self.LCD_WriteData_Byte(0x2A)
-
-        self.LCD_WriteReg(0xF1)    
+        self.LCD_WriteReg(0xF1)
         self.LCD_WriteData_Byte(0x43)
         self.LCD_WriteData_Byte(0x70)
         self.LCD_WriteData_Byte(0x72)
         self.LCD_WriteData_Byte(0x36)
-        self.LCD_WriteData_Byte(0x37)  
+        self.LCD_WriteData_Byte(0x37)
         self.LCD_WriteData_Byte(0x6F)
-
-
-        self.LCD_WriteReg(0xF2)   
+        self.LCD_WriteReg(0xF2)
         self.LCD_WriteData_Byte(0x45)
         self.LCD_WriteData_Byte(0x09)
         self.LCD_WriteData_Byte(0x08)
         self.LCD_WriteData_Byte(0x08)
         self.LCD_WriteData_Byte(0x26)
         self.LCD_WriteData_Byte(0x2A)
-
-        self.LCD_WriteReg(0xF3)  
+        self.LCD_WriteReg(0xF3)
         self.LCD_WriteData_Byte(0x43)
         self.LCD_WriteData_Byte(0x70)
         self.LCD_WriteData_Byte(0x72)
         self.LCD_WriteData_Byte(0x36)
-        self.LCD_WriteData_Byte(0x37) 
+        self.LCD_WriteData_Byte(0x37)
         self.LCD_WriteData_Byte(0x6F)
-
-        self.LCD_WriteReg(0xED)	
-        self.LCD_WriteData_Byte(0x1B) 
-        self.LCD_WriteData_Byte(0x0B) 
-
-        self.LCD_WriteReg(0xAE)			
+        self.LCD_WriteReg(0xED)
+        self.LCD_WriteData_Byte(0x1B)
+        self.LCD_WriteData_Byte(0x0B)
+        self.LCD_WriteReg(0xAE)
         self.LCD_WriteData_Byte(0x77)
-	
-        self.LCD_WriteReg(0xCD)			
-        self.LCD_WriteData_Byte(0x63)		
-
-
-        self.LCD_WriteReg(0x70)			
+        self.LCD_WriteReg(0xCD)
+        self.LCD_WriteData_Byte(0x63)
+        self.LCD_WriteReg(0x70)
         self.LCD_WriteData_Byte(0x07)
         self.LCD_WriteData_Byte(0x07)
         self.LCD_WriteData_Byte(0x04)
-        self.LCD_WriteData_Byte(0x0E) 
+        self.LCD_WriteData_Byte(0x0E)
         self.LCD_WriteData_Byte(0x0F)
         self.LCD_WriteData_Byte(0x09)
         self.LCD_WriteData_Byte(0x07)
         self.LCD_WriteData_Byte(0x08)
         self.LCD_WriteData_Byte(0x03)
-
-        self.LCD_WriteReg(0xE8)			
+        self.LCD_WriteReg(0xE8)
         self.LCD_WriteData_Byte(0x34)
-
-        self.LCD_WriteReg(0x62)			
+        self.LCD_WriteReg(0x62)
         self.LCD_WriteData_Byte(0x18)
         self.LCD_WriteData_Byte(0x0D)
         self.LCD_WriteData_Byte(0x71)
@@ -196,24 +153,22 @@ class LCD_1inch28(config.OrangePi):
         self.LCD_WriteData_Byte(0x0F)
         self.LCD_WriteData_Byte(0x71)
         self.LCD_WriteData_Byte(0xEF)
-        self.LCD_WriteData_Byte(0x70) 
         self.LCD_WriteData_Byte(0x70)
-
-        self.LCD_WriteReg(0x63)			
+        self.LCD_WriteData_Byte(0x70)
+        self.LCD_WriteReg(0x63)
         self.LCD_WriteData_Byte(0x18)
         self.LCD_WriteData_Byte(0x11)
         self.LCD_WriteData_Byte(0x71)
         self.LCD_WriteData_Byte(0xF1)
-        self.LCD_WriteData_Byte(0x70) 
+        self.LCD_WriteData_Byte(0x70)
         self.LCD_WriteData_Byte(0x70)
         self.LCD_WriteData_Byte(0x18)
         self.LCD_WriteData_Byte(0x13)
         self.LCD_WriteData_Byte(0x71)
         self.LCD_WriteData_Byte(0xF3)
-        self.LCD_WriteData_Byte(0x70) 
         self.LCD_WriteData_Byte(0x70)
-
-        self.LCD_WriteReg(0x64)			
+        self.LCD_WriteData_Byte(0x70)
+        self.LCD_WriteReg(0x64)
         self.LCD_WriteData_Byte(0x28)
         self.LCD_WriteData_Byte(0x29)
         self.LCD_WriteData_Byte(0xF1)
@@ -221,8 +176,7 @@ class LCD_1inch28(config.OrangePi):
         self.LCD_WriteData_Byte(0xF1)
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(0x07)
-
-        self.LCD_WriteReg(0x66)			
+        self.LCD_WriteReg(0x66)
         self.LCD_WriteData_Byte(0x3C)
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(0xCD)
@@ -233,8 +187,7 @@ class LCD_1inch28(config.OrangePi):
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(0x00)
-
-        self.LCD_WriteReg(0x67)			
+        self.LCD_WriteReg(0x67)
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(0x3C)
         self.LCD_WriteData_Byte(0x00)
@@ -245,108 +198,71 @@ class LCD_1inch28(config.OrangePi):
         self.LCD_WriteData_Byte(0x10)
         self.LCD_WriteData_Byte(0x32)
         self.LCD_WriteData_Byte(0x98)
-
-        self.LCD_WriteReg(0x74)			
-        self.LCD_WriteData_Byte(0x10)	
-        self.LCD_WriteData_Byte(0x85)	
+        self.LCD_WriteReg(0x74)
+        self.LCD_WriteData_Byte(0x10)
+        self.LCD_WriteData_Byte(0x85)
         self.LCD_WriteData_Byte(0x80)
-        self.LCD_WriteData_Byte(0x00) 
+        self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(0x4E)
-        self.LCD_WriteData_Byte(0x00)					
-        
-        self.LCD_WriteReg(0x98)		
+        self.LCD_WriteData_Byte(0x00)
+        self.LCD_WriteReg(0x98)
         self.LCD_WriteData_Byte(0x3e)
         self.LCD_WriteData_Byte(0x07)
-
-        self.LCD_WriteReg(0x35)	
+        self.LCD_WriteReg(0x35)
         self.LCD_WriteReg(0x21)
-
         self.LCD_WriteReg(0x11)
         time.sleep(0.12)
         self.LCD_WriteReg(0x29)
         time.sleep(0.02)
-  
+
     def SetWindows(self, Xstart, Ystart, Xend, Yend):
-        #set the X coordinates
         self.LCD_WriteReg(0x2A)
-        self.LCD_WriteData_Byte(0x00)               #Set the horizontal starting point to the high octet
-        self.LCD_WriteData_Byte(Xstart)      #Set the horizontal starting point to the low octet
-        self.LCD_WriteData_Byte(0x00)               #Set the horizontal end to the high octet
-        self.LCD_WriteData_Byte(Xend - 1) #Set the horizontal end to the low octet 
-        
-        #set the Y coordinates
+        self.LCD_WriteData_Byte(0x00)
+        self.LCD_WriteData_Byte(Xstart)
+        self.LCD_WriteData_Byte(0x00)
+        self.LCD_WriteData_Byte(Xend - 1)
         self.LCD_WriteReg(0x2B)
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(Ystart)
         self.LCD_WriteData_Byte(0x00)
         self.LCD_WriteData_Byte(Yend - 1)
+        self.LCD_WriteReg(0x2C)
 
-        self.LCD_WriteReg(0x2C) 
+    def ShowImage(self, Image):
+        """Send a PIL Image to the display as a single contiguous SPI transfer.
 
-    def ShowImage_Windows(self,Xstart,Ystart,Xend,Yend,Image):
+        FIX 3: original code converted the numpy array to a Python list with
+        .tolist() before sending.  List iteration in Python is ~10x slower than
+        passing raw bytes.  We now use .tobytes() which stays in C and gives
+        spidev a memoryview it can DMA directly — no Python-level iteration.
 
-        """Set buffer to value of Python Imaging Library image."""
-        """Write display buffer to physical display"""
+        Also sends the entire frame as ONE writebytes2() call instead of 28
+        separate 4096-byte calls, eliminating 27 DC-pin toggles and the
+        spidev overhead per call.
+        """
         imwidth, imheight = Image.size
         if imwidth != self.width or imheight != self.height:
-            raise ValueError('Image must be same dimensions as display \
-                ({0}x{1}).' .format(self.width, self.height))
-        img = self.np.asarray(Image)
-        pix = self.np.zeros((self.width,self.height,2), dtype = self.np.uint8)
-        pix[...,[0]] = self.np.add(self.np.bitwise_and(img[...,[0]],0xF8),self.np.right_shift(img[...,[1]],5))
-        pix[...,[1]] = self.np.add(self.np.bitwise_and(self.np.left_shift(img[...,[1]],3),0xE0),self.np.right_shift(img[...,[2]],3))
-        pix = pix.flatten().tolist()
+            raise ValueError(
+                f"Image must be {self.width}x{self.height}, got {imwidth}x{imheight}"
+            )
 
-        if Xstart > Xend:
-            data = Xstart
-            Xstart = Xend
-            Xend = data
-            
-        if (Ystart > Yend):        
-            data = Ystart
-            Ystart = Yend
-            Yend = data
-            
-        if Xstart <= 10:
-            Xstart = 10
-        if Ystart <= 10:
-            Ystart = 10
-            
-        Xstart -= 10;Xend += 10
-        Ystart -= 10;Yend += 10
-        self.SetWindows ( Xstart, Ystart, Xend, Yend)
-        self.digital_write(self.DC_PIN,1)
-        for i in range (Ystart,Yend-1):             
-            Addr = (Xstart * 2) + (i * 240 * 2) 
-            self.spi_writebyte(pix[Addr : Addr+((Xend-Xstart)*2)])
+        img  = self.np.asarray(Image)                          # shape (240,240,3) uint8
 
+        # RGB888 -> RGB565 in numpy (stays entirely in C, no Python loop)
+        pix  = self.np.zeros((self.width, self.height, 2), dtype=self.np.uint8)
+        pix[..., 0] = (img[..., 0] & 0xF8) | (img[..., 1] >> 5)
+        pix[..., 1] = ((img[..., 1] & 0x1C) << 3) | (img[..., 2] >> 3)
 
-    def ShowImage(self,Image):
-        """Set buffer to value of Python Imaging Library image."""
-        """Write display buffer to physical display"""
-        imwidth, imheight = Image.size
-        if imwidth != self.width or imheight != self.height:
-            raise ValueError('Image must be same dimensions as display \
-                ({0}x{1}).' .format(self.width, self.height))
-        img = self.np.asarray(Image)
-        pix = self.np.zeros((self.width,self.height,2), dtype = self.np.uint8)
-        pix[...,[0]] = self.np.add(self.np.bitwise_and(img[...,[0]],0xF8),self.np.right_shift(img[...,[1]],5))
-        pix[...,[1]] = self.np.add(self.np.bitwise_and(self.np.left_shift(img[...,[1]],3),0xE0),self.np.right_shift(img[...,[2]],3))
-        pix = pix.flatten().tolist()
-        self.SetWindows ( 0, 0, self.width, self.height)
-        self.digital_write(self.DC_PIN,1)
-        for i in range(0,len(pix),4096):
-            self.spi_writebyte(pix[i:i+4096])
+        self.SetWindows(0, 0, self.width, self.height)
+        self.digital_write(self.DC_PIN, 1)
 
-    
+        # Send entire frame as one transfer — no chunking, no repeated overhead
+        self.SPI.writebytes2(pix.tobytes())
+
     def clear(self):
-        """Clear contents of image buffer"""
-        _buffer = [0xff]*(self.width * self.height * 2)
-        self.SetWindows ( 0, 0, self.width, self.height)
-        self.digital_write(self.DC_PIN,1)
-        for i in range(0,len(_buffer),4096):
-            self.spi_writebyte(_buffer[i:i+4096])
-
-        
-
+        """Fill screen with white."""
+        buf = bytes([0xFF, 0xFF]) * (self.width * self.height)
+        self.SetWindows(0, 0, self.width, self.height)
+        self.digital_write(self.DC_PIN, 1)
+        self.SPI.writebytes2(buf)
