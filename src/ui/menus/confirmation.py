@@ -1,78 +1,52 @@
-"""Confirmation dialogs"""
-from PIL import ImageDraw
+"""Confirmation dialogs — circular Orion design"""
 import os
 import time
-from ui.renderer import BaseRenderer
+from PIL import ImageDraw
+from ui.renderer import (BaseRenderer, GREEN, RED, DIM, WHITE, SURFACE,
+                         font, font_bold, font_emoji,
+                         draw_title, draw_divider, draw_buttons, hit_button)
 from config.constants import *
+
+BTN_Y = 163
+
 
 class ConfirmationMenu(BaseRenderer):
     def __init__(self, display, state):
         super().__init__(display, state)
-    
+
     def render_shutdown_confirmation(self):
-        """Render shutdown confirmation"""
-        image = self.get_background()
-        draw = ImageDraw.Draw(image)
-        
-        # Message
-        msg = "Shutdown?"
-        w = self.get_font().getlength(msg)
-        draw.text(((SCREEN_WIDTH - w) // 2, 50), msg, fill=self.get_text_color(), font=self.get_font())
-        
-        # Buttons
-        self._draw_yes_no_buttons(draw)
-        
-        self.display.show_image(image)
-        del draw
-        del image
-    
-    def _draw_yes_no_buttons(self, draw):
-        """Draw Yes/No buttons"""
-        box_w, box_h = 90, 50
-        box_y = 120
-        spacing = 20
-        total_width = 2 * box_w + spacing
-        start_x = (SCREEN_WIDTH - total_width) // 2
-        
-        # NO box
-        draw.rectangle([start_x, box_y, start_x + box_w, box_y + box_h], 
-                      outline=self.get_selected_color(), width=2)
-        no_text = "No"
-        no_w = self.get_font().getlength(no_text)
-        draw.text((start_x + (box_w - no_w) // 2, box_y + 10), no_text, 
-                 fill=self.get_selected_color(), font=self.get_font())
-        
-        # YES box
-        draw.rectangle([start_x + box_w + spacing, box_y, 
-                       start_x + 2 * box_w + spacing, box_y + box_h], 
-                      outline=self.get_text_color(), width=2)
-        yes_text = "Yes"
-        yes_w = self.get_font().getlength(yes_text)
-        draw.text((start_x + box_w + spacing + (box_w - yes_w) // 2, box_y + 10), 
-                 yes_text, fill=self.get_text_color(), font=self.get_font())
-    
+        img  = self.canvas()
+        draw = ImageDraw.Draw(img)
+
+        # Icon
+        ef  = font_emoji(32)
+        ew  = draw.textlength("⏻", font=ef)
+        draw.text(((240 - ew) // 2, 38), "⏻", font=ef, fill=RED)
+
+        # Title
+        draw_title(draw, "Shut Down?",
+                   "This will power off Orion", RED,
+                   title_size=17, sub_size=10)
+
+        draw_divider(draw, BTN_Y - 10)
+        draw_buttons(draw, "Cancel", "Shut Down", right_color=RED, y=BTN_Y)
+
+        self.show(img)
+
     def handle_shutdown_gesture(self, gesture, touch_device):
-        """Handle shutdown confirmation gestures"""
         if gesture == GESTURE_LONG_PRESS:
             return MENU_MAIN
-        
-        if gesture == GESTURE_TAP:
+
+        if gesture == GESTURE_TAP and touch_device:
             touch_device.get_point()
             x, y = touch_device.X_point, touch_device.Y_point
-            
-            box_w, box_h = 90, 50
-            box_y = 120
-            spacing = 20
-            start_x = (SCREEN_WIDTH - (2 * box_w + spacing)) // 2
-            
-            # NO box
-            if start_x <= x <= start_x + box_w and box_y <= y <= box_y + box_h:
+            action = hit_button(x, y, btn_y=BTN_Y)
+
+            if action == "left":   # Cancel
                 return MENU_MAIN
-            # YES box
-            elif start_x + box_w + spacing <= x <= start_x + 2 * box_w + spacing and \
-                 box_y <= y <= box_y + box_h:
-                self.render_message("Shutting down...")
+            if action == "right":  # Shut Down
+                self.render_message("Shutting\ndown...", color=RED)
                 time.sleep(2)
                 os.system("sudo shutdown now")
-        
+
         return None

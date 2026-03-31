@@ -1,44 +1,67 @@
-"""Device metrics menu"""
+"""Device metrics menu — circular Orion design"""
 from PIL import ImageDraw
-from ui.renderer import BaseRenderer
+from ui.renderer import (BaseRenderer, GREEN, DIM, WHITE, SURFACE, BORDER,
+                         font, font_bold, draw_title, draw_divider, CX, CY, SAFE_W)
 from config.constants import *
+
 
 class DeviceMenu(BaseRenderer):
     def __init__(self, display, state):
         super().__init__(display, state)
-    
+
     def render(self):
-        """Render device metrics"""
         if not self.state.device_metrics_pages:
-            self.render_message("Loading device metrics...")
+            self.render_message("Loading\nmetrics...")
             return
-        
-        image = self.get_background()
-        draw = ImageDraw.Draw(image)
-        
-        text = self.state.device_metrics_pages[self.state.current_page % len(self.state.device_metrics_pages)]
-        lines = self.wrap_text(text, self.get_font(), max_width=220)
-        y = 80
+
+        img  = self.canvas()
+        draw = ImageDraw.Draw(img)
+
+        total  = len(self.state.device_metrics_pages)
+        page   = self.state.current_page % total
+        text   = self.state.device_metrics_pages[page]
+
+        # Title
+        draw_title(draw, "Device", f"page {page + 1}/{total}", GREEN)
+        draw_divider(draw, 54)
+
+        # Content lines
+        fb    = font_bold(13)
+        fr    = font(13)
+        lines = self.wrap_text(text, fr, SAFE_W)
+        lh    = 20
+        total_h = len(lines) * lh
+        y       = max(62, CY - total_h // 2)
+
         for line in lines:
-            draw.text((20, y), line, fill=self.get_text_color(), font=self.get_font())
-            y += 30
-        
-        # Centered scroll arrows
-        arrow_x = SCREEN_WIDTH // 2 - 10
-        draw.text((arrow_x, 10), "▲", fill=self.get_selected_color(), font=self.get_font())
-        draw.text((arrow_x, SCREEN_HEIGHT - 30), "▼", fill=self.get_selected_color(), font=self.get_font())
-        
-        self.display.show_image(image)
-        del draw
-        del image
-    
+            if ": " in line:
+                # key: value → bold key, normal value
+                key, _, val = line.partition(": ")
+                kw = draw.textlength(key + ": ", font=fb)
+                vw = draw.textlength(val, font=fr)
+                x  = (240 - kw - vw) // 2
+                draw.text((x, y), key + ": ", font=fb, fill=GREEN)
+                draw.text((x + kw, y), val, font=fr, fill=WHITE)
+            else:
+                lw = draw.textlength(line, font=fr)
+                draw.text(((240 - lw) // 2, y), line, font=fr, fill=WHITE)
+            y += lh
+
+        # Nav arrows
+        fa = font_bold(11)
+        if total > 1:
+            aw = draw.textlength("▲", font=fa)
+            draw.text(((240 - aw) // 2, 57), "▲", font=fa, fill=DIM)
+            draw.text(((240 - aw) // 2, 207), "▼", font=fa, fill=DIM)
+
+        self.show(img)
+
     def handle_gesture(self, gesture, touch_device=None):
-        """Handle device menu gestures"""
         if not self.state.device_metrics_pages:
             if gesture in [GESTURE_LEFT, GESTURE_LONG_PRESS]:
                 return MENU_MAIN
             return None
-        
+
         if gesture == GESTURE_UP:
             self.state.current_page = (self.state.current_page - 1) % len(self.state.device_metrics_pages)
             self.render()
@@ -48,5 +71,5 @@ class DeviceMenu(BaseRenderer):
         elif gesture in [GESTURE_LEFT, GESTURE_LONG_PRESS]:
             self.state.current_page = 0
             return MENU_MAIN
-        
+
         return None
