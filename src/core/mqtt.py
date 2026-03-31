@@ -77,6 +77,7 @@ class MQTTManager:
     
     def _handle_energy_data(self, data):
         """Handle energy metrics data"""
+        self.state.meter_last_seen = __import__('time').monotonic()
         self.state.energy_data = data
         
         # Log data

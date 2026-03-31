@@ -37,9 +37,12 @@ from ui.menus.confirmation import ConfirmationMenu
 from services.energy_analyzer import EnergyAnalyzer
 from services.update_checker import UpdateChecker
 from ui.menus.update_menu import UpdateMenu
+from services.connectivity_service import ConnectivityService
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+connectivity = ConnectivityService(state)
+connectivity.start()
 
 class MenuHandler:
     """Central menu handler"""
