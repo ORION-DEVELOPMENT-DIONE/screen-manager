@@ -1,182 +1,253 @@
-"""Energy menu — circular Orion design"""
+"""Energy menu — Dione/Orion circular design v3 (redesigned)
+
+View cycle (tap to advance):
+  0 → Text metrics (swipe up/down to page through)
+  1 → Power bar chart
+  2 → 24h stats + trend
+  3 → 7d stats + trend
+
+Swipe left / long press → back to main menu
+"""
 from PIL import ImageDraw
-from ui.renderer import (BaseRenderer, GREEN, DIM, WHITE, ORANGE, SURFACE, BORDER,
-                         font, font_bold, font_emoji,
-                         draw_title, draw_divider, CX, CY, SAFE_W)
+from ui.renderer import (BaseRenderer, font, font_bold,
+                         draw_divider, draw_nav_arrows, draw_page_indicator,
+                         CX, CY, SAFE_W)
 from ui.components.charts import ChartRenderer
 from config.constants import *
+
+# View indices
+VIEW_TEXT  = 0
+VIEW_CHART = 1
+VIEW_24H   = 2
+VIEW_7D    = 3
+VIEW_COUNT = 4   # no "current per phase" line chart
 
 
 class EnergyMenu(BaseRenderer):
     def __init__(self, display, state, energy_analyzer=None):
         super().__init__(display, state)
-        self.chart_renderer   = ChartRenderer(display, state)
-        self.energy_analyzer  = energy_analyzer
-        self.view_mode        = 0   # 0=current text, 1=24h, 2=7d
+        self.chart_renderer  = ChartRenderer(display, state)
+        self.energy_analyzer = energy_analyzer
+        self.view_mode       = VIEW_TEXT
 
-    # ── render dispatcher ─────────────────────────────────────────────────────
+    # ── main dispatcher ───────────────────────────────────────────────────────
 
     def render(self):
-        if self.view_mode == 0:
-            self._render_current()
-        elif self.view_mode == 1:
-            self._render_24h()
-        elif self.view_mode == 2:
-            self._render_7d()
+        if self.view_mode == VIEW_TEXT:
+            self._render_text()
+        elif self.view_mode == VIEW_CHART:
+            self._render_chart()
+        elif self.view_mode == VIEW_24H:
+            self._render_stats("24 Hours", self.energy_analyzer.get_24h_stats()
+                               if self.energy_analyzer else None,
+                               self.energy_analyzer.get_chart_data_24h()
+                               if self.energy_analyzer else None,
+                               "24h")
+        elif self.view_mode == VIEW_7D:
+            self._render_stats("7 Days", self.energy_analyzer.get_7d_stats()
+                               if self.energy_analyzer else None,
+                               self.energy_analyzer.get_chart_data_7d()
+                               if self.energy_analyzer else None,
+                               "7d")
 
-    # ── current data ──────────────────────────────────────────────────────────
+    # ── view 0: text metrics ──────────────────────────────────────────────────
 
-    def _render_current(self):
-        if self.state.chart_mode == 1:
-            self.chart_renderer.draw_power_chart(
-                self.state.energy_data.get("phases", []))
-            return
-        if self.state.chart_mode == 2:
-            currents = [p.get("current", 0)
-                        for p in self.state.energy_data.get("phases", [])]
-            self.chart_renderer.draw_line_chart(currents)
-            return
-
-        # Text mode
+    def _render_text(self):
         if not self.state.energy_metrics:
-            self.render_message("No energy\ndata yet")
+            self._render_no_data()
             return
 
+        T    = self._theme()
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
 
-        # Header
-        draw_title(draw, "Energy", "Live data", GREEN)
+        # Title + subtitle
+        self.draw_title(draw, "Energy", "Live data", title_size=17, sub_size=11)
 
-        # Battery + time-since
-        fb10 = font_bold(10)
-        fr10 = font(10)
+        # Battery bar — between title and divider
         battery = self.state.energy_data.get("battery")
+        by = 52
         if battery is not None:
-            bt = f"🔋 {battery:.0f}%"
-            ef = font_emoji(11)
-            draw.text((30, 54), bt, font=ef, fill=GREEN)
+            bw2 = 68; bx = (240 - bw2) // 2
+            draw.rounded_rectangle([(bx, by), (bx + bw2, by + 7)],
+                                   radius=3, outline=T["DIM"], width=1)
+            draw.rounded_rectangle([(bx, by), (bx + int(bw2 * battery / 100), by + 7)],
+                                   radius=3, fill=T["CYAN"])
+            f9 = font(9)
+            draw.text((bx + bw2 + 4, by), f"{battery:.0f}%", font=f9, fill=T["CYAN"])
+
+        # Time since last data — right aligned
         if self.energy_analyzer:
             ts  = self.energy_analyzer.get_time_since_last_data()
-            tsw = draw.textlength(ts, font=fr10)
-            draw.text((210 - tsw, 56), ts, font=fr10, fill=DIM)
+            f9  = font(9)
+            tsw = draw.textlength(ts, font=f9)
+            draw.text((30, by + 1), ts, font=f9, fill=T["DIM"])
 
-        draw_divider(draw, 66)
+        draw_divider(draw, 64, T)
 
-        # Metric text
-        index = self.state.current_page % len(self.state.energy_metrics)
-        fr13  = font(13)
-        lines = self.wrap_text(self.state.energy_metrics[index], fr13, SAFE_W)
-        lh    = 20
-        total = len(lines) * lh
-        y     = max(72, CY - total // 2)
+        # Current metric — key: value with key in CYAN
+        total = len(self.state.energy_metrics)
+        index = self.state.current_page % total
+        text  = self.state.energy_metrics[index]
 
-        for line in lines:
-            lw = draw.textlength(line, font=fr13)
-            draw.text(((240 - lw) // 2, y), line, font=fr13, fill=WHITE)
+        fb15 = font_bold(15)
+        fr15 = font(15)
+
+        # Split key: value BEFORE wrapping (same fix as device menu)
+        rendered = []
+        if ": " in text:
+            key, _, val = text.partition(": ")
+            key_str  = key + ": "
+            kw       = int(draw.textlength(key_str, font=fb15))
+            val_wrap = self.wrap_text(val, fr15, max(60, SAFE_W - kw))
+            rendered.append((key, val_wrap[0] if val_wrap else val))
+            for extra in val_wrap[1:]:
+                rendered.append((None, "  " + extra))
+        else:
+            rendered.append((None, text))
+
+        lh      = 24
+        total_h = len(rendered) * lh
+        y       = max(72, CY - total_h // 2)
+
+        for (key, val) in rendered:
+            if key is not None:
+                key_str = key + ": "
+                kw = draw.textlength(key_str, font=fb15)
+                vw = draw.textlength(val,     font=fr15)
+                x  = (240 - kw - vw) // 2
+                draw.text((x,      y), key_str, font=fb15, fill=T["CYAN"])
+                draw.text((x + kw, y), val,     font=fr15, fill=T["WHITE"])
+            else:
+                lw = draw.textlength(val, font=fr15)
+                draw.text(((240 - lw) // 2, y), val, font=fr15, fill=T["WHITE"])
             y += lh
 
-        # Mode badge + nav arrow
-        fb10 = font_bold(10)
-        badge = ["Text", "Bar", "Line"][self.state.chart_mode]
-        bw    = draw.textlength(badge, font=fb10)
-        draw.text((210 - bw, 207), badge, font=fb10, fill=DIM)
+        # Page indicator + nav arrows — only if multiple metrics
+        if total > 1:
+            draw_page_indicator(draw, index + 1, total, T, y=195)
+            # arrows left/right of the pill, not overlapping
+            fa = font_bold(12)
+            aw = draw.textlength("▲", font=fa)
+            draw.text(((240 - aw) // 2 - 36, 196), "▲", font=fa, fill=T["CYAN"])
+            draw.text(((240 - aw) // 2 + 32, 196), "▼", font=fa, fill=T["CYAN"])
 
-        aw = draw.textlength("▼", font=fb10)
-        draw.text(((240 - aw) // 2, 207), "▼", font=fb10, fill=DIM)
+        # View cycle hint
+        fh = font(9)
+        hw = draw.textlength("Tap: chart →", font=fh)
+        draw.text(((240 - hw) // 2, 212), "Tap: chart →",
+                  font=fh, fill=T["DIM"])
 
         self.show(img)
 
-    # ── 24h stats ─────────────────────────────────────────────────────────────
+    # ── view 1: bar chart ─────────────────────────────────────────────────────
 
-    def _render_24h(self):
+    def _render_chart(self):
+        phases = self.state.energy_data.get("phases", [])
+        if not phases:
+            self._render_no_data()
+            return
+        self.chart_renderer.draw_power_chart(phases)
+
+    # ── view 2/3: 24h / 7d stats ──────────────────────────────────────────────
+
+    def _render_stats(self, title, stats, chart_data, label):
         if not self.energy_analyzer:
-            self.render_message("No analyzer"); return
-        stats = self.energy_analyzer.get_24h_stats()
+            self.render_message("No analyzer\navailable")
+            return
         if not stats:
-            self.render_message("No 24h data\nyet"); return
+            self.render_message(f"No {label}\ndata yet")
+            return
 
+        T    = self._theme()
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
-        draw_title(draw, "24 Hours", "rolling window", GREEN)
-        draw_divider(draw, 54)
-        self._draw_stats(draw, stats, 62)
 
-        # Mini chart
-        chart_data = self.energy_analyzer.get_chart_data_24h()
-        self.chart_renderer.draw_trend_chart(draw, chart_data, 155, 50, "24h")
+        self.draw_title(draw, title, "rolling window", title_size=16, sub_size=10)
+        draw_divider(draw, 55, T)
 
-        self.show(img)
+        fb12 = font_bold(12)
+        fr12 = font(12)
+        lh   = 19
 
-    # ── 7d stats ──────────────────────────────────────────────────────────────
-
-    def _render_7d(self):
-        if not self.energy_analyzer:
-            self.render_message("No analyzer"); return
-        stats = self.energy_analyzer.get_7d_stats()
-        if not stats:
-            self.render_message("No 7d data\nyet"); return
-
-        img  = self.canvas()
-        draw = ImageDraw.Draw(img)
-        draw_title(draw, "7 Days", "rolling window", GREEN)
-        draw_divider(draw, 54)
-        self._draw_stats(draw, stats, 62)
-
-        chart_data = self.energy_analyzer.get_chart_data_7d()
-        self.chart_renderer.draw_trend_chart(draw, chart_data, 155, 50, "7d")
-
-        self.show(img)
-
-    # ── shared stats drawer ───────────────────────────────────────────────────
-
-    def _draw_stats(self, draw, stats, y_start):
-        fb = font_bold(12)
-        fr = font(12)
-        lh = 19
+        # Stats rows — no "Samples" row
         rows = [
-            ("Avg Power",    f"{stats.get('avg_power',0):.1f} W"),
-            ("Max Power",    f"{stats.get('max_power',0):.1f} W"),
-            ("Min Power",    f"{stats.get('min_power',0):.1f} W"),
-            ("Energy",       f"{stats.get('total_energy',0):.2f} kWh"),
-            ("Samples",      str(stats.get('data_points', 0))),
+            ("Avg Power", f"{stats.get('avg_power',  0):.1f} W"),
+            ("Max Power", f"{stats.get('max_power',  0):.1f} W"),
+            ("Min Power", f"{stats.get('min_power',  0):.1f} W"),
+            ("Energy",    f"{stats.get('total_energy', 0):.2f} kWh"),
         ]
-        y = y_start
+
+        y = 62
         for key, val in rows:
-            kw  = draw.textlength(key + ": ", font=fb)
-            vw  = draw.textlength(val, font=fr)
-            x   = (240 - kw - vw) // 2
-            draw.text((x, y), key + ": ", font=fb, fill=GREEN)
-            draw.text((x + kw, y), val,   font=fr,  fill=WHITE)
-            y  += lh
+            kw = draw.textlength(key + ": ", font=fb12)
+            vw = draw.textlength(val,         font=fr12)
+            x  = (240 - kw - vw) // 2
+            draw.text((x,      y), key + ": ", font=fb12, fill=T["CYAN"])
+            draw.text((x + kw, y), val,        font=fr12, fill=T["WHITE"])
+            y += lh
+
+        # Trend chart in lower half
+        self.chart_renderer.draw_trend_chart(draw, chart_data, y + 8, 52, label)
+
+        # Tap hint
+        fh = font(9)
+        hw = draw.textlength("Tap: next →", font=fh)
+        draw.text(((240 - hw) // 2, 212), "Tap: next →",
+                  font=fh, fill=T["DIM"])
+
+        self.show(img)
+
+    # ── no data fallback ──────────────────────────────────────────────────────
+
+    def _render_no_data(self):
+        T    = self._theme()
+        img  = self.canvas()
+        draw = ImageDraw.Draw(img)
+
+        self.draw_title(draw, "Energy", title_size=17)
+        draw_divider(draw, 55, T)
+
+        # Centred message
+        fb = font_bold(14)
+        fr = font(12)
+        lines = ["Waiting for", "meter data..."]
+        y = CY - 20
+        for line in lines:
+            lw = draw.textlength(line, font=fb if line == lines[0] else fr)
+            f_ = fb if line == lines[0] else fr
+            draw.text(((240 - lw) // 2, y), line, font=f_, fill=T["DIM"])
+            y += 22
+
+        fh = font(10)
+        hw = draw.textlength("Tap: chart →", font=fh)
+        draw.text(((240 - hw) // 2, 212), "Tap: chart →",
+                  font=fh, fill=T["DIM"])
+
+        self.show(img)
 
     # ── gestures ──────────────────────────────────────────────────────────────
 
     def handle_gesture(self, gesture, touch_device=None):
-        if not self.state.energy_metrics and self.view_mode == 0:
-            if gesture in [GESTURE_LEFT, GESTURE_LONG_PRESS]:
-                return MENU_MAIN
-            return None
+        if gesture == GESTURE_TAP:
+            # Cycle through views
+            self.view_mode = (self.view_mode + 1) % VIEW_COUNT
+            self.render()
 
-        if gesture == GESTURE_UP:
-            if self.view_mode == 0:
+        elif gesture == GESTURE_UP:
+            if self.view_mode == VIEW_TEXT and self.state.energy_metrics:
                 self.state.current_page = (
                     self.state.current_page - 1) % len(self.state.energy_metrics)
             self.render()
+
         elif gesture == GESTURE_DOWN:
-            if self.view_mode == 0:
+            if self.view_mode == VIEW_TEXT and self.state.energy_metrics:
                 self.state.current_page = (
                     self.state.current_page + 1) % len(self.state.energy_metrics)
             self.render()
-        elif gesture == GESTURE_TAP:
-            if self.view_mode < 2:
-                self.view_mode += 1
-            else:
-                self.view_mode = 0
-                self.state.chart_mode = (self.state.chart_mode + 1) % 3
-            self.render()
+
         elif gesture in [GESTURE_LEFT, GESTURE_LONG_PRESS]:
-            self.view_mode = 0
+            self.view_mode = VIEW_TEXT
             return MENU_MAIN
 
         return None
