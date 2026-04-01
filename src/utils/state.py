@@ -2,6 +2,7 @@
 import time
 from config.themes import THEMES
 
+
 class AppState:
     def __init__(self):
         self.active_theme        = THEMES["dark"]
@@ -35,8 +36,17 @@ class AppState:
         self.meter_paired    = False
         self.meter_last_seen = 0.0
 
-        # Change-WiFi guide state (driven by wifi_menu)
+        # Change-WiFi guide state
         self.in_change_wifi_guide = False
         self.change_wifi_step     = 0
+
+        # ── Async WiFi connect flow ───────────────────────────────────────────
+        # Background thread writes these; main loop reads and renders safely.
+        self.wifi_connecting      = False   # True while nmcli is running
+        self.wifi_connect_status  = ""      # live status string
+        self.wifi_connect_result  = None    # (success, msg) when done
+        self.wifi_result_shown_at = 0.0    # timestamp when result was first shown
+        self.pairing_active       = False   # True during OrionSetup pairing flow
+
 
 state = AppState()
