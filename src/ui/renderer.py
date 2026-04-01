@@ -1,29 +1,72 @@
-"""Base rendering — circular canvas, unified Orion design system"""
+"""
+ui/renderer.py  —  Orion · Dione Protocol  circular design system
+Fixed:
+  - Stars smaller, fewer (no text interference)
+  - Status bar uses emoji (📶 ⚡) with Symbola font + correct colors
+  - Node lines removed (no cross lines)
+  - draw_title centered correctly, no overlap
+  - Text sizes larger and clearer
+  - Symbola font used for all emojis
+"""
+import math
 from PIL import Image, ImageDraw, ImageFont
 from config.constants import *
 
-# ── Design tokens ─────────────────────────────────────────────────────────────
-BG        = (10,  10,  20)       # deep navy background
-SURFACE   = (18,  18,  35)       # card / bar surface
-BORDER    = (30,  30,  55)       # subtle divider
-GREEN     = (0,   200, 120)      # Orion accent green
-ORANGE    = (255, 165, 0)        # alert / update orange
-DIM       = (100, 100, 120)      # secondary text
-WHITE     = (220, 220, 230)      # primary text
-RED       = (220,  60,  60)      # error / danger
+# ── Dark mode tokens ──────────────────────────────────────────────────────────
+DARK = dict(
+    BG        = (4,    8,   20),
+    BG2       = (8,   14,   32),
+    SURFACE   = (16,  26,   54),
+    BORDER    = (28,  45,   90),
+    CYAN      = (0,  220,  200),
+    CYAN_DIM  = (0,   80,   74),
+    ORANGE    = (255, 160,   0),
+    RED       = (220,  55,   65),
+    VIOLET    = (130,  80,  255),
+    WHITE     = (230, 238,  248),
+    DIM       = (100, 115,  150),
+    STAR      = (160, 180,  210),
+    NODE      = (0,  200,  185),
+    NODE_DIM  = (0,   45,   42),
+    GRID      = (10,  20,   44),
+)
 
-# Safe circle: content must stay inside r=100 centred at (120,120)
-CX, CY, R = 120, 120, 100       # circle centre and radius
-SAFE_W    = 170                  # safe text width (chord at mid-height)
+# ── Light mode tokens ─────────────────────────────────────────────────────────
+LIGHT = dict(
+    BG        = (225, 242,  255),
+    BG2       = (205, 228,  250),
+    SURFACE   = (185, 215,  245),
+    BORDER    = (130, 178,  218),
+    CYAN      = (0,  140,  170),
+    CYAN_DIM  = (90, 160,  195),
+    ORANGE    = (205, 105,   0),
+    RED       = (185,  25,   38),
+    VIOLET    = (95,   45,  215),
+    WHITE     = (8,   18,   48),
+    DIM       = (65,   88,  125),
+    STAR      = (140, 170,  205),
+    NODE      = (0,  140,  170),
+    NODE_DIM  = (155, 195,  222),
+    GRID      = (195, 222,  242),
+)
 
-# Font paths
-_FONT_REG  = "../Font/DejaVuSans.ttf"
-_FONT_BOLD = "../Font/DejaVuSans-Bold.ttf"
-_FONT_EMO  = "../Font/Symbola.ttf"
+CX = CY = 120
+R       = 118
+SAFE_W  = 160
+
+# ── Font paths ────────────────────────────────────────────────────────────────
+_SYMBOLA = "/home/orangepi/screen-manager/Font/Symbola.ttf"
+_DJVU    = "/home/orangepi/screen-manager/Font/DejaVuSans.ttf"
+_DJVUB   = "/home/orangepi/screen-manager/Font/DejaVuSans-Bold.ttf"
+
+# Preview/CI fallbacks
+_SYMBOLA_PREVIEW = "/home/claude/screen-manager-development/Font/Symbola.ttf"
+_DJVU_PREVIEW    = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+_DJVUB_PREVIEW   = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
 
-def _try_font(paths, size):
-    for p in paths:
+def _load(candidates, size):
+    for p in candidates:
         try:
             return ImageFont.truetype(p, size)
         except (IOError, OSError):
@@ -31,103 +74,200 @@ def _try_font(paths, size):
     return ImageFont.load_default()
 
 
-def font(size=16):
-    return _try_font([_FONT_REG,  "../Font/DejaVuSans.ttf"], size)
+def font(size=15):
+    return _load([_DJVU, _DJVU_PREVIEW], size)
 
-def font_bold(size=16):
-    return _try_font([_FONT_BOLD, _FONT_REG], size)
+def font_bold(size=15):
+    return _load([_DJVUB, _DJVUB_PREVIEW, _DJVU, _DJVU_PREVIEW], size)
 
-def font_emoji(size=16):
-    return _try_font([_FONT_EMO,  _FONT_REG], size)
-
-
-def make_canvas() -> Image.Image:
-    """Return a fresh 240×240 dark canvas with circular clip mask applied."""
-    img  = Image.new("RGB", (240, 240), BG)
-    mask = Image.new("L",   (240, 240), 0)
-    md   = ImageDraw.Draw(mask)
-    md.ellipse([CX - R, CY - R, CX + R, CY + R], fill=255)
-    # Apply mask — pixels outside circle stay BG
-    bg   = Image.new("RGB", (240, 240), BG)
-    bg.paste(img, mask=mask)
-    return bg
+def font_emoji(size=20):
+    return _load([_SYMBOLA, _SYMBOLA_PREVIEW, _DJVU, _DJVU_PREVIEW], size)
 
 
-def draw_title(draw, title: str, subtitle: str = "", color=GREEN,
+# ── Starfield (deterministic, small) ─────────────────────────────────────────
+_STARS = []
+
+def _gen_stars(n=35, seed=42):
+    global _STARS
+    _STARS = []
+    x, y = seed, seed * 7
+    for _ in range(n):
+        x = (x * 1664525 + 1013904223) & 0xFFFFFFFF
+        y = (y * 22695477 + 1)         & 0xFFFFFFFF
+        sx = (x % 210) + 15
+        sy = (y % 210) + 15
+        if math.hypot(sx - CX, sy - CY) < R - 8:
+            # only 1px stars — never 2px to avoid interfering with text
+            _STARS.append((sx, sy))
+
+_gen_stars()
+
+# ── Bezel nodes ───────────────────────────────────────────────────────────────
+_NODE_COUNT  = 12
+_NODE_ANGLES = [i * 360 / _NODE_COUNT for i in range(_NODE_COUNT)]
+_ACTIVE_NODES = {0, 3, 6, 9}
+
+
+# ── Canvas builder ────────────────────────────────────────────────────────────
+
+def make_canvas(T: dict) -> Image.Image:
+    img  = Image.new("RGB", (240, 240), T["BG"])
+    draw = ImageDraw.Draw(img)
+
+    # 1. Radial gradient
+    bg, bg2 = T["BG"], T["BG2"]
+    for ring in range(R, 0, -4):          # step=4 for speed
+        t  = ring / R
+        rc = tuple(int(bg[i] * t + bg2[i] * (1 - t)) for i in range(3))
+        draw.ellipse([CX-ring, CY-ring, CX+ring, CY+ring], outline=rc)
+
+    # 2. Subtle hex grid
+    hs = 24
+    for row in range(-1, 12):
+        for col in range(-1, 12):
+            hx = col * hs * 1.73
+            hy = row * hs * 2 + (col % 2) * hs
+            if math.hypot(hx - CX, hy - CY) > R + hs:
+                continue
+            pts = []
+            for a in range(6):
+                ang = math.radians(60 * a - 30)
+                pts.append((hx + hs * 0.55 * math.cos(ang),
+                             hy + hs * 0.55 * math.sin(ang)))
+            draw.polygon(pts, outline=T["GRID"])
+
+    # 3. Stars — tiny 1px dots only
+    for (sx, sy) in _STARS:
+        draw.point((sx, sy), fill=T["STAR"])
+
+    # 4. Bezel node ring — dots only, NO lines to centre
+    nr = R - 5
+    for i, ang_deg in enumerate(_NODE_ANGLES):
+        ang = math.radians(ang_deg - 90)
+        nx  = int(CX + nr * math.cos(ang))
+        ny  = int(CY + nr * math.sin(ang))
+        if i in _ACTIVE_NODES:
+            # subtle glow
+            draw.ellipse([nx-4, ny-4, nx+4, ny+4], fill=T["CYAN_DIM"])
+            draw.ellipse([nx-2, ny-2, nx+2, ny+2], fill=T["NODE"])
+        else:
+            draw.ellipse([nx-1, ny-1, nx+1, ny+1], fill=T["NODE_DIM"])
+
+    # 5. Circular clip
+    mask = Image.new("L", (240, 240), 0)
+    ImageDraw.Draw(mask).ellipse([CX-R, CY-R, CX+R, CY+R], fill=255)
+    black = Image.new("RGB", (240, 240), (0, 0, 0))
+    black.paste(img, mask=mask)
+    return black
+
+
+# ── Shared drawing primitives ─────────────────────────────────────────────────
+
+def draw_title(draw, title: str, subtitle: str = "",
+               color=None, theme: dict = DARK,
                title_size=17, sub_size=11):
-    """Standard title bar: coloured title + optional grey subtitle."""
+    if color is None:
+        color = theme["CYAN"]
     tf = font_bold(title_size)
     tw = draw.textlength(title, font=tf)
-    draw.text(((240 - tw) // 2, 28), title, font=tf, fill=color)
+    draw.text(((240 - tw) // 2, 26), title, font=tf, fill=color)
     if subtitle:
         sf = font(sub_size)
         sw = draw.textlength(subtitle, font=sf)
-        draw.text(((240 - sw) // 2, 28 + title_size + 3), subtitle,
-                  font=sf, fill=DIM)
+        draw.text(((240 - sw) // 2, 26 + title_size + 4),
+                  subtitle, font=sf, fill=theme["DIM"])
 
 
-def draw_divider(draw, y: int, color=BORDER):
-    r = 80
-    draw.line([(CX - r, y), (CX + r, y)], fill=color, width=1)
+def draw_divider(draw, y: int, theme: dict = DARK):
+    w = 72
+    draw.line([(CX - w, y), (CX + w, y)], fill=theme["BORDER"], width=1)
+    draw.ellipse([CX-w-2, y-1, CX-w+2, y+1], fill=theme["CYAN_DIM"])
+    draw.ellipse([CX+w-2, y-1, CX+w+2, y+1], fill=theme["CYAN_DIM"])
 
 
 def draw_buttons(draw, left_label: str, right_label: str,
-                 right_color=GREEN, y: int = 183):
-    """Two pill buttons at the bottom of the circle."""
-    bw, bh   = 88, 34
-    gap      = 8
-    total    = 2 * bw + gap
-    sx       = (240 - total) // 2
-    rx       = sx + bw + gap
-    f        = font_bold(13)
+                 right_color=None, theme: dict = DARK, y: int = 181):
+    if right_color is None:
+        right_color = theme["CYAN"]
+    bw, bh, gap = 86, 34, 8
+    total = 2 * bw + gap
+    sx    = (240 - total) // 2
+    rx    = sx + bw + gap
+    fb    = font_bold(13)
 
-    # Left — dim outline
-    draw.rounded_rectangle([(sx, y), (sx + bw, y + bh)],
-                            radius=8, outline=DIM, width=2)
-    lw = draw.textlength(left_label, font=f)
-    draw.text((sx + (bw - lw) // 2, y + (bh - 13) // 2),
-              left_label, font=f, fill=DIM)
+    # Left pill
+    draw.rounded_rectangle([(sx, y), (sx+bw, y+bh)],
+                            radius=9, outline=theme["DIM"], width=1)
+    lw = draw.textlength(left_label, font=fb)
+    draw.text((sx + (bw-lw)//2, y + (bh-13)//2),
+              left_label, font=fb, fill=theme["DIM"])
 
-    # Right — accent outline
-    draw.rounded_rectangle([(rx, y), (rx + bw, y + bh)],
-                            radius=8, outline=right_color, width=2)
-    rw = draw.textlength(right_label, font=f)
-    draw.text((rx + (bw - rw) // 2, y + (bh - 13) // 2),
-              right_label, font=f, fill=right_color)
+    # Right pill — glowing
+    inner = tuple(min(255, c // 5) for c in right_color)
+    draw.rounded_rectangle([(rx, y), (rx+bw, y+bh)],
+                            radius=9, outline=right_color, width=2)
+    draw.rounded_rectangle([(rx+1, y+1), (rx+bw-1, y+bh-1)],
+                            radius=8, fill=inner)
+    rw = draw.textlength(right_label, font=fb)
+    draw.text((rx + (bw-rw)//2, y + (bh-13)//2),
+              right_label, font=fb, fill=right_color)
 
 
-def hit_button(x, y, btn_y=183, bw=88, bh=34, gap=8):
-    """Returns 'left', 'right', or None."""
+def hit_button(x, y, btn_y=181, bw=86, bh=34, gap=8):
     total = 2 * bw + gap
     sx    = (240 - total) // 2
     rx    = sx + bw + gap
     if btn_y <= y <= btn_y + bh:
-        if sx <= x <= sx + bw:
-            return "left"
-        if rx <= x <= rx + bw:
-            return "right"
+        if sx <= x <= sx + bw:   return "left"
+        if rx <= x <= rx + bw:   return "right"
     return None
 
 
-def draw_status_dots(draw, wifi_ok: bool, meter_ok: bool):
-    """WiFi + meter status icons near top of circle."""
-    ef = font_emoji(18)
-    wifi_color  = GREEN if wifi_ok  else RED
-    meter_color = GREEN if meter_ok else RED
-    draw.text((95,  12), "📶", font=ef, fill=wifi_color)
-    draw.text((125, 12), "⚡", font=ef, fill=meter_color)
+def draw_status_bar(draw, wifi_ok: bool, meter_ok: bool, theme: dict = DARK):
+    """Emoji status bar — 📶 and ⚡ with green/red coloring."""
+    ef          = font_emoji(20)
+    wifi_color  = (46, 204, 113) if wifi_ok  else (231, 76,  60)
+    meter_color = (46, 204, 113) if meter_ok else (231, 76,  60)
+
+    wifi_w  = ef.getlength("📶")
+    bolt_w  = ef.getlength("⚡")
+    draw.text((105 - int(wifi_w)  // 2, 10), "📶", font=ef, fill=wifi_color)
+    draw.text((135 - int(bolt_w)  // 2, 10), "⚡", font=ef, fill=meter_color)
+
+# keep old name working
+draw_status_dots = draw_status_bar
 
 
-def draw_dot_indicator(draw, total: int, current: int, y: int = 208):
-    """Horizontal progress dots."""
-    spacing = 14
-    start_x = (240 - total * spacing) // 2
-    for i in range(total):
-        cx   = start_x + i * spacing + 5
-        fill = GREEN if i == current else DIM
-        draw.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], fill=fill) \
-            if False else None
-        draw.ellipse([cx - 4, y - 4, cx + 4, y + 4], fill=fill)
+def draw_corner_hash(draw, label: str, theme: dict = DARK):
+    fr = font(9)
+    hw = draw.textlength(label, font=fr)
+    draw.text((CX - hw//2, 217), label, font=fr, fill=theme["DIM"])
+
+
+def draw_nav_arrows(draw, theme: dict = DARK, show_up=True, show_down=True,
+                    up_y=56, down_y=207):
+    """Clearly visible navigation arrows."""
+    fb = font_bold(13)
+    aw = draw.textlength("▲", font=fb)
+    cx = (240 - aw) // 2
+    if show_up:
+        draw.text((cx, up_y), "▲", font=fb, fill=theme["CYAN"])
+    if show_down:
+        draw.text((cx, down_y), "▼", font=fb, fill=theme["CYAN"])
+
+
+def draw_page_indicator(draw, current: int, total: int,
+                        theme: dict = DARK, y: int = 207):
+    """Page number indicator — clearly visible."""
+    fb  = font_bold(11)
+    txt = f"{current}/{total}"
+    tw  = draw.textlength(txt, font=fb)
+    # pill background
+    draw.rounded_rectangle(
+        [(CX - tw//2 - 8, y - 2), (CX + tw//2 + 8, y + 13)],
+        radius=5, fill=theme["SURFACE"]
+    )
+    draw.text((CX - tw//2, y), txt, font=fb, fill=theme["CYAN"])
 
 
 # ── BaseRenderer ──────────────────────────────────────────────────────────────
@@ -137,57 +277,64 @@ class BaseRenderer:
         self.display = display
         self.state   = state
 
-    # ── canvas helpers ────────────────────────────────────────────────────────
+    def _theme(self) -> dict:
+        if hasattr(self.state, "active_theme"):
+            if getattr(self.state.active_theme, "name", "dark") == "light":
+                return LIGHT
+        return DARK
+
+    # ── canvas ────────────────────────────────────────────────────────────────
 
     def canvas(self) -> Image.Image:
-        """Fresh circular dark canvas."""
-        return make_canvas()
+        return make_canvas(self._theme())
 
     def show(self, img: Image.Image):
         self.display.show_image(img)
 
-    # ── font shortcuts ────────────────────────────────────────────────────────
+    # ── backward compat ───────────────────────────────────────────────────────
 
-    def get_font(self, size=16):
-        return font(size)
-
-    def get_font_bold(self, size=16):
-        return font_bold(size)
-
-    def get_emoji_font(self, size=16):
-        return font_emoji(size)
-
-    # ── colour shortcuts (theme-aware fallbacks) ──────────────────────────────
-
-    def get_text_color(self):
-        return WHITE
-
-    def get_selected_color(self):
-        return GREEN
-
-    # ── legacy compat (called by menus not yet updated) ───────────────────────
-
-    def get_background(self):
+    def get_background(self) -> Image.Image:
         return self.canvas()
 
-    # ── shared drawing ────────────────────────────────────────────────────────
+    def get_font(self, size=15):        return font(size)
+    def get_font_bold(self, size=15):   return font_bold(size)
+    def get_emoji_font(self, size=20):  return font_emoji(size)
+    def get_text_color(self):           return self._theme()["WHITE"]
+    def get_selected_color(self):       return self._theme()["CYAN"]
 
-    def draw_title(self, draw, title, subtitle="", color=GREEN,
+    # ── primitives ────────────────────────────────────────────────────────────
+
+    def draw_title(self, draw, title, subtitle="", color=None,
                    title_size=17, sub_size=11):
-        draw_title(draw, title, subtitle, color, title_size, sub_size)
+        draw_title(draw, title, subtitle, color, self._theme(),
+                   title_size, sub_size)
 
-    def draw_divider(self, draw, y, color=BORDER):
-        draw_divider(draw, y, color)
+    def draw_divider(self, draw, y):
+        draw_divider(draw, y, self._theme())
 
     def draw_buttons(self, draw, left_label, right_label,
-                     right_color=GREEN, y=183):
-        draw_buttons(draw, left_label, right_label, right_color, y)
+                     right_color=None, y=181):
+        draw_buttons(draw, left_label, right_label,
+                     right_color, self._theme(), y)
 
-    def hit_button(self, x, y, btn_y=183):
+    def hit_button(self, x, y, btn_y=181):
         return hit_button(x, y, btn_y)
 
+    def draw_status_bar(self, draw, wifi_ok, meter_ok):
+        draw_status_bar(draw, wifi_ok, meter_ok, self._theme())
+
+    # keep old name
     def draw_status_dots(self, draw, wifi_ok, meter_ok):
-        draw_status_dots(draw, wifi_ok, meter_ok)
+        draw_status_bar(draw, wifi_ok, meter_ok, self._theme())
+
+    def draw_nav_arrows(self, draw, show_up=True, show_down=True,
+                        up_y=56, down_y=207):
+        draw_nav_arrows(draw, self._theme(), show_up, show_down, up_y, down_y)
+
+    def draw_page_indicator(self, draw, current, total, y=207):
+        draw_page_indicator(draw, current, total, self._theme(), y)
+
+    # ── text ─────────────────────────────────────────────────────────────────
 
     def wrap_text(self, text, font_obj, max_width=SAFE_W):
         words, lines, cur = text.split(), [], ""
@@ -203,35 +350,38 @@ class BaseRenderer:
             lines.append(cur)
         return lines
 
-    def render_message(self, message: str, font_size=16, color=WHITE):
+    def render_message(self, message: str, font_size=16, color=None):
+        T = self._theme()
+        if color is None:
+            color = T["WHITE"]
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
-        f    = font_bold(font_size)
+        fb   = font_bold(font_size)
         lines = []
         for raw in message.split("\n"):
-            lines.extend(self.wrap_text(raw, f, SAFE_W) or [""])
-
-        lh          = font_size + 5
-        total_h     = len(lines) * lh
-        y           = CY - total_h // 2
-
+            lines.extend(self.wrap_text(raw, fb, SAFE_W) or [""])
+        lh      = font_size + 6
+        total_h = len(lines) * lh
+        y       = CY - total_h // 2
         for line in lines:
             if line:
-                lw = draw.textlength(line, font=f)
-                draw.text(((240 - lw) // 2, y), line, font=f, fill=color)
+                lw = draw.textlength(line, font=fb)
+                draw.text(((240 - lw) // 2, y), line, font=fb, fill=color)
             y += lh
-
         self.show(img)
 
-    def draw_text_with_emoji(self, draw, pos, text, font_size=16, fill=WHITE):
+    def draw_text_with_emoji(self, draw, pos, text, font_size=15, fill=None):
         import unicodedata
+        T = self._theme()
+        if fill is None:
+            fill = T["WHITE"]
         x, y = pos
-        rf   = font(font_size)
-        ef   = font_emoji(font_size)
+        rf = font(font_size)
+        ef = font_emoji(font_size)
         for ch in text:
-            cat     = unicodedata.category(ch)
-            is_emo  = ord(ch) > 0x2000 and cat in ('So', 'Sm', 'Sk', 'Mn')
-            f       = ef if is_emo else rf
+            cat    = unicodedata.category(ch)
+            is_emo = ord(ch) > 0x2000 and cat in ('So', 'Sm', 'Sk', 'Mn')
+            f      = ef if is_emo else rf
             draw.text((x, y), ch, font=f, fill=fill)
             x += f.getlength(ch)
 
