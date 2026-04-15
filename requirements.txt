@@ -7,3 +7,4 @@ Requests==2.32.5
 smbus==1.1.post2
 spidev==3.6
 wiringpi==2.60.1
+influxdb-client>=1.36.0
