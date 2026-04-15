@@ -5,6 +5,7 @@ import threading
 import time
 import paho.mqtt.client as mqtt
 from config.constants import *
+from services.influxdb_writer import InfluxDBWriter
 
 
 class MQTTManager:
@@ -12,6 +13,7 @@ class MQTTManager:
         self.state       = state
         self.data_logger = data_logger
         self.client      = None
+        self.influx      = InfluxDBWriter() 
 
     def init_client(self):
         self.client = mqtt.Client(client_id="Orion_Publisher", protocol=mqtt.MQTTv311)
@@ -57,6 +59,7 @@ class MQTTManager:
 
         self.state.energy_data = data
         self.data_logger.log_data(data)
+        self.influx.write_energy_data(data)
 
         metrics = []
 
