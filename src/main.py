@@ -169,7 +169,7 @@ if __name__ == "__main__":
         wifi_service = WiFiService()
         data_logger = DataLogger()
         energy_analyzer = EnergyAnalyzer() 
-        update_checker = UpdateChecker(state, check_interval=3600)
+        update_checker = UpdateChecker(state, check_interval=300)
         mqtt_manager = MQTTManager(state, data_logger)
 
         # Initialize menu handler
