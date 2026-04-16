@@ -124,15 +124,8 @@ class InfluxDBWriter:
         try:
             device_id = data.get("deviceId", "unknown")
 
-            # Parse timestamp from ESP32 or use now
-            ts = data.get("timestamp", "")
-            if ts:
-                try:
-                    dt = datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
-                except ValueError:
-                    dt = datetime.utcnow()
-            else:
-                dt = datetime.utcnow()
+            # Use current UTC time (ESP32 timestamp has timezone offset issues)
+            dt = datetime.utcnow()
 
             # Build the point
             point = (
