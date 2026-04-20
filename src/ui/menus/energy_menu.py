@@ -65,7 +65,7 @@ class EnergyMenu(BaseRenderer):
         self.draw_title(draw, "Energy", title_size=17)
 
         # Battery bar — between title and divider
-        battery = self.draw_title(draw, "Energy", title_size=17)
+        battery = self.state.energy_data.get("battery")
         by = 52
         if battery is not None:
             bw2 = 68; bx = (240 - bw2) // 2
