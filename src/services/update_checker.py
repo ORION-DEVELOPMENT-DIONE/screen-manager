@@ -23,9 +23,9 @@ class UpdateChecker:
 
         self.ansible_repo   = "https://github.com/ORION-DEVELOPMENT-DIONE/update-manager.git"
         self.screen_repo    = "https://github.com/ORION-DEVELOPMENT-DIONE/screen-manager"
-        self._changelog_url = (
+        self._changelog_url_template = (
             "https://raw.githubusercontent.com/"
-            "ORION-DEVELOPMENT-DIONE/screen-manager/main/CHANGELOG.md"
+            "ORION-DEVELOPMENT-DIONE/screen-manager/{branch}/CHANGELOG.md"
         )
 
         self.current_version    = self._get_current_version()
@@ -40,13 +40,13 @@ class UpdateChecker:
 
         self.checker_thread = threading.Thread(target=self._check_loop, daemon=True)
         self.checker_thread.start()
-        # TESTING — force update state with local CHANGELOG.md
-        import pathlib
-        changelog = self._get_local_changelog()
-        self.update_description = self._parse_changelog(changelog, "edd261a")
-        self.update_available = True
-        self.state.update_available = True
-        self.latest_version = "edd261a"
+        # # TESTING — force update state with local CHANGELOG.md
+        # import pathlib
+        # changelog = self._get_local_changelog()
+        # self.update_description = self._parse_changelog(changelog, "edd261a")
+        # self.update_available = True
+        # self.state.update_available = True
+        # self.latest_version = "edd261a"
 
     # ── git helpers ───────────────────────────────────────────────────────────
     
@@ -112,8 +112,16 @@ class UpdateChecker:
 
     def _get_remote_changelog(self):
         try:
+            # Get current branch to match the URL
+            branch_result = subprocess.run(
+                ['git', '-C', self.repo_path, 'rev-parse', '--abbrev-ref', 'HEAD'],
+                capture_output=True, text=True, timeout=5
+            )
+            branch = branch_result.stdout.strip() if branch_result.returncode == 0 else "main"
+            url = self._changelog_url_template.format(branch=branch)
+
             req = urllib.request.Request(
-                self._changelog_url,
+                url,
                 headers={"User-Agent": "OrionUpdateChecker/1.0"}
             )
             with urllib.request.urlopen(req, timeout=10) as resp:
@@ -180,7 +188,7 @@ class UpdateChecker:
             self.last_check_time = time.time()
 
     def _check_loop(self):
-        time.sleep(60)
+        time.sleep(5)
         while True:
             try:
                 if not self.state.is_standby:
