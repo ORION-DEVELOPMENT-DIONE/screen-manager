@@ -62,7 +62,7 @@ class EnergyMenu(BaseRenderer):
         draw = ImageDraw.Draw(img)
 
         # Title + subtitle
-        self.draw_title(draw, "Energy", "Live data", title_size=17, sub_size=11)
+        self.draw_title(draw, "Energy", title_size=17)
 
         # Battery bar — between title and divider
         battery = self.draw_title(draw, "Energy", title_size=17)
