@@ -7,13 +7,13 @@ import paho.mqtt.client as mqtt
 from config.constants import *
 from services.influxdb_writer import InfluxDBWriter
 
-
 class MQTTManager:
-    def __init__(self, state, data_logger):
-        self.state       = state
-        self.data_logger = data_logger
-        self.client      = None
-        self.influx      = InfluxDBWriter() 
+    def __init__(self, state, data_logger, energy_analyzer=None):
+        self.state            = state
+        self.data_logger      = data_logger
+        self.energy_analyzer  = energy_analyzer
+        self.client           = None
+        self.influx           = InfluxDBWriter() 
 
     def init_client(self):
         self.client = mqtt.Client(client_id="Orion_Publisher", protocol=mqtt.MQTTv311)
@@ -101,7 +101,9 @@ class MQTTManager:
                 metrics.append(f"Last seen: {ts}")
 
         self.state.energy_metrics = metrics
-
+        if self.energy_analyzer:
+            self.energy_analyzer.add_data_point(data)
+            
     def _handle_wifi_credentials(self, data):
         pass
 
