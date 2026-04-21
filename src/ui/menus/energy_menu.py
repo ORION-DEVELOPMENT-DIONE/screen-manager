@@ -1,10 +1,17 @@
-"""Energy menu — Dione/Orion circular design v3 (redesigned)
+"""Energy menu — Dione/Orion circular design v3 (visual clarity update)
 
 View cycle (tap to advance):
   0 → Text metrics (swipe up/down to page through)
   1 → Power bar chart
   2 → 24h stats + trend
   3 → 7d stats + trend
+
+Visual improvements:
+  - Larger font sizes for all metric text (15→17 for values, 12→14 for stats)
+  - Better vertical centering within circular safe area
+  - Dynamic text wrapping for long metric values
+  - Adaptive layout: key on top, value below when combined width exceeds safe area
+  - Clearer page indicators and navigation hints
 
 Swipe left / long press → back to main menu
 """
@@ -61,27 +68,28 @@ class EnergyMenu(BaseRenderer):
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
 
-        # Title + subtitle
-        self.draw_title(draw, "Energy", title_size=17)
+        # Title
+        self.draw_title(draw, "Energy", title_size=18)
 
         # Battery bar — between title and divider
-        battery = self.state.energy_data.get("battery")
+        battery = self._get_battery()
         by = 52
         if battery is not None:
             bw2 = 68; bx = (240 - bw2) // 2
             draw.rounded_rectangle([(bx, by), (bx + bw2, by + 7)],
                                    radius=3, outline=T["DIM"], width=1)
-            draw.rounded_rectangle([(bx, by), (bx + int(bw2 * battery / 100), by + 7)],
+            fill_w = max(1, int(bw2 * min(battery, 100) / 100))
+            draw.rounded_rectangle([(bx, by), (bx + fill_w, by + 7)],
                                    radius=3, fill=T["CYAN"])
-            f9 = font(9)
-            draw.text((bx + bw2 + 4, by), f"{battery:.0f}%", font=f9, fill=T["CYAN"])
+            f10 = font(10)
+            draw.text((bx + bw2 + 4, by - 1), f"{battery:.0f}%",
+                      font=f10, fill=T["CYAN"])
 
-        # Time since last data — right aligned
+        # Time since last data
         if self.energy_analyzer:
             ts  = self.energy_analyzer.get_time_since_last_data()
-            f9  = font(9)
-            tsw = draw.textlength(ts, font=f9)
-            draw.text((30, by + 1), ts, font=f9, fill=T["DIM"])
+            f10 = font(10)
+            draw.text((30, by), ts, font=f10, fill=T["DIM"])
 
         draw_divider(draw, 64, T)
 
@@ -90,60 +98,81 @@ class EnergyMenu(BaseRenderer):
         index = self.state.current_page % total
         text  = self.state.energy_metrics[index]
 
-        fb15 = font_bold(15)
-        fr15 = font(15)
+        # Use size 17 bold for key, 17 regular for value — clearly readable
+        fb = font_bold(18)
+        fr = font(18)
+        lh = 26
 
-        # Split key: value BEFORE wrapping (same fix as device menu)
-        rendered = []
+        rendered = []   # list of (key_or_None, value_str)
         if ": " in text:
             key, _, val = text.partition(": ")
-            key_str  = key + ": "
-            kw       = int(draw.textlength(key_str, font=fb15))
-            val_wrap = self.wrap_text(val, fr15, max(60, SAFE_W - kw))
-            rendered.append((key, val_wrap[0] if val_wrap else val))
-            for extra in val_wrap[1:]:
-                rendered.append((None, "  " + extra))
+            key_str = key + ": "
+            kw      = int(draw.textlength(key_str, font=fb))
+            vw      = int(draw.textlength(val, font=fr))
+
+            if kw + vw <= SAFE_W:
+                # Fits on one line — key: value side by side
+                rendered.append((key, val))
+            else:
+                # Key on its own line, value wrapped below
+                rendered.append((key + ":", None))
+                val_lines = self.wrap_text(val, fr, SAFE_W)
+                for vl in val_lines:
+                    rendered.append((None, vl))
         else:
             rendered.append((None, text))
 
-        lh      = 24
         total_h = len(rendered) * lh
-        y       = max(72, CY - total_h // 2)
+        # Centre vertically between divider (64) and page indicator (185)
+        content_zone = 185 - 72
+        y = 72 + max(0, (content_zone - total_h) // 2)
 
         for (key, val) in rendered:
-            if key is not None:
+            if key is not None and val is not None:
+                # key: value on same line
                 key_str = key + ": "
-                kw = draw.textlength(key_str, font=fb15)
-                vw = draw.textlength(val,     font=fr15)
+                kw = draw.textlength(key_str, font=fb)
+                vw = draw.textlength(val, font=fr)
                 x  = (240 - kw - vw) // 2
-                draw.text((x,      y), key_str, font=fb15, fill=T["CYAN"])
-                draw.text((x + kw, y), val,     font=fr15, fill=T["WHITE"])
+                draw.text((x,      y), key_str, font=fb, fill=T["CYAN"])
+                draw.text((x + kw, y), val,     font=fr, fill=T["WHITE"])
+            elif key is not None:
+                # Key-only line (label when value wraps to next line)
+                kw = draw.textlength(key, font=fb)
+                draw.text(((240 - kw) // 2, y), key, font=fb, fill=T["CYAN"])
             else:
-                lw = draw.textlength(val, font=fr15)
-                draw.text(((240 - lw) // 2, y), val, font=fr15, fill=T["WHITE"])
+                # Value-only line (wrapped continuation)
+                lw = draw.textlength(val, font=fr)
+                draw.text(((240 - lw) // 2, y), val, font=fr, fill=T["WHITE"])
             y += lh
 
         # Page indicator + nav arrows — only if multiple metrics
         if total > 1:
-            draw_page_indicator(draw, index + 1, total, T, y=195)
+            draw_page_indicator(draw, index + 1, total, T, y=192)
             # arrows left/right of the pill, not overlapping
-            fa = font_bold(12)
+            fa = font_bold(14)
             aw = draw.textlength("▲", font=fa)
-            draw.text(((240 - aw) // 2 - 36, 196), "▲", font=fa, fill=T["CYAN"])
-            draw.text(((240 - aw) // 2 + 32, 196), "▼", font=fa, fill=T["CYAN"])
+            draw.text(((240 - aw) // 2 - 38, 193), "▲", font=fa, fill=T["CYAN"])
+            draw.text(((240 - aw) // 2 + 34, 193), "▼", font=fa, fill=T["CYAN"])
 
         # View cycle hint
-        fh = font(9)
+        fh = font(10)
         hw = draw.textlength("Tap: chart →", font=fh)
-        draw.text(((240 - hw) // 2, 212), "Tap: chart →",
+        draw.text(((240 - hw) // 2, 214), "Tap: chart →",
                   font=fh, fill=T["DIM"])
 
         self.show(img)
 
+    def _get_battery(self):
+        """Extract battery value from energy data safely."""
+        if hasattr(self.state, 'energy_data') and self.state.energy_data:
+            return self.state.energy_data.get("battery")
+        return None
+
     # ── view 1: bar chart ─────────────────────────────────────────────────────
 
     def _render_chart(self):
-        phases = self.state.energy_data.get("phases", [])
+        phases = self.state.energy_data.get("phases", []) if self.state.energy_data else []
         if not phases:
             self._render_no_data()
             return
@@ -163,14 +192,15 @@ class EnergyMenu(BaseRenderer):
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
 
-        self.draw_title(draw, title, "rolling window", title_size=16, sub_size=10)
-        draw_divider(draw, 55, T)
+        self.draw_title(draw, title, title_size=18)
+        draw_divider(draw, 56, T)
 
-        fb12 = font_bold(12)
-        fr12 = font(12)
-        lh   = 19
+        # Increased from 12→14 for much better readability
+        fb14 = font_bold(14)
+        fr14 = font(14)
+        lh   = 22
 
-        # Stats rows — no "Samples" row
+        # Stats rows
         rows = [
             ("Avg Power", f"{stats.get('avg_power',  0):.1f} W"),
             ("Max Power", f"{stats.get('max_power',  0):.1f} W"),
@@ -178,22 +208,23 @@ class EnergyMenu(BaseRenderer):
             ("Energy",    f"{stats.get('total_energy', 0):.2f} kWh"),
         ]
 
-        y = 62
+        y = 63
         for key, val in rows:
-            kw = draw.textlength(key + ": ", font=fb12)
-            vw = draw.textlength(val,         font=fr12)
+            key_txt = key + ": "
+            kw = draw.textlength(key_txt, font=fb14)
+            vw = draw.textlength(val,     font=fr14)
             x  = (240 - kw - vw) // 2
-            draw.text((x,      y), key + ": ", font=fb12, fill=T["CYAN"])
-            draw.text((x + kw, y), val,        font=fr12, fill=T["WHITE"])
+            draw.text((x,      y), key_txt, font=fb14, fill=T["CYAN"])
+            draw.text((x + kw, y), val,     font=fr14, fill=T["WHITE"])
             y += lh
 
         # Trend chart in lower half
-        self.chart_renderer.draw_trend_chart(draw, chart_data, y + 8, 52, label)
+        self.chart_renderer.draw_trend_chart(draw, chart_data, y + 6, 48, label)
 
         # Tap hint
-        fh = font(9)
+        fh = font(10)
         hw = draw.textlength("Tap: next →", font=fh)
-        draw.text(((240 - hw) // 2, 212), "Tap: next →",
+        draw.text(((240 - hw) // 2, 214), "Tap: next →",
                   font=fh, fill=T["DIM"])
 
         self.show(img)
@@ -205,23 +236,23 @@ class EnergyMenu(BaseRenderer):
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
 
-        self.draw_title(draw, "Energy", title_size=17)
+        self.draw_title(draw, "Energy", title_size=18)
         draw_divider(draw, 55, T)
 
-        # Centred message
-        fb = font_bold(14)
-        fr = font(12)
-        lines = ["Waiting for", "meter data..."]
-        y = CY - 20
-        for line in lines:
-            lw = draw.textlength(line, font=fb if line == lines[0] else fr)
-            f_ = fb if line == lines[0] else fr
-            draw.text(((240 - lw) // 2, y), line, font=f_, fill=T["DIM"])
-            y += 22
+        # Centred message — larger fonts
+        fb = font_bold(16)
+        fr = font(14)
+        lines = [("Waiting for", fb), ("meter data...", fr)]
+        total_h = sum(24 for _ in lines)
+        y = CY - total_h // 2
+        for text, f_ in lines:
+            lw = draw.textlength(text, font=f_)
+            draw.text(((240 - lw) // 2, y), text, font=f_, fill=T["DIM"])
+            y += 24
 
         fh = font(10)
         hw = draw.textlength("Tap: chart →", font=fh)
-        draw.text(((240 - hw) // 2, 212), "Tap: chart →",
+        draw.text(((240 - hw) // 2, 214), "Tap: chart →",
                   font=fh, fill=T["DIM"])
 
         self.show(img)

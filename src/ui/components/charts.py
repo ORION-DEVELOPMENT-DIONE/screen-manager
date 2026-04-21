@@ -1,4 +1,9 @@
-"""Chart rendering components — redesigned for 240x240 circular display"""
+"""Chart rendering components — redesigned for 240x240 circular display
+Visual clarity update:
+  - Larger font sizes for labels and values
+  - Better spacing and positioning within circular safe area
+  - Clearer axis labels and trend indicators
+"""
 from PIL import ImageDraw
 from ui.renderer import BaseRenderer, font, font_bold, DARK, CX, CY, R
 from config.constants import SCREEN_WIDTH, SCREEN_HEIGHT
@@ -18,18 +23,18 @@ class ChartRenderer(BaseRenderer):
             T   = self._theme()
             img = self.canvas()
             d2  = ImageDraw.Draw(img)
-            tw  = d2.textlength("Power (W)", font=font_bold(15))
-            d2.text(((240-tw)//2, 26), "Power (W)", font=font_bold(15), fill=T["CYAN"])
-            mw  = d2.textlength("No phase data yet", font=font(13))
-            d2.text(((240-mw)//2, CY-10), "No phase data yet", font=font(13), fill=T["DIM"])
+            tw  = d2.textlength("Power (W)", font=font_bold(17))
+            d2.text(((240-tw)//2, 26), "Power (W)", font=font_bold(17), fill=T["CYAN"])
+            mw  = d2.textlength("No phase data yet", font=font(14))
+            d2.text(((240-mw)//2, CY-10), "No phase data yet", font=font(14), fill=T["DIM"])
             self.display.show_image(img)
             return
 
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
 
-        # Title
-        fb = font_bold(15)
+        # Title — larger
+        fb = font_bold(17)
         tw = draw.textlength("Power (W)", font=fb)
         draw.text(((240 - tw) // 2, 26), "Power (W)", font=fb, fill=T["CYAN"])
 
@@ -39,15 +44,15 @@ class ChartRenderer(BaseRenderer):
         n          = len(phases)
         total_w    = n * bar_w + (n - 1) * gap
         start_x    = (240 - total_w) // 2
-        origin_y   = 185
-        max_bar_h  = 110
+        origin_y   = 182
+        max_bar_h  = 105
         max_power  = max([p.get("power", 0) for p in phases] + [1])
 
-        # Phase colors — cyan palette instead of raw red/green/blue
+        # Phase colors — cyan palette
         colors = [T["CYAN"], T["ORANGE"], (130, 80, 255)]
 
-        fr10 = font(10)
-        fb11 = font_bold(11)
+        fr12 = font(12)
+        fb13 = font_bold(13)
 
         for i, phase in enumerate(phases):
             power      = phase.get("power", 0)
@@ -62,26 +67,26 @@ class ChartRenderer(BaseRenderer):
                 radius=4, fill=col
             )
 
-            # Power value above bar
+            # Power value above bar — larger, bolder
             val_txt = f"{power:.0f}"
-            vw      = draw.textlength(val_txt, font=fb11)
-            draw.text((x + (bar_w - vw) // 2, bar_top - 16),
-                      val_txt, font=fb11, fill=col)
+            vw      = draw.textlength(val_txt, font=fb13)
+            draw.text((x + (bar_w - vw) // 2, bar_top - 18),
+                      val_txt, font=fb13, fill=col)
 
-            # Phase label below bar
+            # Phase label below bar — larger
             lbl   = f"P{i + 1}"
-            lbl_w = draw.textlength(lbl, font=fr10)
+            lbl_w = draw.textlength(lbl, font=fr12)
             draw.text((x + (bar_w - lbl_w) // 2, origin_y + 4),
-                      lbl, font=fr10, fill=T["DIM"])
+                      lbl, font=fr12, fill=T["DIM"])
 
         # Baseline
         draw.line([(start_x - 4, origin_y), (start_x + total_w + 4, origin_y)],
                   fill=T["BORDER"], width=1)
 
-        # Tap hint
+        # Tap hint — slightly larger
         fh = font(10)
         hw = draw.textlength("Tap: next view", font=fh)
-        draw.text(((240 - hw) // 2, 210), "Tap: next view",
+        draw.text(((240 - hw) // 2, 214), "Tap: next view",
                   font=fh, fill=T["DIM"])
 
         self.display.show_image(img)
@@ -93,7 +98,7 @@ class ChartRenderer(BaseRenderer):
         T = self._theme()
 
         if not data or len(data) < 2:
-            fh = font(11)
+            fh  = font(13)
             msg = f"No {label} data yet"
             mw  = draw.textlength(msg, font=fh)
             draw.text(((240 - mw) // 2, y_start + height // 2 - 6),
@@ -102,7 +107,7 @@ class ChartRenderer(BaseRenderer):
 
         powers = [d.get('totalPower', 0) for d in data]
         if not any(powers):
-            fh  = font(11)
+            fh  = font(13)
             msg = f"All {label} values zero"
             mw  = draw.textlength(msg, font=fh)
             draw.text(((240 - mw) // 2, y_start + height // 2 - 6),
@@ -114,7 +119,7 @@ class ChartRenderer(BaseRenderer):
         scale = height / (max_p - min_p + 1e-3)
 
         # Chart area — centred, safe inside circle
-        chart_w = 160
+        chart_w = 156
         cl      = (240 - chart_w) // 2       # left edge
         cr      = cl + chart_w               # right edge
         cb      = y_start + height           # bottom
@@ -133,15 +138,15 @@ class ChartRenderer(BaseRenderer):
         for i in range(len(pts) - 1):
             draw.line([pts[i], pts[i + 1]], fill=T["CYAN"], width=2)
 
-        # Min/max labels
-        fb10 = font_bold(10)
-        draw.text((cl + 3, y_start),    f"{max_p:.0f}W", font=fb10, fill=T["CYAN"])
-        draw.text((cl + 3, cb - 13),    f"{min_p:.0f}W", font=fb10, fill=T["DIM"])
+        # Min/max labels — larger
+        fb11 = font_bold(11)
+        draw.text((cl + 3, y_start),    f"{max_p:.0f}W", font=fb11, fill=T["CYAN"])
+        draw.text((cl + 3, cb - 14),    f"{min_p:.0f}W", font=fb11, fill=T["DIM"])
 
-        # Label
-        fh = font(10)
+        # Label — larger
+        fh = font(11)
         lw = draw.textlength(label, font=fh)
-        draw.text(((240 - lw) // 2, y_start - 14), label, font=fh, fill=T["DIM"])
+        draw.text(((240 - lw) // 2, y_start - 15), label, font=fh, fill=T["DIM"])
 
     # ── Line chart (kept for compat but simplified) ───────────────────────────
 
@@ -151,6 +156,6 @@ class ChartRenderer(BaseRenderer):
         img = self.canvas()
         d2  = ImageDraw.Draw(img)
         msg = "Use Tap to switch views"
-        mw  = d2.textlength(msg, font=font(13))
-        d2.text(((240-mw)//2, CY-10), msg, font=font(13), fill=T["DIM"])
+        mw  = d2.textlength(msg, font=font(14))
+        d2.text(((240-mw)//2, CY-10), msg, font=font(14), fill=T["DIM"])
         self.display.show_image(img)

@@ -1,12 +1,10 @@
 """
 ui/renderer.py  —  Orion · Dione Protocol  circular design system
-Fixed:
-  - Stars smaller, fewer (no text interference)
-  - Status bar uses emoji (📶 ⚡) with Symbola font + correct colors
-  - Node lines removed (no cross lines)
-  - draw_title centered correctly, no overlap
-  - Text sizes larger and clearer
-  - Symbola font used for all emojis
+Visual clarity update:
+  - Improved wrap_text: handles long single words (WiFi SSIDs) by char-splitting
+  - Larger nav arrows and page indicators for readability
+  - Smarter text positioning within circular safe area
+  - render_message uses adaptive font sizing
 """
 import math
 from PIL import Image, ImageDraw, ImageFont
@@ -52,7 +50,7 @@ LIGHT = dict(
 
 CX = CY = 120
 R       = 118
-SAFE_W  = 160
+SAFE_W  = 172    # increased from 160 — better use of the ~192px usable band
 
 # ── Font paths ────────────────────────────────────────────────────────────────
 _SYMBOLA = "/home/orangepi/screen-manager/Font/Symbola.ttf"
@@ -246,8 +244,8 @@ def draw_corner_hash(draw, label: str, theme: dict = DARK):
 
 def draw_nav_arrows(draw, theme: dict = DARK, show_up=True, show_down=True,
                     up_y=56, down_y=207):
-    """Clearly visible navigation arrows."""
-    fb = font_bold(13)
+    """Clearly visible navigation arrows — larger for readability."""
+    fb = font_bold(14)
     aw = draw.textlength("▲", font=fb)
     cx = (240 - aw) // 2
     if show_up:
@@ -258,14 +256,14 @@ def draw_nav_arrows(draw, theme: dict = DARK, show_up=True, show_down=True,
 
 def draw_page_indicator(draw, current: int, total: int,
                         theme: dict = DARK, y: int = 207):
-    """Page number indicator — clearly visible."""
-    fb  = font_bold(11)
+    """Page number indicator — larger pill, bolder text for clarity."""
+    fb  = font_bold(13)
     txt = f"{current}/{total}"
     tw  = draw.textlength(txt, font=fb)
-    # pill background
+    # pill background — slightly bigger padding
     draw.rounded_rectangle(
-        [(CX - tw//2 - 8, y - 2), (CX + tw//2 + 8, y + 13)],
-        radius=5, fill=theme["SURFACE"]
+        [(CX - tw//2 - 10, y - 3), (CX + tw//2 + 10, y + 16)],
+        radius=6, fill=theme["SURFACE"]
     )
     draw.text((CX - tw//2, y), txt, font=fb, fill=theme["CYAN"])
 
@@ -337,7 +335,15 @@ class BaseRenderer:
     # ── text ─────────────────────────────────────────────────────────────────
 
     def wrap_text(self, text, font_obj, max_width=SAFE_W):
-        words, lines, cur = text.split(), [], ""
+        """Word-wrap text, with character-level fallback for long words.
+
+        If a single word is wider than max_width (e.g. a long WiFi SSID
+        like 'MyVeryLongNetworkName_5GHz_Extended'), it gets split across
+        lines at character boundaries so it never overflows the screen.
+        """
+        words = text.split()
+        lines = []
+        cur   = ""
         for w in words:
             test = (cur + " " + w).strip()
             if font_obj.getlength(test) <= max_width:
@@ -345,25 +351,54 @@ class BaseRenderer:
             else:
                 if cur:
                     lines.append(cur)
-                cur = w
+                # Check if the word itself fits on one line
+                if font_obj.getlength(w) <= max_width:
+                    cur = w
+                else:
+                    # Character-level split for very long words
+                    cur = ""
+                    for ch in w:
+                        test_ch = cur + ch
+                        if font_obj.getlength(test_ch) <= max_width:
+                            cur = test_ch
+                        else:
+                            if cur:
+                                lines.append(cur)
+                            cur = ch
         if cur:
             lines.append(cur)
         return lines
 
     def render_message(self, message: str, font_size=16, color=None):
+        """Render a centred message — auto-shrinks font if text overflows."""
         T = self._theme()
         if color is None:
             color = T["WHITE"]
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
-        fb   = font_bold(font_size)
-        lines = []
+
+        # Try the requested size first; shrink if lines don't fit vertically
+        size = font_size
+        while size >= 11:
+            fb    = font_bold(size)
+            lines = []
+            for raw in message.split("\n"):
+                lines.extend(self.wrap_text(raw, fb, SAFE_W) or [""])
+            lh      = size + 7
+            total_h = len(lines) * lh
+            if total_h <= 160:   # fits in safe vertical area
+                break
+            size -= 1
+
+        fb = font_bold(size)
+        lh = size + 7
+        lines_wrapped = []
         for raw in message.split("\n"):
-            lines.extend(self.wrap_text(raw, fb, SAFE_W) or [""])
-        lh      = font_size + 6
-        total_h = len(lines) * lh
+            lines_wrapped.extend(self.wrap_text(raw, fb, SAFE_W) or [""])
+        total_h = len(lines_wrapped) * lh
         y       = CY - total_h // 2
-        for line in lines:
+
+        for line in lines_wrapped:
             if line:
                 lw = draw.textlength(line, font=fb)
                 draw.text(((240 - lw) // 2, y), line, font=fb, fill=color)
