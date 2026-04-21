@@ -96,7 +96,14 @@ class WiFiMenu(BaseRenderer):
         if self.state.wifi_connecting:
             if self.state.wifi_connect_result is None:
                 # Still running — update status display
-                self.render_connecting_status()
+                # Safety: if no status update for >120s, assume worker crashed
+                if not hasattr(self.state, '_wifi_op_started'):
+                    self.state._wifi_op_started = time.time()
+                if time.time() - self.state._wifi_op_started > 120:
+                    logging.error("WiFi operation timed out (120s) — forcing cleanup")
+                    self.state.wifi_connect_result = (False, "Operation\ntimed out")
+                else:
+                    self.render_connecting_status()
                 return None
 
             # Result just arrived — show it once
@@ -116,7 +123,14 @@ class WiFiMenu(BaseRenderer):
         # ── pairing flow running ──────────────────────────────────────────────
         if self.state.pairing_active:
             if self.state.wifi_connect_result is None:
-                self.render_connecting_status()
+                # Safety timeout for pairing too
+                if not hasattr(self.state, '_wifi_op_started'):
+                    self.state._wifi_op_started = time.time()
+                if time.time() - self.state._wifi_op_started > 120:
+                    logging.error("Pairing operation timed out (120s) — forcing cleanup")
+                    self.state.wifi_connect_result = (False, "Pairing\ntimed out")
+                else:
+                    self.render_connecting_status()
                 return None
             if self.state.wifi_result_shown_at == 0.0:
                 self.render_connect_result()
@@ -135,6 +149,7 @@ class WiFiMenu(BaseRenderer):
         self.state.wifi_connect_status  = ""
         self.state.wifi_connect_result  = None
         self.state.wifi_result_shown_at = 0.0
+        self.state._wifi_op_started     = 0.0
 
     # ── network confirmation ──────────────────────────────────────────────────
 
@@ -267,7 +282,7 @@ class WiFiMenu(BaseRenderer):
         img  = self.canvas()
         draw = ImageDraw.Draw(img)
 
-        self.draw_title(draw, step["title"], title_size=17)
+        self.draw_title(draw, step["title"], title_size=18)
         draw_divider(draw, 52, T)
 
         # Icon
@@ -276,18 +291,18 @@ class WiFiMenu(BaseRenderer):
         draw.text(((240 - ew) // 2, 58), step["icon"], font=ef, fill=T["CYAN"])
 
         # Body text — larger for readability
-        fr13 = font(13)
+        fr13 = font(17)
         y = 88
         for line in step["lines"]:
             if line:
                 lw = draw.textlength(line, font=fr13)
                 draw.text(((240 - lw) // 2, y), line, font=fr13, fill=T["WHITE"])
-            y += 20
+            y += 22
 
         # Hint
-        fh = font(11)
+        fh = font(12)
         hw = draw.textlength(step["hint"], font=fh)
-        draw.text(((240 - hw) // 2, 214), step["hint"], font=fh, fill=T["DIM"])
+        draw.text(((240 - hw) // 2, 210), step["hint"], font=fh, fill=T["DIM"])
 
         self.show(img)
 
@@ -339,6 +354,7 @@ class WiFiMenu(BaseRenderer):
         self.state.wifi_connect_status  = "Connecting to\nOrionSetup..."
         self.state.wifi_connect_result  = None
         self.state.wifi_result_shown_at = 0.0
+        self.state._wifi_op_started     = time.time()
 
         def _worker():
             success, msg = NetworkService(self).ensure_orion_connection()
