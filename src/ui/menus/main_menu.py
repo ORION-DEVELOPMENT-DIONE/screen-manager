@@ -37,8 +37,8 @@ class MainMenu(BaseRenderer):
         total_h = count * ITEM_H
         y_start = max(47, (196 - total_h) // 2 + 8)
 
-        fb = font_bold(17)
-        fr = font(16)
+        fb = font_bold(18)
+        fr = font(17)
 
         for i, item in enumerate(items):
             selected        = (i == self.state.selected_option)
@@ -106,6 +106,6 @@ class MainMenu(BaseRenderer):
         time.sleep(0.1)
         menu_map = {
             0: MENU_MQTT, 1: MENU_METRICS,
-            2: MENU_WIFI, 3: MENU_UPDATE, 4: MENU_CONFIRM_SHUTDOWN
+            2: MENU_WIFI, 3: MENU_UPDATE, 4: MENU_POWER_OPTIONS
         }
         return menu_map.get(self.state.selected_option)

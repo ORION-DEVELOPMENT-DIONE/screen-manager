@@ -239,9 +239,9 @@ class WiFiMenu(BaseRenderer):
 
         if len(self.state.saved_networks_list) > display_n:
             draw_nav_arrows(draw, T, show_up=True, show_down=True,
-                            up_y=198, down_y=210)
+                            up_y=191, down_y=205)
         fh = font(11); hw = draw.textlength("Tap to connect", font=fh)
-        draw.text(((240 - hw) // 2, 214), "Tap to connect", font=fh, fill=T["DIM"])
+        draw.text(((240 - hw) // 2, 215), "Tap to connect", font=fh, fill=T["DIM"])
         self.show(img)
         return True
 
@@ -464,5 +464,5 @@ class WiFiMenu(BaseRenderer):
                 self.state.in_saved_networks_mode = False
             time.sleep(0.2)
         elif sel == 3:
-            self._handle_remove_wifi()
+            return MENU_CONFIRM_REMOVE_WIFI
         return None

@@ -61,6 +61,7 @@ class MenuHandler:
         self.energy_menu = EnergyMenu(display, state, energy_analyzer)
         self.device_menu = DeviceMenu(display, state)
         self.confirmation_menu = ConfirmationMenu(display, state)
+        self.confirmation_menu.set_wifi_service(wifi_service)
         self.update_menu = UpdateMenu(display, state, update_checker)
 
     def render_current_menu(self):
@@ -75,8 +76,14 @@ class MenuHandler:
             self.device_menu.render()
         elif self.state.current_menu == MENU_CONFIRM_SHUTDOWN:
             self.confirmation_menu.render_shutdown_confirmation()
+        elif self.state.current_menu == MENU_POWER_OPTIONS:
+            self.confirmation_menu.render_power_options()
+        elif self.state.current_menu == MENU_CONFIRM_RESTART:
+            self.confirmation_menu.render_restart_confirmation()
         elif self.state.current_menu == MENU_CONFIRM_NETWORK:
             self.wifi_menu.render_network_confirmation()
+        elif self.state.current_menu == MENU_CONFIRM_REMOVE_WIFI:
+            self.confirmation_menu.render_remove_wifi_confirmation()
         elif self.state.current_menu == MENU_UPDATE:
             self.update_menu.render()
 
@@ -99,8 +106,14 @@ class MenuHandler:
             next_menu = self.device_menu.handle_gesture(gesture, self.touch_device) 
         elif self.state.current_menu == MENU_CONFIRM_SHUTDOWN:
             next_menu = self.confirmation_menu.handle_shutdown_gesture(gesture, self.touch_device)
+        elif self.state.current_menu == MENU_POWER_OPTIONS:
+            next_menu = self.confirmation_menu.handle_power_options_gesture(gesture, self.touch_device)
+        elif self.state.current_menu == MENU_CONFIRM_RESTART:
+            next_menu = self.confirmation_menu.handle_restart_gesture(gesture, self.touch_device)
         elif self.state.current_menu == MENU_CONFIRM_NETWORK:
             next_menu = self.wifi_menu.handle_confirmation_gesture(gesture, self.touch_device)
+        elif self.state.current_menu == MENU_CONFIRM_REMOVE_WIFI:
+            next_menu = self.confirmation_menu.handle_remove_wifi_gesture(gesture, self.touch_device)       
         elif self.state.current_menu == MENU_UPDATE:
             next_menu = self.update_menu.handle_gesture(gesture, self.touch_device)
 
