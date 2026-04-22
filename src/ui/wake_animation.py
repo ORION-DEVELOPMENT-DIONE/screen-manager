@@ -18,15 +18,14 @@ from ui.renderer import (DARK, CX, CY, R, font, font_bold,
  
 log = logging.getLogger("orion.boot")
  
-# ── Constants ─────────────────────────────────────────────────────────────────
 W, H = SCREEN_WIDTH, SCREEN_HEIGHT
 DR   = R   # 118
  
-# Text Y positions — inside circular safe area
-Y_DIONE     = 140
-Y_PROTOCOL  = 166
-Y_VALIDATOR = 181
-Y_ONLINE    = 196
+# Text Y positions
+Y_DIONE     = 136
+Y_PROTOCOL  = 160
+Y_VALIDATOR = 177
+Y_ONLINE    = 192
  
 # Orb ring colours — matched to dione-logo.jpg
 ORB_RINGS = [
@@ -43,8 +42,6 @@ ORB_MAX_R = 62
 BG_DEEP   = (8,  3, 18)
 BG_INNER  = (15, 8, 35)
  
- 
-# ── Helpers ───────────────────────────────────────────────────────────────────
  
 def _clamp(v, lo, hi):
     return max(lo, min(hi, v))
@@ -63,8 +60,6 @@ def _col_alpha(color, alpha, bg=(0, 0, 0)):
     a = _clamp(alpha, 0.0, 1.0)
     return tuple(int(bg[i] * (1 - a) + color[i] * a) for i in range(3))
  
- 
-# ── Cached background ────────────────────────────────────────────────────────
  
 _bg_masked = None
 _bg_mask   = None
@@ -106,22 +101,8 @@ def _get_background():
     return _bg_masked, _bg_mask
  
  
-# ── Render one animation frame ────────────────────────────────────────────────
- 
 def _render_frame(boot_t, final_msg):
-    """Render one frame at progress boot_t (0.0 → 1.0).
- 
-    Timeline:
-      0.00 → 0.45  Orb materializes
-      0.40 → 0.60  Scan arc sweeps bezel
-      0.55 → 0.68  Bezel nodes light up
-      0.58 → 0.72  DIONE + PROTOCOL text
-      0.70 → 0.80  ORION VALIDATOR text
-      0.78 → 0.88  Final message appears
-      0.88 → 1.00  Holds steady (no fade-out)
- 
-    Returns a 240x240 RGB PIL Image.
-    """
+    """Render one animation frame. No fade-out — holds steady after t=0.88."""
     T = DARK
     bg, mask = _get_background()
     node_r = DR - 5
@@ -129,7 +110,7 @@ def _render_frame(boot_t, final_msg):
     img  = bg.copy()
     draw = ImageDraw.Draw(img)
  
-    # ── Phase 1: Orb materializes (0.00 → 0.45) ──────────────────────────
+    # ── Phase 1: Orb (0.00 → 0.45) ───────────────────────────────────────
     orb_t = _clamp(boot_t / 0.45, 0, 1)
     if orb_t > 0:
         sc = _ease_out(orb_t)
@@ -204,7 +185,7 @@ def _render_frame(boot_t, final_msg):
         text_y = int(Y_DIONE + 6 * (1 - eo))
  
         fb24 = font_bold(24)
-        fr9  = font(9)
+        fr10 = font(10)
  
         alpha_ramp = min(1.0, text_t * 2.0)
         dione_col = _col_alpha((0, 220, 200), alpha_ramp)
@@ -216,21 +197,21 @@ def _render_frame(boot_t, final_msg):
             proto_al = min(1.0, proto_t * 1.8)
             proto_col = _col_alpha((0, 200, 185), 0.75 * proto_al)
             ptxt = "P R O T O C O L"
-            pw = draw.textlength(ptxt, font=fr9)
+            pw = draw.textlength(ptxt, font=fr10)
             draw.text((int((W - pw) / 2), text_y + (Y_PROTOCOL - Y_DIONE)),
-                      ptxt, font=fr9, fill=proto_col)
+                      ptxt, font=fr10, fill=proto_col)
  
     # ── Phase 5: "· ORION VALIDATOR ·" (0.70 → 0.80) ────────────────────
     val_t = _clamp((boot_t - 0.70) / 0.10, 0, 1)
     if val_t > 0:
-        fr8 = font(8)
+        fr10 = font(11)
         val_al = min(1.0, val_t * 1.5)
         val_col = _col_alpha((160, 180, 210), 0.85 * val_al)
         vtxt = "· ORION  VALIDATOR ·"
-        vw = draw.textlength(vtxt, font=fr8)
-        draw.text((int((W - vw) / 2), Y_VALIDATOR), vtxt, font=fr8, fill=val_col)
+        vw = draw.textlength(vtxt, font=fr10)
+        draw.text((int((W - vw) / 2), Y_VALIDATOR), vtxt, font=fr10, fill=val_col)
  
-    # ── Phase 6: Final message (0.78 → 0.88) — stays visible after ──────
+    # ── Phase 6: Final message (0.78 → 0.88) — stays visible ────────────
     online_t = _clamp((boot_t - 0.78) / 0.10, 0, 1)
     if online_t > 0:
         pulse_decay = max(0, 1.0 - online_t * 1.5)
@@ -238,11 +219,9 @@ def _render_frame(boot_t, final_msg):
         online_al = min(1.0, online_t * 2.0) * pulse_wave
  
         online_col = _col_alpha((46, 204, 113), online_al)
-        fb10 = font_bold(10)
-        ow = draw.textlength(final_msg, font=fb10)
-        draw.text((int((W - ow) / 2), Y_ONLINE), final_msg, font=fb10, fill=online_col)
- 
-    # ── NO fade-out phase — t > 0.88 holds steady ────────────────────────
+        fb13 = font_bold(13)
+        ow = draw.textlength(final_msg, font=fb13)
+        draw.text((int((W - ow) / 2), Y_ONLINE), final_msg, font=fb13, fill=online_col)
  
     # Outer bezel ring
     draw.arc([CX - DR + 1, CY - DR + 1, CX + DR - 1, CY + DR - 1],
@@ -254,23 +233,11 @@ def _render_frame(boot_t, final_msg):
     return final
  
  
-# ══════════════════════════════════════════════════════════════════════════════
-# PUBLIC API
-# ══════════════════════════════════════════════════════════════════════════════
- 
 def play_boot_animation(display, quick=False):
     """Play the Dione Protocol boot/wake animation.
  
-    Args:
-        display: DisplayManager instance (has .show_image())
-        quick:   False → full boot (6s anim + 2s hold, "SYSTEM ONLINE")
-                 True  → quick wake (2s anim + 1s hold, "WELCOME BACK")
- 
-    The animation plays all phases then holds the final frame (everything
-    at full brightness) for the hold duration. There is NO fade-out and
-    NO separate hold frame — the last animation frame IS the hold frame.
-    When this function returns, the caller renders the next screen which
-    naturally replaces the animation.
+    quick=False → full boot: 6s anim + 2s hold, "SYSTEM ONLINE"
+    quick=True  → wake:      2s anim + 1s hold, "WELCOME BACK"
     """
     if quick:
         anim_duration = 2.0
@@ -292,14 +259,13 @@ def play_boot_animation(display, quick=False):
  
     _get_background()
  
-    # ── Animation loop ────────────────────────────────────────────────────
     for frame_i in range(frame_count + 1):
         boot_t = frame_i / frame_count
         frame = _render_frame(boot_t, final_msg)
         display.show_image(frame)
         time.sleep(frame_dt)
  
-    # ── Hold — the last frame is already on screen, just wait ─────────────
+    # Hold — last frame is already on screen
     log.info("Boot animation [%s]: hold (%.1fs)", mode_str, hold_time)
     time.sleep(hold_time)
  
