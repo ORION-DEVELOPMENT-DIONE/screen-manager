@@ -10,6 +10,7 @@ import logging
 import threading
 import time
 from PIL import Image, ImageDraw, ImageFont
+from ui.wake_animation import play_boot_animation
 
 # Add parent directory to path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -114,19 +115,7 @@ def interrupt_callback(TP_INT=TP_INT):
     state.last_activity_time = time.time()
 
 def show_startup_screen(display):
-    """Show startup logo"""
-    logo = Image.open("../pic/dione-logo.jpg").convert("RGB")
-    image = logo.copy()
-    draw = ImageDraw.Draw(image)
-    
-    from PIL import ImageFont
-    font = ImageFont.truetype("../Font/DejaVuSans.ttf", 24)
-    
-    draw.text((65, 80), 'Welcome', fill='white', font=font)
-    draw.text((110, 110), 'To', fill='white', font=font)
-    draw.text((90, 140), 'Orion', fill='white', font=font)
-    display.show_image(image)
-    time.sleep(5)
+    play_boot_animation(display, quick=False)
 
 def cleanup_and_exit(signum, frame):
     """Cleanup on exit"""

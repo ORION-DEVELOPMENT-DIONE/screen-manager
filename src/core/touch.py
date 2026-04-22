@@ -15,6 +15,7 @@ from config.constants import (
     MENU_MAIN, MENU_WIFI, MENU_CONFIRM_NETWORK,
     STANDBY_TIMEOUT, GESTURE_DEBOUNCE, RENDER_THROTTLE,
 )
+from ui.wake_animation import play_boot_animation
 
 log = logging.getLogger("orion.touch")
 
@@ -223,16 +224,27 @@ class TouchHandler:
         self._accept(GESTURE_LONG_PRESS, current_time)
 
     # ── Standby ───────────────────────────────────────────────────────────────
-
+    
     def _wake_from_standby(self, current_time: float):
         log.info("Waking from standby")
         self.state.is_standby         = False
         self.state.last_activity_time = current_time
         self.touch.Stop_Sleep()
         self.touch.Set_Mode(0)
+
+        # Push a black frame into the LCD buffer BEFORE turning
+        # the display on — prevents the old menu from flashing
+        from PIL import Image
+        black = Image.new("RGB", (240, 240), (0, 0, 0))
+        self.menu_handler.display.show_image(black)
+
         self.menu_handler.display.wake()
         self.touch.Gestures = 0
-        time.sleep(0.3)
+
+        # Quick wake animation — shows "WELCOME BACK"
+        from ui.wake_animation import play_boot_animation
+        play_boot_animation(self.menu_handler.display, quick=True)
+
         self.menu_handler.render_current_menu()
         self.state.last_gesture      = None
         self.state.last_gesture_time = current_time
