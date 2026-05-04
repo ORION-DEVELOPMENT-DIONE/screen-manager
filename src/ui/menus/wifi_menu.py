@@ -20,6 +20,7 @@ from ui.renderer import (BaseRenderer, font, font_bold, font_emoji,
                          CX, CY, SAFE_W)
 from config.constants import *
 from config.themes import WIFI_MENU_EMOJIS
+from ui.pairing_screen import PairingScreenRenderer
 
 BTN_Y             = 167
 MESSAGE_DISPLAY_S = 3
@@ -45,7 +46,7 @@ class WiFiMenu(BaseRenderer):
             state.wifi_result_shown_at = 0.0
         if not hasattr(state, 'pairing_active'):
             state.pairing_active = False
-
+        self._pairing_renderer = PairingScreenRenderer(self)
     # ── main render ───────────────────────────────────────────────────────────
 
     def render(self):
@@ -74,15 +75,28 @@ class WiFiMenu(BaseRenderer):
         self.show(img)
 
     def render_connecting_status(self):
-        """Called by main loop while wifi_connecting is True."""
-        self.render_message(self.state.wifi_connect_status)
+        """Called by main loop while pairing/connecting is active.
+ 
+        Uses PairingScreenRenderer for step-by-step UI during pairing,
+        falls back to simple text message for non-pairing connects.
+        """
+        if self.state.pairing_active and getattr(self.state, 'pairing_step', -1) >= 0:
+            self._pairing_renderer.render()
+        else:
+            self.render_message(self.state.wifi_connect_status)
 
     def render_connect_result(self):
         """Called by main loop once when wifi_connect_result is set."""
         success, msg = self.state.wifi_connect_result
-        T     = self._theme()
-        color = T["CYAN"] if success else T["RED"]
-        self.render_message(msg, color=color)
+ 
+        if self.state.pairing_active and getattr(self.state, 'pairing_step', -1) == 4:
+            # Step 4 already set by NetworkService — render done screen
+            self._pairing_renderer.render()
+        else:
+            T     = self._theme()
+            color = T["CYAN"] if success else T["RED"]
+            self.render_message(msg, color=color)
+ 
         self.state.wifi_result_shown_at = time.time()
 
     def tick(self):
@@ -92,12 +106,10 @@ class WiFiMenu(BaseRenderer):
         Handles the connect-flow state machine without any background rendering.
         Returns a menu constant to navigate to, or None to stay.
         """
-        # ── async connect in progress ─────────────────────────────────────────
-        if self.state.wifi_connecting:
+        # ── async connect in progress (non-pairing) ──────────────────────────
+        if self.state.wifi_connecting and not self.state.pairing_active:
             if self.state.wifi_connect_result is None:
-                # Still running — update status display
-                # Safety: if no status update for >120s, assume worker crashed
-                if not hasattr(self.state, '_wifi_op_started'):
+                if not hasattr(self.state, '_wifi_op_started') or self.state._wifi_op_started == 0.0:
                     self.state._wifi_op_started = time.time()
                 if time.time() - self.state._wifi_op_started > 120:
                     logging.error("WiFi operation timed out (120s) — forcing cleanup")
@@ -105,13 +117,11 @@ class WiFiMenu(BaseRenderer):
                 else:
                     self.render_connecting_status()
                 return None
-
-            # Result just arrived — show it once
+ 
             if self.state.wifi_result_shown_at == 0.0:
                 self.render_connect_result()
                 return None
-
-            # Result has been shown — wait MESSAGE_DISPLAY_S then clean up
+ 
             if time.time() - self.state.wifi_result_shown_at >= MESSAGE_DISPLAY_S:
                 self._reset_connect_state()
                 self.state.in_saved_networks_mode = False
@@ -119,37 +129,43 @@ class WiFiMenu(BaseRenderer):
                 self.state.current_menu           = MENU_WIFI
                 self.render()
             return None
-
+ 
         # ── pairing flow running ──────────────────────────────────────────────
         if self.state.pairing_active:
             if self.state.wifi_connect_result is None:
-                # Safety timeout for pairing too
-                if not hasattr(self.state, '_wifi_op_started'):
+                if not hasattr(self.state, '_wifi_op_started') or self.state._wifi_op_started == 0.0:
                     self.state._wifi_op_started = time.time()
-                if time.time() - self.state._wifi_op_started > 120:
-                    logging.error("Pairing operation timed out (120s) — forcing cleanup")
+                # 600s timeout for pairing — user needs time at portal
+                if time.time() - self.state._wifi_op_started > 600:
+                    logging.error("Pairing operation timed out (600s) — forcing cleanup")
                     self.state.wifi_connect_result = (False, "Pairing\ntimed out")
                 else:
                     self.render_connecting_status()
                 return None
+ 
             if self.state.wifi_result_shown_at == 0.0:
                 self.render_connect_result()
                 return None
             if time.time() - self.state.wifi_result_shown_at >= MESSAGE_DISPLAY_S:
                 self._reset_connect_state()
-                self.state.pairing_active = False
-                self.state.current_menu   = MENU_WIFI
+                self.state.current_menu = MENU_WIFI
                 self.render()
             return None
-
+ 
         return None
-
+        
     def _reset_connect_state(self):
         self.state.wifi_connecting      = False
         self.state.wifi_connect_status  = ""
         self.state.wifi_connect_result  = None
         self.state.wifi_result_shown_at = 0.0
         self.state._wifi_op_started     = 0.0
+        # Clear ALL pairing state to prevent leaks
+        self.state.pairing_active       = False
+        self.state.pairing_step         = -1
+        self.state.pairing_step_label   = ""
+        self.state.pairing_ssid         = ""
+        self.state.pairing_error        = ""
 
     # ── network confirmation ──────────────────────────────────────────────────
 
@@ -343,24 +359,32 @@ class WiFiMenu(BaseRenderer):
     # ── pair devices ──────────────────────────────────────────────────────────
 
     def _handle_pair_devices(self):
-        """Start pairing — background thread writes state, main loop renders.
-        Only sets state flags —
-        main loop reads them via tick() and renders safely.
-        """
         from services.network_service import NetworkService
-
+ 
+        # Clean slate — clear any leftover state from previous ops
+        self._reset_connect_state()
+ 
+        # Now set fresh pairing state
         self.state.pairing_active       = True
         self.state.wifi_connecting      = True
-        self.state.wifi_connect_status  = "Connecting to\nOrionSetup..."
+        self.state.wifi_connect_status  = "Initializing..."
         self.state.wifi_connect_result  = None
         self.state.wifi_result_shown_at = 0.0
-        self.state._wifi_op_started     = time.time()
+        self.state._wifi_op_started     = time.time()  # FRESH timestamp
+ 
+        self.state.pairing_step       = 0
+        self.state.pairing_step_label = "Initializing"
+        self.state.pairing_ssid       = ""
+        self.state.pairing_error      = ""
+        self.state.pairing_cancel     = False
 
+        self._pairing_renderer._last_step = -1
+        self._pairing_renderer._anim_frame = 0
+ 
         def _worker():
             success, msg = NetworkService(self).ensure_orion_connection()
-            # Only write to state — never call render()
             self.state.wifi_connect_result = (success, msg)
-
+ 
         threading.Thread(target=_worker, daemon=True).start()
 
     # ── gesture router ────────────────────────────────────────────────────────
@@ -368,6 +392,14 @@ class WiFiMenu(BaseRenderer):
     def handle_gesture(self, gesture, touch_device=None):
         # Block gestures during async operations
         if self.state.wifi_connecting or self.state.pairing_active:
+            if gesture in [GESTURE_LEFT, GESTURE_LONG_PRESS]:
+                logging.info("User cancelled pairing")
+                self.state.pairing_cancel = True
+                self._reset_connect_state()
+                # Reconnect to previous WiFi or disconnect from OrionSetup
+                self._restore_wifi_after_cancel()
+                self.render()
+                return MENU_WIFI
             return None
 
         if self.state.in_saved_networks_mode:
@@ -466,3 +498,52 @@ class WiFiMenu(BaseRenderer):
         elif sel == 3:
             return MENU_CONFIRM_REMOVE_WIFI
         return None
+
+    def _restore_wifi_after_cancel(self):
+        """Reconnect to previous WiFi in background — only if needed."""
+        import subprocess
+
+        def _worker():
+            try:
+                # Check what we're currently connected to
+                result = subprocess.run(
+                    ['nmcli', '-t', '-f', 'active,ssid', 'dev', 'wifi'],
+                    capture_output=True, text=True, timeout=5
+                )
+
+                on_orion = False
+                for line in result.stdout.split('\n'):
+                    if line.startswith('yes:') and 'OrionSetup' in line:
+                        on_orion = True
+                        break
+
+                if not on_orion:
+                    logging.info("Not on OrionSetup — skip restore")
+                    return
+
+                # On OrionSetup — disconnect and restore saved WiFi
+                subprocess.run(['sudo', 'nmcli', 'device', 'disconnect', 'wlan0'],
+                             capture_output=True, timeout=5)
+
+                result = subprocess.run(
+                    ['nmcli', '-t', '-f', 'name,type', 'connection', 'show'],
+                    capture_output=True, text=True, timeout=5
+                )
+
+                for line in result.stdout.strip().split('\n'):
+                    if ':802-11-wireless' in line:
+                        name = line.split(':')[0]
+                        if name and name != 'OrionSetup':
+                            logging.info(f"Restoring WiFi: {name}")
+                            subprocess.run(
+                                ['sudo', 'nmcli', 'connection', 'up', name],
+                                capture_output=True, timeout=30
+                            )
+                            return
+
+                logging.info("No saved WiFi to restore")
+
+            except Exception as e:
+                logging.error(f"WiFi restore error: {e}")
+
+        threading.Thread(target=_worker, daemon=True).start()

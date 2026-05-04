@@ -48,5 +48,12 @@ class AppState:
         self.wifi_result_shown_at = 0.0    # timestamp when result was first shown
         self.pairing_active       = False   # True during OrionSetup pairing flow
 
+        # ── Pairing step-by-step UI ───────────────────────────────────────────
+        # Written by NetworkService background thread, read by wifi_menu tick()
+        self.pairing_step         = -1      # -1=inactive, 0=init, 1=scan, 2=portal, 3=connecting, 4=done
+        self.pairing_step_label   = ""      # short label for current step
+        self.pairing_ssid         = ""      # SSID being connected to (set in step 3)
+        self.pairing_error        = ""      # error message if failed
+        self.pairing_cancel       = False   # set True to abort background thread
 
 state = AppState()

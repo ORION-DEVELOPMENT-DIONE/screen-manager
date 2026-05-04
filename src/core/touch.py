@@ -105,9 +105,14 @@ class TouchHandler:
             # ── WiFi async state machine tick ─────────────────────────────────
             wifi_menu = self.menu_handler.wifi_menu
             if self.state.wifi_connecting or getattr(self.state, 'pairing_active', False):
+                # Allow cancel gestures during pairing
+                if gesture in [GESTURE_LEFT, GESTURE_LONG_PRESS]:
+                    self.touch.Gestures = 0
+                    self.menu_handler.wifi_menu.handle_gesture(gesture)
+                    continue
                 wifi_menu.tick()
                 if gesture != 0:
-                    self.touch.Gestures = 0  # consume & discard
+                    self.touch.Gestures = 0  # discard non-cancel gestures
                 time.sleep(0.15)
                 continue
 
