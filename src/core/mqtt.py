@@ -6,6 +6,7 @@ import time
 import paho.mqtt.client as mqtt
 from config.constants import *
 from services.influxdb_writer import InfluxDBWriter
+from services.phase_filter import PhaseFilterManager
 
 class MQTTManager:
     def __init__(self, state, data_logger, energy_analyzer=None):
@@ -14,6 +15,7 @@ class MQTTManager:
         self.energy_analyzer  = energy_analyzer
         self.client           = None
         self.influx           = InfluxDBWriter() 
+        self.phase_filter = PhaseFilterManager()
 
     def init_client(self):
         self.client = mqtt.Client(client_id="Orion_Publisher", protocol=mqtt.MQTTv311)
@@ -52,10 +54,15 @@ class MQTTManager:
         except Exception as e:
             logging.error(f"MQTT message error: {e}")
 
+
     def _handle_energy_data(self, data):
-        """Handle energy metrics — keys match actual ESP32 payload."""
-        # Update last-seen timestamp for meter connectivity
+        """Process energy data with phase filtering."""
+        
+        # Update last-seen timestamp
         self.state.meter_last_seen = time.monotonic()
+
+        # ━━━ PHASE FILTER: sanitize before ANY processing ━━━
+        data = self.phase_filter.filter(data)
 
         self.state.energy_data = data
         self.data_logger.log_data(data)
@@ -63,12 +70,23 @@ class MQTTManager:
 
         metrics = []
 
+        # Phase count indicator
+        phase_count = data.get("phaseCount", 3)
+        connected = data.get("connectedPhases", [True, True, True])
+        
+        if phase_count == 1:
+            metrics.append("Mode: Single Phase")
+        elif phase_count == 2:
+            metrics.append("Mode: 2-Phase")
+        else:
+            metrics.append("Mode: 3-Phase")
+
         # Voltage
         voltage = data.get("voltage")
         if voltage is not None:
             metrics.append(f"Voltage: {voltage:.1f} V")
 
-        # Total power
+        # Total power (already recalculated by filter)
         total_power = data.get("totalPower")
         if total_power is not None:
             metrics.append(f"Total Power: {total_power:.2f} W")
@@ -83,18 +101,21 @@ class MQTTManager:
         if battery is not None:
             metrics.append(f"Battery: {battery:.1f} %")
 
-        # Per-phase metrics
+        # Per-phase metrics — ONLY show connected phases
         phases = data.get("phases", [])
+        phase_labels = ["R", "Y", "B"]
         for idx, phase in enumerate(phases):
+            if idx < len(connected) and not connected[idx]:
+                continue  # Skip disconnected phases entirely
+            
             current = phase.get("current")
-            power   = phase.get("power")
+            power = phase.get("power")
             if current is not None and power is not None:
-                metrics.append(f"Phase {idx + 1}: {power:.1f} W / {current:.2f} A")
+                metrics.append(f"Phase {phase_labels[idx]}: {power:.1f} W / {current:.2f} A")
 
-        # Timestamp of last reading
+        # Timestamp
         ts = data.get("timestamp")
         if ts:
-            # Show only HH:MM from the timestamp
             try:
                 metrics.append(f"Last seen: {ts.split(' ')[1][:5]}")
             except Exception:
@@ -103,7 +124,7 @@ class MQTTManager:
         self.state.energy_metrics = metrics
         if self.energy_analyzer:
             self.energy_analyzer.add_data_point(data)
-            
+
     def _handle_wifi_credentials(self, data):
         pass
 
