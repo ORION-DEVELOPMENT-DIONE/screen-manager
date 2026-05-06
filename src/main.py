@@ -39,9 +39,14 @@ from services.energy_analyzer import EnergyAnalyzer
 from services.update_checker import UpdateChecker
 from ui.menus.update_menu import UpdateMenu
 from services.connectivity_service import ConnectivityService
+from systemd.journal import JournalHandler
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+log = logging.getLogger()
+log.setLevel(logging.INFO)
+jh = JournalHandler(SYSLOG_IDENTIFIER='screen-manager')
+jh.setFormatter(logging.Formatter('[%(levelname)s] %(message)s'))
+log.addHandler(jh)
 connectivity = ConnectivityService(state)
 connectivity.start()
 
