@@ -96,24 +96,12 @@ class InfluxDBWriter:
     def available(self):
         return self._available
 
-    def write_energy_data(self, data: dict):
+    def write_energy_data(self, data):
         """
-        Write an energy metrics payload to InfluxDB.
-
-        Expects the same JSON dict that arrives from the ESP32:
-        {
-            "deviceId": "F8B3B77FEAF4",
-            "timestamp": "2026-02-11 19:35:53",
-            "battery": 82.36,
-            "voltage": 217.72,
-            "totalPower": 2150.05,
-            "energyTotal": 0.00092,
-            "phases": [
-                {"current": 3.14, "power": 721.50},
-                {"current": 3.06, "power": 703.61},
-                {"current": 3.15, "power": 724.93}
-            ]
-        }
+        Write energy data to InfluxDB.
+        
+        Only writes fields for connected phases.
+        Adds phase_count tag for Grafana conditional queries.
         """
         if not self._available:
             return
@@ -123,38 +111,50 @@ class InfluxDBWriter:
 
         try:
             device_id = data.get("deviceId", "unknown")
-
-            # Use current UTC time (ESP32 timestamp has timezone offset issues)
             dt = datetime.utcnow()
 
-            # Build the point
+            # Phase connectivity info
+            phase_count = data.get("phaseCount", 3)
+            connected = data.get("connectedPhases", [True, True, True])
+
+            # Build point with phase_count tag
             point = (
                 Point("energy")
                 .tag("deviceId", device_id)
-                .field("voltage",    float(data.get("voltage", 0)))
-                .field("totalPower", float(data.get("totalPower", 0)))
+                .tag("phase_count", str(phase_count))
+                .field("voltage",     float(data.get("voltage", 0)))
+                .field("totalPower",  float(data.get("totalPower", 0)))
                 .field("energyTotal", float(data.get("energyTotal", 0)))
-                .field("battery",    float(data.get("battery", 0)))
+                .field("battery",     float(data.get("battery", 0)))
+                .field("phaseCount",  phase_count)
                 .time(dt, WritePrecision.S)
             )
 
-            # Per-phase fields (flattened for easier Grafana queries)
+            # Per-phase fields — ONLY for connected phases
             phases = data.get("phases", [])
             phase_labels = ["r", "y", "b"]
             for i, phase in enumerate(phases):
                 if i < len(phase_labels):
                     label = phase_labels[i]
-                    point.field(f"current_{label}", float(phase.get("current", 0)))
-                    point.field(f"power_{label}",   float(phase.get("power", 0)))
+                    
+                    if i < len(connected) and connected[i]:
+                        # Connected: write real values
+                        point.field(f"current_{label}", float(phase.get("current", 0)))
+                        point.field(f"power_{label}",   float(phase.get("power", 0)))
+                    else:
+                        # Disconnected: DO NOT write field at all
+                        # This means Grafana queries return null (no data)
+                        # instead of misleading zeros
+                        pass
 
-            # Optional fields (present in some payloads)
+            # Optional fields
             if "runTime" in data:
                 point.field("runTime", int(data["runTime"]))
             if "totalSleepTime" in data:
                 point.field("totalSleepTime", int(data["totalSleepTime"]))
 
             self._write_api.write(bucket=INFLUXDB_BUCKET, record=point)
-            self._error_count = 0  # Reset on success
+            self._error_count = 0
 
         except Exception as e:
             self._error_count += 1
@@ -162,8 +162,8 @@ class InfluxDBWriter:
                 logging.error(f"InfluxDB write failed ({self._error_count}): {e}")
             if self._error_count >= self._max_errors:
                 logging.error("InfluxDB writes disabled after too many failures. "
-                              "Restart screen-manager to retry.")
-
+                            "Restart screen-manager to retry.")
+                            
     def close(self):
         """Clean shutdown."""
         if self._client:
