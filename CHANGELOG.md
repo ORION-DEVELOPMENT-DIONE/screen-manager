@@ -1,15 +1,12 @@
 # Orion Screen-Manager Changelog
 
-## edd261a
-### Bug Fixes
-• Fixed MQTT reconnection loop on unstable networks
-• Updated timestamp function to use device's current time.
+## Latest
+- Improved logging reliability across reboots and restarts
+- Added system-level logging support
 
-### New Features
-• Influxdb is now saving data to use it with Grafana Dashboard.
-• Update description screen with vertical scrolling
-• Energy Analyzer now shows 7-day trend
+## Phase Detection
+- Automatic detection of connected electrical phases
+- Energy readings tagged with active phase info
+- Per-phase data stored separately for detailed analytics
+- Filters out noise from disconnected phases
 
-### Improvements
-• Modularized screen-manager into src/ architecture
-• Reduced SPI transfer time using tobytes()
