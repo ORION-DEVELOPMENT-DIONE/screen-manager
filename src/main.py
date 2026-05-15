@@ -138,7 +138,11 @@ class MenuHandler:
 
 def interrupt_callback(TP_INT=TP_INT):
     """Touch interrupt callback"""
-    touch.Gestures = touch.Touch_Read_Byte(0x01)
+    try:
+        touch.Gestures = touch.Touch_Read_Byte(0x01)
+    except OSError:
+        touch.Gestures = 0
+        return
     state.last_activity_time = time.time()
 
 def show_startup_screen(display):

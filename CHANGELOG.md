@@ -3,6 +3,7 @@
 ## Latest
 - Improved logging reliability across reboots and restarts
 - Added system-level logging support
+- Fix touch bugs
 
 ## Phase Detection
 - Automatic detection of connected electrical phases
