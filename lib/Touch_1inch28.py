@@ -9,9 +9,9 @@ class Touch_1inch28(config.OrangePi):
 
         bRet = self.WhoAmI()
         if bRet:
-            print("Success:Detected CST816T.")
+            # print("Success:Detected CST816T.")
             Rev = self.Read_Revision()
-            print("CST816T Revision = %d."%Rev)
+            # print("CST816T Revision = %d."%Rev)
             self.Stop_Sleep()
             # Configure standby mode
             self.Configure_Standby(timeout=5)  # Set auto-sleep timeout to 5 seconds
@@ -20,7 +20,7 @@ class Touch_1inch28(config.OrangePi):
             return False
 
     def Touch_Write_Byte(self, cmd, val):
-        print(f"Writing to Register {cmd:#04x}: Value {val:#04x}")
+        # print(f"Writing to Register {cmd:#04x}: Value {val:#04x}")
         self.i2c_write_byte(cmd, val)
 
 
@@ -46,7 +46,7 @@ class Touch_1inch28(config.OrangePi):
             # Set the auto-sleep timeout (in seconds) by writing to 0xF9
             self.Touch_Write_Byte(0xF9, timeout)
 
-            print(f"Standby mode configured: Auto-sleep enabled with timeout {timeout}s.")
+            # print(f"Standby mode configured: Auto-sleep enabled with timeout {timeout}s.")
         except Exception as e:
             print(f"Failed to configure standby mode: {e}")
 

@@ -85,8 +85,7 @@ class InfluxDBWriter:
             if health.status == "pass":
                 self._write_api = self._client.write_api(write_options=SYNCHRONOUS)
                 self._available = True
-                logging.info(f"InfluxDB connected: {INFLUXDB_URL} "
-                             f"(org={INFLUXDB_ORG}, bucket={INFLUXDB_BUCKET})")
+                logging.info("InfluxDB connected")
             else:
                 logging.warning(f"InfluxDB unhealthy: {health.message}")
         except Exception as e:

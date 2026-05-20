@@ -35,7 +35,7 @@ class UpdateChecker:
         self.checking           = False
         self.last_check_time    = 0
 
-        logging.info(f"Update checker initialized for: {self.repo_path}")
+        logging.debug(f"Update checker initialized for: {self.repo_path}")
         self._fix_git_ownership()
 
         self.checker_thread = threading.Thread(target=self._check_loop, daemon=True)
@@ -60,7 +60,7 @@ class UpdateChecker:
                 ['chown', '-R', 'orangepi:orangepi', self.repo_path],
                 capture_output=True, timeout=10
             )
-            logging.info("Git ownership fixed")
+            logging.debug("Git ownership fixed")
         except Exception as e:
             logging.debug(f"Could not fix git ownership (non-critical): {e}")
 

@@ -78,7 +78,7 @@ class EnergyAnalyzer:
             self.data_24h.reverse()
             self.data_7d.reverse()
             
-            logging.info(f"Loaded {len(self.data_24h)} 24h samples and {len(self.data_7d)} 7d samples")
+            logging.debug(f"Loaded {len(self.data_24h)} 24h samples and {len(self.data_7d)} 7d samples")
         
         except Exception as e:
             logging.error(f"Error loading historical data: {e}")

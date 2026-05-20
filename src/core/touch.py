@@ -187,7 +187,7 @@ class TouchHandler:
         self._accept(gesture, current_time)
 
         name = GESTURE_NAMES.get(gesture, f"0x{gesture:02X}")
-        log.info("Gesture: %s  menu=%d  selected=%d",
+        log.debug("Gesture: %s  menu=%d  selected=%d",
                  name, self.state.current_menu, self.state.selected_option)
 
         self.state.last_gesture       = gesture

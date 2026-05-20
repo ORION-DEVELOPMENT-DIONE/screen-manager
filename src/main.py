@@ -50,11 +50,11 @@ try:
     jh.setFormatter(logging.Formatter('[%(levelname)s] %(message)s'))
     log.addHandler(jh)
 except Exception:
-    pass
+    sh = logging.StreamHandler(sys.stdout)
+    sh.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s'))
+    log.addHandler(sh)
 
-sh = logging.StreamHandler(sys.stdout)
-sh.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s'))
-log.addHandler(sh)
+
 
 connectivity = ConnectivityService(state)
 connectivity.start()

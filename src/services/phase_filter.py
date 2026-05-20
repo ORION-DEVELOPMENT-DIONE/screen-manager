@@ -61,7 +61,7 @@ class PhaseDetector:
         # Total readings ingested
         self._reading_count = 0
 
-        logger.info(f"[{device_id}] PhaseDetector initialized")
+        logger.debug(f"[{device_id}] PhaseDetector initialized")
 
     @property
     def phase_count(self) -> int:

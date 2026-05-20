@@ -253,7 +253,7 @@ def play_boot_animation(display, quick=False):
     frame_dt = anim_duration / frame_count
     mode_str = "quick wake" if quick else "full boot"
  
-    log.info("Boot animation [%s]: %d frames, %.1fs + %.1fs hold",
+    log.debug("Boot animation [%s]: %d frames, %.1fs + %.1fs hold",
              mode_str, frame_count, anim_duration, hold_time)
     t0 = time.monotonic()
  
@@ -266,8 +266,8 @@ def play_boot_animation(display, quick=False):
         time.sleep(frame_dt)
  
     # Hold — last frame is already on screen
-    log.info("Boot animation [%s]: hold (%.1fs)", mode_str, hold_time)
+    log.debug("Boot animation [%s]: hold (%.1fs)", mode_str, hold_time)
     time.sleep(hold_time)
  
     elapsed = time.monotonic() - t0
-    log.info("Boot animation [%s]: complete (%.1fs)", mode_str, elapsed)
+    log.debug("Boot animation [%s]: complete (%.1fs)", mode_str, elapsed)

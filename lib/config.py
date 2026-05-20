@@ -75,7 +75,7 @@ class OrangePi:
         wiringpi.pinMode(self.DC_PIN,  wiringpi.OUTPUT)
         wiringpi.pinMode(self.BL_PIN,  wiringpi.OUTPUT)
 
-        print("PWM Initialization:")
+        # print("PWM Initialization:")
         wiringpi.softPwmCreate(self.BL_PIN, 0, 100)
         wiringpi.softPwmWrite(self.BL_PIN, self.BL_freq)
 
