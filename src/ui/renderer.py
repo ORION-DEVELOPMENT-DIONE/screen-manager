@@ -12,40 +12,50 @@ from config.constants import *
 
 # ── Dark mode tokens ──────────────────────────────────────────────────────────
 DARK = dict(
-    BG        = (4,    8,   20),
-    BG2       = (8,   14,   32),
-    SURFACE   = (16,  26,   54),
-    BORDER    = (28,  45,   90),
-    CYAN      = (0,  220,  200),
-    CYAN_DIM  = (0,   80,   74),
-    ORANGE    = (255, 160,   0),
-    RED       = (220,  55,   65),
-    VIOLET    = (130,  80,  255),
-    WHITE     = (230, 238,  248),
-    DIM       = (100, 115,  150),
-    STAR      = (160, 180,  210),
-    NODE      = (0,  200,  185),
-    NODE_DIM  = (0,   45,   42),
-    GRID      = (10,  20,   44),
+    BG        = (4,    8,   20),    # --bg-deep
+    BG2       = (8,   14,   32),    # --bg-space
+    SURFACE   = (16,  26,   54),    # --bg-surface
+    CARD      = (20,  30,   58),    # --bg-card
+    BORDER    = (28,  45,   90),    # --border
+    BORDER_GLOW = (14, 40,   80),   # --border-glow
+    CYAN      = (0,  220,  200),    # --cyan (PRIMARY brand)
+    CYAN_DIM  = (0,   80,   74),    # --cyan-dim
+    NODE      = (0,  200,  185),    # --node
+    ORANGE    = (255, 160,   0),    # --orange (warm accent)
+    AMBER     = (245, 158,  11),    # --amber (update/warning)
+    BLUE      = (0,  163,  255),    # --blue (info)
+    RED       = (220,  55,   65),   # --red (errors)
+    VIOLET    = (130,  80,  255),   # --violet (secondary accent)
+    WHITE     = (230, 238,  248),   # --white
+    TEXT      = (176, 189,  214),   # --text-body
+    DIM       = (100, 115,  150),   # --dim
+    MUTED     = (90,  106,  138),   # --text-muted
+    STAR      = (160, 180,  210),   # --star
+    GRID      = (10,  20,   44),    # --grid
 )
 
-# ── Light mode tokens ─────────────────────────────────────────────────────────
+# ── Dione Protocol light mode (derived — daylight Dione) ──────────────────────
 LIGHT = dict(
-    BG        = (225, 242,  255),
-    BG2       = (205, 228,  250),
-    SURFACE   = (185, 215,  245),
-    BORDER    = (130, 178,  218),
-    CYAN      = (0,  140,  170),
-    CYAN_DIM  = (90, 160,  195),
-    ORANGE    = (205, 105,   0),
+    BG        = (236, 244,  252),   # cool paper white
+    BG2       = (220, 232,  246),   # subtle gradient down
+    SURFACE   = (200, 218,  238),   # card surface
+    CARD      = (210, 226,  244),
+    BORDER    = (158, 184,  214),
+    BORDER_GLOW = (180, 204, 232),
+    CYAN      = (0,   140,  170),   # darker cyan for AA contrast on light
+    CYAN_DIM  = (130, 178,  198),
+    NODE      = (0,   140,  170),
+    ORANGE    = (205, 105,    0),
+    AMBER     = (190, 120,   10),
+    BLUE      = (0,    95,  175),
     RED       = (185,  25,   38),
     VIOLET    = (95,   45,  215),
-    WHITE     = (8,   18,   48),
-    DIM       = (65,   88,  125),
-    STAR      = (140, 170,  205),
-    NODE      = (0,  140,  170),
-    NODE_DIM  = (155, 195,  222),
-    GRID      = (195, 222,  242),
+    WHITE     = (8,    18,   48),   # body text (inverted role)
+    TEXT      = (40,   55,   90),
+    DIM       = (90,  108,  140),
+    MUTED     = (130, 146,  175),
+    STAR      = (110, 134,  170),
+    GRID      = (200, 218,  238),
 )
 
 CX = CY = 120
@@ -149,7 +159,7 @@ def make_canvas(T: dict) -> Image.Image:
             draw.ellipse([nx-4, ny-4, nx+4, ny+4], fill=T["CYAN_DIM"])
             draw.ellipse([nx-2, ny-2, nx+2, ny+2], fill=T["NODE"])
         else:
-            draw.ellipse([nx-1, ny-1, nx+1, ny+1], fill=T["NODE_DIM"])
+            draw.ellipse([nx-1, ny-1, nx+1, ny+1], fill=T["NODE"])
 
     # 5. Circular clip
     mask = Image.new("L", (240, 240), 0)
