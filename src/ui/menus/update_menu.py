@@ -9,20 +9,10 @@ import math
 import threading
 from PIL import Image, ImageDraw, ImageFont
 from ui.renderer import BaseRenderer
+from ui.renderer import font as _font, font_bold as _font_bold
 from config.constants import *
+from ui.renderer import DARK, LIGHT
 
-# ── Dione Protocol colour palette ─────────────────────────────────────────────
-_BG       = (5,   11,  24)    # deep space
-_SURFACE  = (10,  20,  42)    # card surface
-_RING     = (0,   80,  160)   # outer ring
-_BLUE     = (0,   163, 255)   # electric blue — primary accent
-_CYAN     = (0,   220, 200)   # teal-cyan — secondary accent
-_AMBER    = (245, 158, 11)    # solar amber — update/warning
-_TEXT     = (210, 230, 255)   # cool white
-_DIM      = (80,  100, 130)   # muted
-_DIVIDER  = (20,  40,  70)
-
-# ── layout (240×240 round display) ────────────────────────────────────────────
 W, H          = 240, 240
 CX, CY        = 120, 120
 R             = 118
@@ -46,34 +36,12 @@ SCROLL_DELAY  = 0.04
 PAUSE_TOP     = 1.5
 PAUSE_BOT     = 2.0
 
-
-# ── fonts ─────────────────────────────────────────────────────────────────────
-
-def _font(size):
-    for p in [
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-        "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
-        "../Font/DejaVuSans.ttf",
-    ]:
-        try:
-            return ImageFont.truetype(p, size)
-        except OSError:
-            continue
-    return ImageFont.load_default()
-
-
-def _font_bold(size):
-    for p in [
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-        "../Font/DejaVuSans.ttf",
-    ]:
-        try:
-            return ImageFont.truetype(p, size)
-        except OSError:
-            continue
-    return ImageFont.load_default()
-
+def _palette(state):
+    """Pick theme tokens based on active state."""
+    if getattr(state, "active_theme", None) and \
+       getattr(state.active_theme, "name", "dark") == "light":
+        return LIGHT
+    return DARK
 
 def _wrap(text, font, max_w, draw):
     words, lines, cur = text.split(), [], ""
@@ -111,8 +79,8 @@ def _apply_circle_mask(img):
 
 # ── base frame ────────────────────────────────────────────────────────────────
 
-def _make_base_frame():
-    img  = Image.new("RGB", (W, H), _BG)
+def _make_base_frame(T):
+    img  = Image.new("RGB", (W, H), T["BG"])
     draw = ImageDraw.Draw(img)
 
     # Faint star field
@@ -126,21 +94,21 @@ def _make_base_frame():
 
     # Outer glow ring
     draw.ellipse([(CX - R + 1, CY - R + 1), (CX + R - 1, CY + R - 1)],
-                 outline=_RING, width=2)
+                 outline=T["CYAN_DIM"], width=2)
     # Subtle inner circle at scroll boundary
     draw.ellipse([(CX - 94, CY - 94), (CX + 94, CY + 94)],
-                 outline=_DIVIDER, width=1)
+                 outline=T["BORDER"], width=1)
 
     return img
 
 
 # ── description canvas ────────────────────────────────────────────────────────
 
-def _build_desc_canvas(description):
+def _build_desc_canvas(description, T):
     f_hdr  = _font_bold(12)
     f_body = _font(11)
 
-    scratch = Image.new("RGB", (SAFE_W, 2000), _BG)
+    scratch = Image.new("RGB", (SAFE_W, 2000), T["BG"])
     d = ImageDraw.Draw(scratch)
     y = 6
     items = []
@@ -152,27 +120,30 @@ def _build_desc_canvas(description):
             continue
         if line.startswith("#"):
             text = line.lstrip("#").strip()
-            items.append(("hdr", text, f_hdr, _CYAN, 0, y))
+            items.append(("hdr", text, f_hdr, T["CYAN"], 0, y))
             y += 14 + 3
         else:
             for wl in _wrap(line, f_body, SAFE_W - 6, d):
-                items.append(("body", wl, f_body, _TEXT, 2, y))
+                items.append(("body", wl, f_body, T["TEXT"], 2, y))
                 y += 12 + 3
         y += 1
 
     content_h = max(y + 10, SCROLL_VIS_H)
-    canvas = Image.new("RGB", (SAFE_W, content_h), _BG)
+    canvas = Image.new("RGB", (SAFE_W, content_h), T["BG"])
     draw   = ImageDraw.Draw(canvas)
+
+    # Header pill background — derived from BORDER_GLOW for theme consistency
+    hdr_fill = T.get("BORDER_GLOW", (0, 38, 52))
 
     for (kind, text, font, color, x, ry) in items:
         if kind == "hdr":
             tw = int(draw.textlength(text, font=font)) + 10
             draw.rounded_rectangle(
                 [(x - 2, ry - 1), (x + tw, ry + 13)],
-                radius=3, fill=(0, 38, 52)
+                radius=3, fill=hdr_fill
             )
             draw.line([(x - 2, ry + 14), (min(x + tw, SAFE_W - 2), ry + 14)],
-                      fill=_CYAN, width=1)
+                      fill=T["CYAN"], width=1)
         draw.text((x, ry), text, font=font, fill=color)
 
     return canvas, content_h
@@ -194,22 +165,24 @@ class UpdateMenu(BaseRenderer):
         self._cached_info    = None
         self._btn_left_rect  = None
         self._btn_right_rect = None
+        self._last_theme = None
 
     # ── drawing helpers ───────────────────────────────────────────────────────
 
     def _get_base(self):
+        T = _palette(self.state)
         if self._base_frame is None:
-            self._base_frame = _make_base_frame()
+            self._base_frame = _make_base_frame(T)
         return self._base_frame.copy()
 
     def _draw_title(self, draw, info):
+        T = _palette(self.state)
         available = info['available']
-        accent    = _AMBER if available else _BLUE
+        accent    = T["AMBER"] if available else T["BLUE"]
         title     = "Update Available" if available else "Up to Date"
         f_t = _font_bold(14)
         f_v = _font(10)
 
-        # Accent underline
         draw.line([(SAFE_L, TITLE_BOT - 1), (SAFE_R, TITLE_BOT - 1)],
                   fill=accent, width=1)
 
@@ -220,16 +193,17 @@ class UpdateMenu(BaseRenderer):
         lat = info.get('latest', cur)
         vtxt = f"{cur}  →  {lat}" if (available and lat != cur) else f"v {cur}"
         vw = draw.textlength(vtxt, font=f_v)
-        draw.text(((W - vw) // 2, TITLE_TOP + 20), vtxt, font=f_v, fill=_DIM)
+        draw.text(((W - vw) // 2, TITLE_TOP + 20), vtxt, font=f_v, fill=T["DIM"])
 
     def _paste_scroll(self, frame, info):
+        T = _palette(self.state)
         if self._desc_canvas is None:
             draw = ImageDraw.Draw(frame)
             f = _font_bold(11)
             msg = "No description available"
             mw = draw.textlength(msg, font=f)
             mid_y = (SCROLL_TOP + SCROLL_BOT) // 2 - 6
-            draw.text(((W - mw) // 2, mid_y), msg, font=f, fill=_DIM)
+            draw.text(((W - mw) // 2, mid_y), msg, font=f, fill=T["DIM"])
             return
 
         offset = self._scroll_offset
@@ -239,7 +213,7 @@ class UpdateMenu(BaseRenderer):
             crop = self._desc_canvas.crop((0, offset, SAFE_W, end))
         else:
             bot_h = self._desc_h - offset
-            crop  = Image.new("RGB", (SAFE_W, SCROLL_VIS_H), _BG)
+            crop  = Image.new("RGB", (SAFE_W, SCROLL_VIS_H), T["BG"])
             if bot_h > 0:
                 crop.paste(
                     self._desc_canvas.crop((0, offset, SAFE_W, offset + bot_h)),
@@ -255,21 +229,20 @@ class UpdateMenu(BaseRenderer):
         frame.paste(crop, (SAFE_L, SCROLL_TOP))
 
     def _draw_fade_edges(self, draw):
-        """Soft fade at top/bottom of scroll zone."""
+        T = _palette(self.state)
         fade = 10
         for i in range(fade):
             a = int(180 * (1 - i / fade))
-            r, g, b = _BG
+            r, g, b = T["BG"]
             c = (max(0, r - a // 3), max(0, g - a // 3), max(0, b - a // 3))
             draw.line([(SAFE_L, SCROLL_TOP + i), (SAFE_R, SCROLL_TOP + i)], fill=c)
             draw.line([(SAFE_L, SCROLL_BOT - 1 - i), (SAFE_R, SCROLL_BOT - 1 - i)], fill=c)
 
     def _draw_buttons(self, draw, info):
+        T = _palette(self.state)
         available = info['available']
         f  = _font_bold(12)
-        bw = 82
-        bh = 28
-        gap = 8
+        bw, bh, gap = 82, 28, 8
         total = 2 * bw + gap
         sx = (W - total) // 2
         rx = sx + bw + gap
@@ -277,12 +250,13 @@ class UpdateMenu(BaseRenderer):
 
         if available:
             l_lbl, r_lbl = "Later",  "Update"
-            l_col, r_col = _DIM,     _AMBER
-            r_fill       = (48, 28,  0)
+            l_col, r_col = T["DIM"], T["AMBER"]
+            # Derive fill: 18% AMBER tint
+            r_fill = tuple(int(c * 0.18) for c in T["AMBER"])
         else:
-            l_lbl, r_lbl = "Back",   "Check"
-            l_col, r_col = _DIM,     _BLUE
-            r_fill       = (0,  22,  48)
+            l_lbl, r_lbl = "Back",  "Check"
+            l_col, r_col = T["DIM"], T["BLUE"]
+            r_fill = tuple(int(c * 0.18) for c in T["BLUE"])
 
         draw.rounded_rectangle([(sx, by), (sx + bw, by + bh)],
                                 radius=7, outline=l_col, width=1)
@@ -296,32 +270,37 @@ class UpdateMenu(BaseRenderer):
         draw.text((rx + (bw - rw) // 2, by + (bh - 12) // 2),
                   r_lbl, font=f, fill=r_col)
 
-        self._btn_left_rect  = (sx,      by, sx + bw,      by + bh)
-        self._btn_right_rect = (rx,      by, rx + bw,      by + bh)
+        self._btn_left_rect  = (sx, by, sx + bw, by + bh)
+        self._btn_right_rect = (rx, by, rx + bw, by + bh)
 
     def _draw_scroll_pip(self, draw):
         if self._desc_h <= SCROLL_VIS_H or self._desc_canvas is None:
             return
+        T = _palette(self.state)
         travel   = max(1, self._desc_h - SCROLL_VIS_H)
         progress = self._scroll_offset / travel
         bar_h    = SCROLL_BOT - SCROLL_TOP - 6
         dot_y    = SCROLL_TOP + 3 + int(progress * bar_h)
-        draw.ellipse([(W - 9, dot_y), (W - 5, dot_y + 5)], fill=_BLUE)
+        draw.ellipse([(W - 9, dot_y), (W - 5, dot_y + 5)], fill=T["BLUE"])
 
     # ── compose ───────────────────────────────────────────────────────────────
 
     def _compose(self, info):
+        # Invalidate cached frames if theme changed
+        T = _palette(self.state)
+        theme_name = self.state.active_theme.name if hasattr(self.state, "active_theme") else "dark"
+        if theme_name != self._last_theme:
+            self._base_frame = None
+            self._desc_canvas = None
+            self._last_theme = theme_name
+
         frame = self._get_base()
-
-        # Paste scroll content first (before draw calls on top)
         self._paste_scroll(frame, info)
-
         draw = ImageDraw.Draw(frame)
         self._draw_title(draw, info)
         self._draw_fade_edges(draw)
         self._draw_buttons(draw, info)
         self._draw_scroll_pip(draw)
-
         return _apply_circle_mask(frame)
 
     # ── public render ─────────────────────────────────────────────────────────
@@ -330,16 +309,17 @@ class UpdateMenu(BaseRenderer):
         info = self.update_checker.get_update_info()
         self._cached_info = info
 
-        # Build description canvas on first render if update available
         if info['available'] and self._desc_canvas is None:
             desc = info.get('description', '')
             if desc:
-                self._desc_canvas, self._desc_h = _build_desc_canvas(desc)
+                T = _palette(self.state)
+                self._desc_canvas, self._desc_h = _build_desc_canvas(desc, T)
                 self._scroll_offset = 0
 
         self.display.show_image(self._compose(info))
 
         if info['available'] and self._desc_canvas and not self._scroll_running:
+            self._start_scroll(info)
             self._start_scroll(info)
 
     # ── scroll thread ─────────────────────────────────────────────────────────
