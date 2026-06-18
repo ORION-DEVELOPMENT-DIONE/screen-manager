@@ -94,10 +94,10 @@ class MainMenu(BaseRenderer):
             ex0  = int(CX - ew//2) - 10
             ex1  = int(CX + ew//2) + 10
             if THEME_Y - 5 <= y <= THEME_Y + 28 and ex0 <= x <= ex1:
-                self.state.active_theme = (
-                    THEMES["light"] if self.state.active_theme.name == "dark"
-                    else THEMES["dark"]
-                )
+                from utils.state import save_theme
+                new_name = "light" if self.state.active_theme.name == "dark" else "dark"
+                self.state.active_theme = THEMES[new_name]
+                save_theme(new_name)
                 self.display.invalidate_background_cache()
                 self.render()
                 time.sleep(0.2)
