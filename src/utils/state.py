@@ -1,11 +1,27 @@
 """Global application state"""
-import time
+import time, json, os
 from config.themes import THEMES
 
+_THEME_FILE = "/etc/orion/theme.json"
+
+def _load_theme():
+    try:
+        with open(_THEME_FILE) as f:
+            return THEMES[json.load(f).get("name", "dark")]
+    except Exception:
+        return THEMES["dark"]
+
+def save_theme(name):
+    try:
+        os.makedirs(os.path.dirname(_THEME_FILE), exist_ok=True)
+        with open(_THEME_FILE, "w") as f:
+            json.dump({"name": name}, f)
+    except Exception:
+        pass
 
 class AppState:
     def __init__(self):
-        self.active_theme        = THEMES["dark"]
+        self.active_theme = _load_theme()
         self.current_menu        = 0
         self.selected_option     = 0
         self.current_page        = 0
