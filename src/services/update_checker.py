@@ -6,6 +6,18 @@ import time
 import os
 import urllib.request
 
+_UPDATE_LOG_PATH = "/var/log/orion-update.log"
+_update_log = logging.getLogger("orion.update")
+_update_log.setLevel(logging.INFO)
+_update_log.propagate = False
+
+try:
+    _fh = logging.FileHandler(_UPDATE_LOG_PATH)
+    _fh.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
+    _update_log.addHandler(_fh)
+except (PermissionError, FileNotFoundError) as e:
+    logging.warning(f"Could not open {_UPDATE_LOG_PATH}: {e}")
+
 _FALLBACK_DESCRIPTION = "• A new version of Orion is ready to install."
 
 
@@ -198,6 +210,8 @@ class UpdateChecker:
             time.sleep(self.check_interval)
 
     def perform_update(self):
+        before_hash = self.current_version
+        _update_log.info(f"[MANUAL] Update triggered — current={before_hash}, target={self.latest_version}")
         logging.info("Starting update process...")
         try:
             branch_result = subprocess.run(
@@ -205,10 +219,11 @@ class UpdateChecker:
                 capture_output=True, text=True, timeout=5
             )
             if branch_result.returncode != 0:
+                _update_log.error(f"[MANUAL] FAILED — could not detect branch")
                 return (False, "Could not detect branch")
 
             branch = branch_result.stdout.strip()
-            logging.info(f"Updating branch: {branch}")
+            _update_log.info(f"[MANUAL] Pulling branch={branch}")
             subprocess.run(['git', '-C', self.repo_path, 'stash'],
                            capture_output=True, timeout=10)
 
@@ -217,7 +232,6 @@ class UpdateChecker:
                 capture_output=True, text=True, timeout=60
             )
             if result.returncode == 0:
-                logging.info("Update completed successfully")
                 try:
                     subprocess.run(['chown', '-R', 'orangepi:orangepi', self.repo_path],
                                    capture_output=True, timeout=10)
@@ -226,14 +240,16 @@ class UpdateChecker:
                 self.current_version        = self._get_current_version()
                 self.update_available       = False
                 self.state.update_available = False
+                _update_log.info(f"[MANUAL] SUCCESS — {before_hash} → {self.current_version}")
                 return (True, "Update successful!\nRestarting...")
             else:
-                logging.error(f"Git pull failed: {result.stderr}")
+                _update_log.error(f"[MANUAL] FAILED — git pull rc={result.returncode}: {result.stderr.strip()[:200]}")
                 return (False, "Update failed")
         except subprocess.TimeoutExpired:
+            _update_log.error("[MANUAL] FAILED — timeout")
             return (False, "Update timeout")
         except Exception as e:
-            logging.error(f"Update error: {e}")
+            _update_log.error(f"[MANUAL] FAILED — {e}")
             return (False, f"Error: {str(e)[:50]}")
 
     def get_update_info(self):
