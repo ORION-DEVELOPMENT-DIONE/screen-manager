@@ -38,6 +38,7 @@ from ui.menus.confirmation import ConfirmationMenu
 from services.energy_analyzer import EnergyAnalyzer
 from services.update_checker import UpdateChecker
 from ui.menus.update_menu import UpdateMenu
+from ui.dashboard_qr import DashboardQRScreen
 from services.connectivity_service import ConnectivityService
 
 # Setup logging — dual output for reliability
@@ -68,6 +69,7 @@ class MenuHandler:
         self.touch_device = touch_device
         self.energy_analyzer = energy_analyzer
         self.update_checker = update_checker
+        self.dashboard_qr = DashboardQRScreen(disp, state)
 
         # Initialize menus
         self.main_menu = MainMenu(display, state)
@@ -100,6 +102,8 @@ class MenuHandler:
             self.confirmation_menu.render_remove_wifi_confirmation()
         elif self.state.current_menu == MENU_UPDATE:
             self.update_menu.render()
+        elif self.state.current_menu == MENU_DASHBOARD:
+            self.dashboard_qr.render()
 
     def render_main_menu(self):
         """Render main menu"""
@@ -130,6 +134,9 @@ class MenuHandler:
             next_menu = self.confirmation_menu.handle_remove_wifi_gesture(gesture, self.touch_device)       
         elif self.state.current_menu == MENU_UPDATE:
             next_menu = self.update_menu.handle_gesture(gesture, self.touch_device)
+        elif self.state.current_menu == MENU_DASHBOARD:
+            next_menu = self.dashboard_qr.handle_gesture(gesture)
+
 
         if next_menu is not None:
             self.state.current_menu = next_menu

@@ -13,4 +13,5 @@ __all__ = [
     'DeviceMenu',
     'ConfirmationMenu',
     'UpdateMenu'
+    'DashboardMenu'
 ]
